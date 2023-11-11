@@ -1,0 +1,25 @@
+{
+  "name": "gap-sneaker-store",
+  "version": "1.0.0",
+  "description": "A web application for selling sneakers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "gap-sneaker-store"
+  },
+  "author": "PhuongBanh-TheAnh",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "hbs": "^4.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
