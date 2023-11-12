@@ -8,9 +8,9 @@ const navigationRoute = require('./src/routes/navigation.js');
 const app = express();
 
 // Configure Handlebars View Engine
+app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, '/src/views'));
 app.set("view engine", "hbs");
-app.use(express.static(path.join(__dirname, 'public')))
 app.use("/", navigationRoute);
 
 // Start the server
