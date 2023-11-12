@@ -7,6 +7,9 @@ let myRoute = express.Router();
 myRoute.get('/contact', (req, res) => {
     res.render("customer/navigation/contact", {layout: "customer/layout"});
 });
+myRoute.get('/account', (req, res) => {
+    res.render("customer/navigation/account", {layout: "customer/layout"});
+});
 
 myRoute.get(['/', '/home'], (req, res) => {
     res.render("customer/navigation/home", {layout: "customer/layout"});
