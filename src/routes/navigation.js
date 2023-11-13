@@ -2,8 +2,6 @@ const express = require('express');
 
 let myRoute = express.Router();
 
-
-
 myRoute.get('/contact', (req, res) => {
     res.render("customer/navigation/contact", {layout: "customer/layout"});
 });
