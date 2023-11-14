@@ -22,3 +22,4 @@ let server = app.listen(PORT, () => {
 // Replace the uri string with your connection string.
 
   
+module.exports = app
