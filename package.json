@@ -9,7 +9,7 @@
   },
 "engines":{
   "node": "18.16.0"
-}
+},
   "repository": {
     "type": "git",
     "url": "gap-sneaker-store"
