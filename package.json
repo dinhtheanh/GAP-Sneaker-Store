@@ -2,11 +2,14 @@
   "name": "gap-sneaker-store",
   "version": "1.0.0",
   "description": "A web application for selling sneakers",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./app.js"
   },
+"engines":{
+  "node": "18.16.0"
+}
   "repository": {
     "type": "git",
     "url": "gap-sneaker-store"
