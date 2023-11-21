@@ -1,6 +1,6 @@
 const express = require('express');
 let myRoute = express.Router();
-
+const productsRoute = require('../components/product/productRoute');
 
 
 const initRouteWeb = (app) => {
@@ -16,9 +16,7 @@ const initRouteWeb = (app) => {
         res.render("customer/navigation/home", {layout: "customer/layout"});
     });
     
-    myRoute.get('/products', (req, res) => {
-        res.render("customer/navigation/products" , {layout: "customer/layout"});
-    });
+    myRoute.use('/products', productsRoute);
     
     myRoute.get('/about', (req, res) => {
         res.render("customer/navigation/about", {layout: "customer/layout"});
