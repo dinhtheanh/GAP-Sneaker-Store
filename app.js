@@ -1,12 +1,23 @@
 // Require necessary packages
+const mongoose = require('mongoose');
 const express = require('express');
 const path = require('path');
+const handlebarsHelpers = require('./src/views/customHelpers.js');
 require('dotenv/config');
 let initRouteWeb = require('./src/routes/navigation.js');
 
 // Server Initialization 
 const app = express();
 initRouteWeb(app);
+
+
+// Establishing the connection to the database
+mongoose.connect(process.env.URL_DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => console.error('Could not connect to MongoDB', err));
 
 // Configure Handlebars View Engine
 app.use(express.static(path.join(__dirname, 'public/')));
@@ -19,5 +30,5 @@ let server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 })
 
-  
+
 module.exports = app
