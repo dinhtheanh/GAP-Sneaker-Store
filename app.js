@@ -17,10 +17,7 @@ initRouteWeb(app);
 
 
 // Establishing the connection to the database
-mongoose.connect(process.env.URL_DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(process.env.URL_DB)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('Could not connect to MongoDB', err));
 
