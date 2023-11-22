@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-initRouteWeb(app);
+app.use('/', initRouteWeb);
 
 
 // Establishing the connection to the database
@@ -25,7 +25,6 @@ mongoose.connect(process.env.URL_DB)
 app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/src/views'));
 app.set("view engine", "hbs");
-
 // Start the server
 const PORT = process.env.PORT;
 let server = app.listen(PORT, () => {

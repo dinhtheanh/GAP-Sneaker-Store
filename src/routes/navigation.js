@@ -5,7 +5,6 @@ const userController = require('../components/account/accountController');
 const adminRoute = require('../components/admin/adminRoute');
 
 
-const initRouteWeb = (app) => {
 
     myRoute.get('/contact', (req, res) => {
         res.render("customer/navbar/contact", { layout: "customer/layout" });
@@ -29,8 +28,7 @@ const initRouteWeb = (app) => {
 
     myRoute.use('/admin', adminRoute);
 
-    return app.use("/", myRoute);
-}
 
 
-module.exports = initRouteWeb;
+
+module.exports = myRoute;
