@@ -12,9 +12,5 @@
       "src": "/(.*)",
       "dest": "/app.js"
     }
-  ],
-  "redirects": [
-    { "source": "/accountdetails", "destination": "/admin/accountdetails", "permanent": false }
-    
   ]
 }
