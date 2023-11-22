@@ -1,6 +1,11 @@
 const async = require('hbs/lib/async')
 const userSevice = require('./accountService.js')
 
+//
+// var jsonParser = bodyParser.json()
+ 
+// // create application/x-www-form-urlencoded parser
+// var urlencodedParser = bodyParser.urlencoded({ extended: false })
 const createUser = async (req,res)=>{
     try{
         const formData = req.body;
