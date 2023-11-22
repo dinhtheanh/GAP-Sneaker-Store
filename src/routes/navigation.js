@@ -2,7 +2,6 @@ const express = require('express');
 let myRoute = express.Router();
 const productsRoute = require('../components/product/productRoute');
 const userController = require('../components/account/accountController');
-const adminRoute = require('../components/admin/adminRoute');
 
 
 
@@ -26,7 +25,7 @@ const adminRoute = require('../components/admin/adminRoute');
         res.render("customer/navbar/about", { layout: "customer/layout" });
     });
 
-    myRoute.use('/admin', adminRoute);
+    
 
 
 

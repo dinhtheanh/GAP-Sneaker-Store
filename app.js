@@ -5,6 +5,7 @@ const path = require('path');
 const handlebarsHelpers = require('./src/views/customHelpers.js'); // Custom Handlebars Helpers
 require('dotenv/config');
 let initRouteWeb = require('./src/routes/navigation.js');
+let initRouteAdmin = require('./src/routes/admin-nav.js');
 const bodyParser = require('body-parser');
 
 
@@ -14,7 +15,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/', initRouteWeb);
-
+app.use('/admin', initRouteAdmin);
 
 // Establishing the connection to the database
 mongoose.connect(process.env.URL_DB)
