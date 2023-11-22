@@ -52,3 +52,7 @@ const getUser= ()=>{
     });
 };
 
+module.exports ={
+    createUser,
+    getUser
+}

@@ -9,12 +9,13 @@ const mongoose = require("mongoose");
 
 // Server Initialization 
 const app = express();
-app.use(bodyParser.json())
+
 
 // Configure Handlebars View Engine
 app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, '/src/views'));
 app.set("view engine", "hbs");
+app.use(bodyParser.json())
 app.use("/", navigationRoute);
 
 // Start the server

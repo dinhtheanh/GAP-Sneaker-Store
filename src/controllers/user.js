@@ -5,6 +5,7 @@ const createUser = async (req,res)=>{
     try{
         console.log(req.body)
         const {name,email,password,comfirmPassword,phone,address} = req.body
+
         const  reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
         const isValidEmail = reg.test(email)
 
@@ -46,5 +47,4 @@ const getUser = async(req,res)=>{
 
 module.exports ={
     createUser,
-    getUser
 }
