@@ -14,7 +14,7 @@
     }
   ],
   "redirects": [
-    { "source": "/accountdetails", "destination": "/admin/accountdetails", "permanent": false },
+    { "source": "/accountdetails", "destination": "/admin/accountdetails", "permanent": false }
     
   ]
 }
