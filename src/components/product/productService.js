@@ -1,4 +1,4 @@
-const productModel = require('./productModel.js');
+const productModel = require('./productModel.js'); // requiring the data model for product
 
 const getAllProducts = async () => {
     try {

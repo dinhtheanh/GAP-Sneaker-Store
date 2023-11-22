@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const path = require('path');
-const handlebarsHelpers = require('./src/views/customHelpers.js');
+const handlebarsHelpers = require('./src/views/customHelpers.js'); // Custom Handlebars Helpers
 require('dotenv/config');
 let initRouteWeb = require('./src/routes/navigation.js');
 
