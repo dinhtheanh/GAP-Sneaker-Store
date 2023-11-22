@@ -1,4 +1,5 @@
 const mongoose =require('mongoose')
+mongoose.connect('your_database_connection_string', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const userSchema = new mongoose.Schema({
     name: {type: String, require:true, unique:true},
@@ -13,5 +14,9 @@ const userSchema = new mongoose.Schema({
     {
         timestamps:true
     })
+
 const User = mongoose.model('User',userSchema);
-module.exports = User;
+const user =  User.findOne({ 'name': 'John Doe 12' });
+
+module.exports = {User,
+    user};

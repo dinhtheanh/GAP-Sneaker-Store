@@ -2,13 +2,12 @@ const User = require("../models/user");
 
 const createUser =()=>{
     return new Promise(async(resolve,reject)=>{
-        const {name,email,password,comfirmPassword,phone} = newUser;
         try{
-            const createdUser = await User.create({
+            const createdUser = await User.User.create({
                 name,
                 email,
                 password,
-                comfirmPassword,
+                confirmPassword,
                 phone,
                 username
 
@@ -29,3 +28,27 @@ const createUser =()=>{
         }
     })
 }
+
+const getUser= ()=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Adjust this part based on how User.user is supposed to be set
+            if (User.user) {
+                resolve({
+                    status: 'OK',
+                    message: 'SUCCESS connect',
+                    data: User.user
+                });
+            } else {
+                resolve({
+                    status: 'ERROR',
+                    message: 'Can not find',
+                    data: 'can not find'
+                });
+            }
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
+

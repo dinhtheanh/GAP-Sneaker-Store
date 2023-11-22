@@ -1,6 +1,12 @@
 const express = require('express');
-
+const userController = require('../controllers/user')
 let myRoute = express.Router();
+
+myRoute.post('/account',userController.createUser)
+myRoute.post('/show',userController.getUser)
+myRoute.get('/show', (req, res) => {
+    res.render("customer/navigation/account", {layout: "customer/layout"});
+});
 
 myRoute.get('/contact', (req, res) => {
     res.render("customer/navigation/contact", {layout: "customer/layout"});

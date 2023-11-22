@@ -4,7 +4,6 @@ const path = require('path');
 require('dotenv/config');
 const bodyParser = require('body-parser')
 const navigationRoute = require('./src/routes/navigation.js');
-const apiRoute = require('./src/routes/app.js');
 //connect db
 const mongoose = require("mongoose");
 
@@ -17,7 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, '/src/views'));
 app.set("view engine", "hbs");
 app.use("/", navigationRoute);
-app.use("/",apiRoute);
+
 // Start the server
 const PORT = process.env.PORT;
 let server = app.listen(PORT, () => {
