@@ -1,7 +1,7 @@
 const express = require('express');
 let myRoute = express.Router();
 const productsRoute = require('../components/product/productRoute');
-const userController = require('../components/account/accountController');
+const userRouter = require('../components/account/accountRoute');
 const adminRoute = require('../components/admin/adminRoute');
 
 
@@ -11,10 +11,16 @@ const initRouteWeb = (app) => {
         res.render("customer/navbar/contact", { layout: "customer/layout" });
     });
 
-    myRoute.post('/create-user', userController.createUser);
+    myRoute.use('/signin',userRouter)
+    myRoute.use('/signup',userRouter)
+    
+    myRoute.get('/sign-up', (req, res) => {
+        res.render("customer/navbar/signup", { layout: "customer/layout" });
+    });
 
-    myRoute.get('/account', (req, res) => {
-        res.render("customer/navbar/account", { layout: "customer/layout" });
+
+    myRoute.get('/log-in', (req, res) => {
+        res.render("customer/navbar/login", { layout: "customer/layout" });
     });
 
     myRoute.get(['/', '/home'], (req, res) => {

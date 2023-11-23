@@ -1,3 +1,4 @@
+
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4">ADD A PRODUCT</h4>
 
@@ -10,60 +11,111 @@
                     <small class="text-muted float-end">Merged input group</small>
                 </div>
                 <div class="card-body">
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
-                            <div class="input-group input-group-merge">
-                                <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                        class="bx bx-user"></i></span>
-                                <input type="text" class="form-control" id="basic-icon-default-fullname"
-                                    placeholder="John Doe" aria-label="John Doe"
-                                    aria-describedby="basic-icon-default-fullname2" />
+                    <form action ="/admin/addProductForm" method="post">
+                        <div class="row no-gutters mb-3">
+                            <div class="col-6 pl-1 " >
+                                <label class="form-label" for="basic-icon-default-fullname">Product name</label>
+                                <div class="input-group input-group-merge">
+                                    <span id="basic-icon-default-box" class="input-group-text"><i
+                                            class="bx bx-box"></i></span>
+                                    <input type="text" class="form-control" id="basic-icon-default-fullname"
+                                        name = "name"
+                                        aria-describedby="basic-icon-default-fullname2" /> 
+                                </div>
+                            </div>
+                             <div class="col-6 pl-1" >
+                                <label class="form-label" for="basic-icon-default-company">Brand</label>
+                                <div class="input-group input-group-merge">
+                                    <span id="basic-icon-default-purchase-tag" class="input-group-text"><i
+                                            class="bx bx-purchase-tag"></i></span>
+                                    <input name ="brand" type="text" id="basic-icon-default-company" class="form-control"
+                                        aria-describedby="basic-icon-default-company2" />
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-company">Company</label>
-                            <div class="input-group input-group-merge">
-                                <span id="basic-icon-default-company2" class="input-group-text"><i
-                                        class="bx bx-buildings"></i></span>
-                                <input type="text" id="basic-icon-default-company" class="form-control"
-                                    placeholder="ACME Inc." aria-label="ACME Inc."
-                                    aria-describedby="basic-icon-default-company2" />
+                         <div class="row no-gutters mb-3">
+                            <div class="col-4 pl-1" >
+                                <label class="form-label" for="basic-icon-default-fullname">Price</label>
+                                <div class="input-group input-group-merge">
+                                    <span id="basic-icon-default-dollar" class="input-group-text"><i
+                                            class="bx bx-dollar"></i></span>
+                                    <input  name ="price" type="text" class="form-control" id="basic-icon-default-dollar"
+                                        aria-describedby="basic-icon-default-fullname2" /> 
+                                </div>
+                            </div>
+                             <div class="col-4 pl-1" >
+                                
+                                <label class="form-label" for="basic-icon-default-fullname">Gender</label>
+                                <select name = "sizes" class="form-select form-select-m mb-3" aria-label=".form-select-lg example">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="secret">Don't want mention</option>
+                                    </select>
+                            </div>
+                            <div class="col-4 pl-1" >
+                                <label class="form-label" for="basic-icon-default-fullname">Category</label>
+                                <div class="input-group input-group-merge">
+                                    <span id="basic-icon-default-category" class="input-group-text"><i
+                                            class="bx bx-category"></i></span>
+                                    <input  name ="category" type="text" class="form-control" id="basic-icon-default-category"
+                                        name = "category"
+                                        aria-describedby="basic-icon-default-fullname2" /> 
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-email">Email</label>
-                            <div class="input-group input-group-merge">
-                                <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                                <input type="text" id="basic-icon-default-email" class="form-control"
-                                    placeholder="john.doe" aria-label="john.doe"
-                                    aria-describedby="basic-icon-default-email2" />
-                                <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
-                            </div>
-                            <div class="form-text">You can use letters, numbers & periods</div>
+                       
+                        <label class="form-label" for="basic-icon-default-company">Sizes</label>
+
+                        <div class="mb-3 " >
+                            <form id="sizeForm" name = "sizes" >
+                                <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="35"> 35
+                                </label>
+                                <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="36"> 36
+                                </label>
+                                 <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="37"> 37
+                                </label>
+                                 <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="38"> 38
+                                </label>
+                                 <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="39"> 39
+                                </label>
+                                 <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="40"> 40
+                                </label>
+                                 <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="41"> 41
+                                </label>
+                                 <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="42"> 42
+                                </label>
+                                 <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="43"> 43
+                                </label>
+                                 <label style="margin-right:15px">
+                                    <input type="checkbox" name="size" value="44"> 44
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="size" value="45"> 45
+                                </label>
+                            </form>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-phone">Phone No</label>
-                            <div class="input-group input-group-merge">
-                                <span id="basic-icon-default-phone2" class="input-group-text"><i
-                                        class="bx bx-phone"></i></span>
-                                <input type="text" id="basic-icon-default-phone" class="form-control phone-mask"
-                                    placeholder="658 799 8941" aria-label="658 799 8941"
-                                    aria-describedby="basic-icon-default-phone2" />
+                             <div class="pl-1" >
+                                <label class="form-label" for="basic-icon-default-fullname">Image</label>
+                                <div class="input-group input-group-merge">
+                                    <span id="basic-icon-default-image-add" class="input-group-text"><i
+                                            class="bx bx-image-add"></i></span>
+                                    <input name= "img-url" type="text" class="form-control" id="basic-icon-default-category"
+                                        aria-describedby="basic-icon-default-image-add" /> 
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-message">Message</label>
-                            <div class="input-group input-group-merge">
-                                <span id="basic-icon-default-message2" class="input-group-text"><i
-                                        class="bx bx-comment"></i></span>
-                                <textarea id="basic-icon-default-message" class="form-control"
-                                    placeholder="Hi, Do you have a moment to talk Joe?"
-                                    aria-label="Hi, Do you have a moment to talk Joe?"
-                                    aria-describedby="basic-icon-default-message2"></textarea>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send</button>
+                        
+                        <div type="submit" class="btn btn-primary">Upload</div>
                     </form>
                 </div>
             </div>
