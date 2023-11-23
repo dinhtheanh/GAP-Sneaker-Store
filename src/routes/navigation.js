@@ -27,7 +27,7 @@ const initRouteWeb = (app) => {
         res.render("customer/navbar/about", { layout: "customer/layout" });
     });
 
-    myRoute.use('/admin', adminRoute);
+    app.use('/admin', adminRoute);
 
     return app.use("/", myRoute);
 }

@@ -5,7 +5,7 @@ let adminRoute = express.Router();
 // Routing for products
 adminRoute.get('/customerstable', adminController.getCustomerListPage);
 
-adminRoute.get('/', adminController.getHomePage);
+//adminRoute.get('/', adminController.getHomePage);
 
 adminRoute.get('/accountsettings', adminController.getAccountSettingsPage);
 
