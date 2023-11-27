@@ -6,8 +6,6 @@ adminRoute.get('/', adminController.getHomePage);
 
 adminRoute.get('/customerstable', adminController.getCustomerListPage);
 
-//adminRoute.get('/', adminController.getHomePage);
-
 adminRoute.get('/accountsettings', adminController.getAccountSettingsPage);
 
 adminRoute.get('/orders', adminController.getOrderPage);
