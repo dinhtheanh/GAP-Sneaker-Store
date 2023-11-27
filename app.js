@@ -13,8 +13,7 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-initRouteWeb(app);
-
+app.use('/', initRouteWeb);
 
 // Establishing the connection to the database
 mongoose.connect(process.env.URL_DB)

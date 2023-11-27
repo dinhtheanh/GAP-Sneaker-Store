@@ -1,8 +1,9 @@
 const express = require('express');
 const adminController = require('./adminController');
-let adminRoute = express.Router();
-
+const adminRoute = express.Router();
 // Routing for products
+adminRoute.get('/', adminController.getHomePage);
+
 adminRoute.get('/customerstable', adminController.getCustomerListPage);
 
 //adminRoute.get('/', adminController.getHomePage);
