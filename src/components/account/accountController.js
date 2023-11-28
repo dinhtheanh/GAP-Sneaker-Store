@@ -1,17 +1,11 @@
 const async = require('hbs/lib/async')
 const userSevice = require('./accountService.js')
+const passport = require('./passport-config'); 
 
-//
-// var jsonParser = bodyParser.json()
- 
-// // create application/x-www-form-urlencoded parser
-// var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 const createUser = async (req,res)=>{
+    console.log('Received POST request to /signup');
     try{
-        // const formData = req.body;
-        // console.log(formData.address)
-        // res.send('Form submitted successfully!');
-
         const {name,email,password,cfpassword,phone,address} = req.body
 
         const  reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -49,38 +43,46 @@ const createUser = async (req,res)=>{
 
     }
 }
-const loginUser = async (req,res)=>{
-    try{
-        const {email,password} = req.body
-        const  reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        const isValidEmail = reg.test(email)
-        console.log(password)
-        if(!email||!password)
-        {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The input is required'
-            })
-        }
-        else if(!isValidEmail){
-            return res.status(200).json({
-                status : 'ERR',
-                message: 'Not a valid email-address'
-            })
-        }
+// const loginUser = async (req,res)=>{
+    
+//     try{
+//         const {email,password} = req.body
+//         const  reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+//         const isValidEmail = reg.test(email)
+//         console.log(password)
+//         if(!email||!password)
+//         {
+//             return res.status(200).json({
+//                 status: 'ERR',
+//                 message: 'The input is required'
+//             })
+//         }
+//         else if(!isValidEmail){
+//             return res.status(200).json({
+//                 status : 'ERR',
+//                 message: 'Not a valid email-address'
+//             })
+//         }
        
 
-        const response = await userSevice.loginUser(req.body)
+//         const response = await userSevice.loginUser(req.body)
         
-        return res.status(200).json(response)
-    }
-    catch(err){
-        return res.status(404).json({
-            message :err
-        })
+//         return res.status(200).json(response)
+//     }
+//     catch(err){
+//         return res.status(404).json({
+//             message :err
+//         })
 
-    }
-}
+//     }
+// }
+const loginUser = (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/home',
+        failureRedirect: '/log-in',
+        
+    })(req, res, next);
+};
 
 
 module.exports ={

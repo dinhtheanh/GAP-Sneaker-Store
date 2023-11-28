@@ -6,22 +6,17 @@ const adminRoute = require('../components/admin/adminRoute');
 
 
 const initRouteWeb = (app) => {
-
+    
     myRoute.get('/contact', (req, res) => {
         res.render("customer/navbar/contact", { layout: "customer/layout" });
     });
 
-    myRoute.use('/signin',userRouter)
-    myRoute.use('/signup',userRouter)
-    
-    myRoute.get('/sign-up', (req, res) => {
-        res.render("customer/navbar/signup", { layout: "customer/layout" });
-    });
+
+    myRoute.use('/sign-up', userRouter.handleSignUp(myRoute));
+    myRoute.use('/log-in', userRouter.handleLogin(myRoute));
 
 
-    myRoute.get('/log-in', (req, res) => {
-        res.render("customer/navbar/login", { layout: "customer/layout" });
-    });
+
 
     myRoute.get(['/', '/home'], (req, res) => {
         res.render("customer/navbar/home", { layout: "customer/layout" });

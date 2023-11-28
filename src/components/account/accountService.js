@@ -40,7 +40,7 @@ const createUser =(userData)=>{
         }
     })
 }
-const loginUser =(userData)=>{
+const loginUser =(userData,done)=>{
     return new Promise(async(resolve,reject)=>{
         const {name,email,password,cfpassword,phone,address} = userData
         try{
@@ -77,7 +77,7 @@ const loginUser =(userData)=>{
                 status: "SUCCESS",
                 access_token,
                 refresh_token,
-                redirect_url: '/home'
+                
             })
         }
         catch(err)

@@ -2,11 +2,14 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const path = require('path');
-const handlebarsHelpers = require('./src/views/customHelpers.js'); // Custom Handlebars Helpers
+const handlebarsHelpers = require('./src/views/customHelpers.js');
 require('dotenv/config');
 let initRouteWeb = require('./src/routes/navigation.js');
+// const session = require('express-session');
+const passport = require('passport');
 const bodyParser = require('body-parser');
 
+// const flash = require('connect-flash');
 
 
 // Server Initialization 
@@ -14,7 +17,15 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 initRouteWeb(app);
-
+// app.use(session({
+//     secret: 'theanhngu', // Add a strong, secure secret key
+//     resave: false,
+//     saveUninitialized: false,
+// }));
+// app.use(flash());
+// Initialize Passport middleware
+app.use(passport.initialize());
+// app.use(passport.session());
 
 // Establishing the connection to the database
 mongoose.connect(process.env.URL_DB, {
