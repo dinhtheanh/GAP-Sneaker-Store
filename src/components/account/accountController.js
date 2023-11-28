@@ -87,8 +87,22 @@ const loginUser = (req, res, next) => {
     })(req, res, next);
 };
 
+const logoutUser = (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+          console.error('Error during logout:', err);
+          return next(err);
+        }
+    req.session.destroy((err) => {
+      res.redirect('/home');
+    });
+});
+};
+
+
 
 module.exports ={
     createUser,
-    loginUser
+    loginUser,
+    logoutUser
 }

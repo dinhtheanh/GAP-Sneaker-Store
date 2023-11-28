@@ -16,8 +16,15 @@ const initRouteWeb = (app) => {
     myRoute.get('/about', (req, res) => {
         res.render("customer/navbar/about", { layout: "customer/layout" });
     });
+    myRoute.get('/protect', (req, res) => {
+        res.render("customer/protectPage", { layout: "customer/layout" , user: req.user});
+    });
+    myRoute.get('/log-out', userRouter.handleLogout(myRoute) );
+
+
     myRoute.use('/sign-up', userRouter.handleSignUp(myRoute));
     myRoute.use('/log-in', userRouter.handleLogin(myRoute));
+    
 
     myRoute.use('/', homeRoute);
 
