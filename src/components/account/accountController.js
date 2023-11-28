@@ -94,7 +94,7 @@ const logoutUser = (req, res, next) => {
           return next(err);
         }
     req.session.destroy((err) => {
-      res.redirect('/home');
+      res.redirect('/protect');
     });
 });
 };

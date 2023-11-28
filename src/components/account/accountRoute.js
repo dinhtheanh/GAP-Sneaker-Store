@@ -17,9 +17,6 @@ const handleLogin = (router) => {
 }
 const handleLogout = (router)=>{
     router.post('/log-out', userController.logoutUser);
-    router.get('/log-out', (req, res) => {
-        res.render("customer/navbar/home", { layout: "customer/layout" });
-    });
     return router;
 }
 module.exports = {
