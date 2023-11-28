@@ -16,6 +16,7 @@ const createUser =(userData)=>{
                     message: 'The email is already used'
                 })
             }
+
             const hash = bcrypt.hashSync(password,10)
             const createdUser = await User.create({
                 name,
@@ -48,6 +49,7 @@ const loginUser =(userData,done)=>{
             const checkUser =  await  User.findOne({
                 email: email
             })
+            //console.log(checkUser)
             if (checkUser === null) {
                 resolve({
                     status: 'ERR',
@@ -75,8 +77,7 @@ const loginUser =(userData,done)=>{
 
             resolve({
                 status: "SUCCESS",
-                access_token,
-                refresh_token,
+                checkUser
                 
             })
         }

@@ -5,8 +5,10 @@ const passport = require('./passport-config');
 
 const createUser = async (req,res)=>{
     console.log('Received POST request to /signup');
+    console.log(req.body);
     try{
         const {name,email,password,cfpassword,phone,address} = req.body
+        console.log(req.body);
 
         const  reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
         const isValidEmail = reg.test(email)
@@ -31,7 +33,8 @@ const createUser = async (req,res)=>{
                 message: 'Please enter valid comfirm password'
             })
         }
-
+        //console.log(req.body);
+        //console.log("Hello");
         const response = await userSevice.createUser(req.body)
         
         return res.status(200).json(response)
@@ -78,7 +81,7 @@ const createUser = async (req,res)=>{
 // }
 const loginUser = (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/home',
+        successRedirect: '/',
         failureRedirect: '/log-in',
         
     })(req, res, next);
