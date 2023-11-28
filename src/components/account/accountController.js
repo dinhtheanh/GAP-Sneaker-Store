@@ -1,53 +1,51 @@
 const async = require('hbs/lib/async')
 const userSevice = require('./accountService.js')
-const passport = require('./passport-config'); 
+const passport = require('./passport-config');
 
 
-const createUser = async (req,res)=>{
+const createUser = async (req, res) => {
     console.log('Received POST request to /signup');
     console.log(req.body);
-    try{
-        const {name,email,password,cfpassword,phone,address} = req.body
+    try {
+        const { name, email, password, cfpassword, phone, address } = req.body
         console.log(req.body);
 
-        const  reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
         const isValidEmail = reg.test(email)
 
-        if(!name||!email||!password||!cfpassword||!phone||!address)
-        {
+        if (!name || !email || !password || !cfpassword || !phone || !address) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'The input is required'
             })
         }
-        else if(!isValidEmail){
+        else if (!isValidEmail) {
             return res.status(200).json({
-                status : 'ERR',
+                status: 'ERR',
                 message: 'Not a valid email-address'
             })
         }
-        else if(password!==cfpassword)
-        {
+        else if (password !== cfpassword) {
             return res.status(200).json({
-                status : 'ERR',
+                status: 'ERR',
                 message: 'Please enter valid comfirm password'
             })
         }
         //console.log(req.body);
         //console.log("Hello");
         const response = await userSevice.createUser(req.body)
-        
+
         return res.status(200).json(response)
     }
-    catch(err){
+    catch (err) {
         return res.status(404).json({
-            message :err
+            message: err
         })
 
     }
 }
 // const loginUser = async (req,res)=>{
-    
+
 //     try{
 //         const {email,password} = req.body
 //         const  reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -66,10 +64,10 @@ const createUser = async (req,res)=>{
 //                 message: 'Not a valid email-address'
 //             })
 //         }
-       
+
 
 //         const response = await userSevice.loginUser(req.body)
-        
+
 //         return res.status(200).json(response)
 //     }
 //     catch(err){
@@ -81,27 +79,27 @@ const createUser = async (req,res)=>{
 // }
 const loginUser = (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/protect',
         failureRedirect: '/log-in',
-        
+
     })(req, res, next);
 };
 
 const logoutUser = (req, res, next) => {
     req.logout((err) => {
         if (err) {
-          console.error('Error during logout:', err);
-          return next(err);
+            console.error('Error during logout:', err);
+            return next(err);
         }
-    req.session.destroy((err) => {
-      res.redirect('/protect');
+        req.session.destroy((err) => {
+            res.redirect('/home');
+        });
     });
-});
 };
 
 
 
-module.exports ={
+module.exports = {
     createUser,
     loginUser,
     logoutUser
