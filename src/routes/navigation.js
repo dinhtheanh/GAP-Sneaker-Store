@@ -27,7 +27,7 @@ myRoute.use('/products', productsRoute);
 myRoute.get('/about', (req, res) => {
     res.render("customer/navbar/about", { layout: "customer/layout" });
 });
-
+}
 
 
 module.exports = myRoute;
