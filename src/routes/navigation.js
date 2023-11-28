@@ -18,20 +18,16 @@ const initRouteWeb = (app) => {
 
 
 
-    myRoute.get(['/', '/home'], (req, res) => {
-        res.render("customer/navbar/home", { layout: "customer/layout" });
-    });
+myRoute.get(['/', '/home'], (req, res) => {
+    res.render("customer/navbar/home", { layout: "customer/layout" });
+});
 
-    myRoute.use('/products', productsRoute);
+myRoute.use('/products', productsRoute);
 
-    myRoute.get('/about', (req, res) => {
-        res.render("customer/navbar/about", { layout: "customer/layout" });
-    });
-
-    myRoute.use('/admin', adminRoute);
-
-    return app.use("/", myRoute);
-}
+myRoute.get('/about', (req, res) => {
+    res.render("customer/navbar/about", { layout: "customer/layout" });
+});
 
 
-module.exports = initRouteWeb;
+
+module.exports = myRoute;
