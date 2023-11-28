@@ -3,7 +3,7 @@ let myRoute = express.Router();
 const productsRoute = require('../components/product/productRoute');
 const userRouter = require('../components/account/accountRoute');
 const adminRoute = require('../components/admin/adminRoute');
-
+const homeRoute = require('../components/home/homeRoute');
 
 const initRouteWeb = (app) => {
     
@@ -11,23 +11,18 @@ const initRouteWeb = (app) => {
         res.render("customer/navbar/contact", { layout: "customer/layout" });
     });
 
+    myRoute.use('/products', productsRoute);
 
+    myRoute.get('/about', (req, res) => {
+        res.render("customer/navbar/about", { layout: "customer/layout" });
+    });
     myRoute.use('/sign-up', userRouter.handleSignUp(myRoute));
     myRoute.use('/log-in', userRouter.handleLogin(myRoute));
 
+    myRoute.use('/', homeRoute);
+
+    return app.use('/', myRoute);
+}
 
 
-
-myRoute.get(['/', '/home'], (req, res) => {
-    res.render("customer/navbar/home", { layout: "customer/layout" });
-});
-
-myRoute.use('/products', productsRoute);
-
-myRoute.get('/about', (req, res) => {
-    res.render("customer/navbar/about", { layout: "customer/layout" });
-});
-
-
-
-module.exports = myRoute;
+module.exports = initRouteWeb;
