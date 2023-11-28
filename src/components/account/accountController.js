@@ -35,7 +35,7 @@ const createUser = async (req, res) => {
         //console.log("Hello");
         const response = await userSevice.createUser(req.body)
 
-        return res.status(200).json(response)
+        res.redirect('/home');
     }
     catch (err) {
         return res.status(404).json({

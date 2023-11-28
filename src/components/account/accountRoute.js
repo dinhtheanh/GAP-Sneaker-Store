@@ -5,6 +5,7 @@ const handleSignUp = (router) => {
     router.get('/sign-up', (req, res) => {
         res.render("customer/navbar/signup", { layout: "customer/layout" });
     });
+    //router.redirect('/home');
     return router;
 }
 
