@@ -1,5 +1,19 @@
 <link href="/customer/css/product_page.css" rel="stylesheet">
+<style>
+    .review {
+        border: 1px solid #ddd; /* Border color */
+        border-radius: 15px; /* Border radius for rounded corners */
+        padding: 5px; /* Padding for inner content */
+        margin-left: 10px; /* Spacing between reviews */
+        margin-top: 10px; /* Spacing between reviews */
+        margin-bottom: 5px; /* Spacing between reviews */
 
+
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
+
+        background-color: #f9f9f9; /* Background color */
+    }
+</style>
 <div>
     <div id="page">
 
@@ -44,7 +58,7 @@
                         </div>
                         <!-- /page_header -->
                         <div class="prod_info">
-                            <h1>Armor Air X Fear</h1>
+                            <h1>{{product.name}}</h1>
                             <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
                                     class="icon-star voted"></i><i class="icon-star voted"></i><i
                                     class="icon-star"></i><em>4 reviews</em></span>
@@ -61,10 +75,9 @@
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                         <div class="custom-select-form">
                                             <select class="wide">
-                                                <option value="" selected>Small (S)</option>
-                                                <option value="">M</option>
-                                                <option value=" ">L</option>
-                                                <option value=" ">XL</option>
+                                                {{#each product.size}}
+                                                <option value="{{this}}">{{this}}</option>
+                                                {{/each}}
                                             </select>
                                         </div>
                                     </div>
@@ -191,76 +204,16 @@
                                     </a>
                                 </h5>
                             </div>
-                            <div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
-                                <div class="card-body">
-                                    <div class="row justify-content-between">
-                                        <div class="col-lg-6">
-                                            <div class="review_content">
-                                                <div class="clearfix add_bottom_10">
-                                                    <span class="rating"><i class="icon-star"></i><i
-                                                            class="icon-star"></i><i class="icon-star"></i><i
-                                                            class="icon-star"></i><i
-                                                            class="icon-star"></i><em>5.0/5.0</em></span>
-                                                    <em>Published 54 minutes ago</em>
-                                                </div>
-                                                <h4>"Commpletely satisfied"</h4>
-                                                <p>Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod
-                                                    scaevola sea. Et nec tantas accusamus salutatus, sit commodo veritus
-                                                    te, erat legere fabulas has ut. Rebum laudem cum ea, ius essent
-                                                    fuisset ut. Viderer petentium cu his.</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="review_content">
-                                                <div class="clearfix add_bottom_10">
-                                                    <span class="rating"><i class="icon-star"></i><i
-                                                            class="icon-star"></i><i class="icon-star"></i><i
-                                                            class="icon-star empty"></i><i
-                                                            class="icon-star empty"></i><em>4.0/5.0</em></span>
-                                                    <em>Published 1 day ago</em>
-                                                </div>
-                                                <h4>"Always the best"</h4>
-                                                <p>Et nec tantas accusamus salutatus, sit commodo veritus te, erat
-                                                    legere fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut.
-                                                    Viderer petentium cu his.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div id="collapse-B" class="" role="tabpanel" aria-labelledby="heading-B">
                                     <!-- /row -->
-                                    <div class="row justify-content-between">
-                                        <div class="col-lg-6">
-                                            <div class="review_content">
-                                                <div class="clearfix add_bottom_10">
-                                                    <span class="rating"><i class="icon-star"></i><i
-                                                            class="icon-star"></i><i class="icon-star"></i><i
-                                                            class="icon-star"></i><i
-                                                            class="icon-star empty"></i><em>4.5/5.0</em></span>
-                                                    <em>Published 3 days ago</em>
-                                                </div>
-                                                <h4>"Outstanding"</h4>
-                                                <p>Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod
-                                                    scaevola sea. Et nec tantas accusamus salutatus, sit commodo veritus
-                                                    te, erat legere fabulas has ut. Rebum laudem cum ea, ius essent
-                                                    fuisset ut. Viderer petentium cu his.</p>
-                                            </div>
+                                        {{#each product.reviews}}
+                                        <div class="review">
+                                            <p><strong>{{this.name}}</strong></br> {{this.review}}</p>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="review_content">
-                                                <div class="clearfix add_bottom_10">
-                                                    <span class="rating"><i class="icon-star"></i><i
-                                                            class="icon-star"></i><i class="icon-star"></i><i
-                                                            class="icon-star"></i><i
-                                                            class="icon-star"></i><em>5.0/5.0</em></span>
-                                                    <em>Published 4 days ago</em>
-                                                </div>
-                                                <h4>"Excellent"</h4>
-                                                <p>Sit commodo veritus te, erat legere fabulas has ut. Rebum laudem cum
-                                                    ea, ius essent fuisset ut. Viderer petentium cu his.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        {{/each}}
                                     <!-- /row -->
-                                    <p class="text-end"><a href="/review" class="btn_1">Leave a review</a></p>
+                                    <p class="text-end"><a href=/review/{{product.id}} class="btn_1">Leave a review</a>
+                                    </p>
                                 </div>
                                 <!-- /card-body -->
                             </div>
@@ -316,7 +269,7 @@
                     </div>
                     <!-- /item -->
                     {{/each}}
-                    
+
 
                 </div>
                 <!-- /products_carousel -->

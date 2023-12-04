@@ -79,9 +79,45 @@ const addProduct = async(productData)=>{
 
 }
 
+const addProductReview = async(productId,userName,reviewText)=>{
+        try {
+            const product = await productModel.findById(productId);
+            const newReview = {
+                name: userName,
+                review: reviewText
+            };
+            // Check if the product exists
+            if (!product) {
+                resolve({
+                    status: 'ERR',
+                    message: 'Product not found'
+                });
+                return;
+            }
+
+            product.reviews.push(newReview);
+
+
+            // Save the updated product to the database
+            await product.save();
+
+
+
+            return {
+                status: 'OK',
+                message: 'Review added successfully'
+            };
+        } catch (error) {
+            console.error('Error adding review to product:', error);
+            throw error;
+        }
+    };
+
+
 module.exports = { 
     getAllProducts,
     addProduct,
     getProductDetail,
-    getRelatedProducts
+    getRelatedProducts,
+    addProductReview
  }

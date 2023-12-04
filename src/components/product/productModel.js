@@ -1,6 +1,18 @@
 // Data model for product
 const mongoose = require("mongoose");
 
+const reviewSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    review: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+});
 const productSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: String,
@@ -9,7 +21,8 @@ const productSchema = new mongoose.Schema({
     manufacturer: String,
     category: String,
     size: [Number],
-    color: [String]
+    color: [String],
+    reviews: [reviewSchema]
 });
 
 const Product = mongoose.model("product", productSchema, 'product');

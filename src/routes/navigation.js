@@ -4,7 +4,7 @@ const productsRoute = require('../components/product/productRoute');
 const userRouter = require('../components/account/accountRoute');
 const adminRoute = require('../components/admin/adminRoute');
 const homeRoute = require('../components/home/homeRoute');
-
+const reviewRoute = require('../components/product/review/reviewRoute')
 function isAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -36,11 +36,9 @@ myRoute.get('/protect', isAuthenticated, (req, res) => {
 });
 
 myRoute.get('/log-out', userRouter.handleLogout(myRoute));
+myRoute.use('/review', isAuthenticated, reviewRoute);
 
 
-myRoute.get('/review', (req, res) => {
-    res.render("customer/navbar/reviewform", { layout: "customer/layout" });
-});
 
 
 

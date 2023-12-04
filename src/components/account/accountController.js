@@ -4,8 +4,7 @@ const passport = require('./passport-config');
 
 
 const createUser = async (req, res) => {
-    console.log('Received POST request to /signup');
-    console.log(req.body);
+    
     try {
         const { name, email, password, cfpassword, phone, address } = req.body
         console.log(req.body);
