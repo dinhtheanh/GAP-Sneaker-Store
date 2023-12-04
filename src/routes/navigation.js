@@ -37,10 +37,10 @@ myRoute.get('/protect', isAuthenticated, (req, res) => {
 
 myRoute.get('/log-out', userRouter.handleLogout(myRoute));
 
-myRoute.get('/testpdp', (req, res) => {
-    res.render("customer/productPage", { layout: "customer/layout" });
-});
 
+myRoute.get('/review', (req, res) => {
+    res.render("customer/navbar/reviewform", { layout: "customer/layout" });
+});
 
 
 

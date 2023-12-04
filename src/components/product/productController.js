@@ -12,8 +12,11 @@ const getProductDetailPage = async (req, res) => {
     const id = req.params.productid;
     const product = await Services.getProductDetail(id);
     //console.log(product);
-    res.render("customer/navbar/productdetail", { layout: "customer/layout", activeTab: 'product', product: product });
+    const relatedProducts = await Services.getRelatedProducts(product.category, product.manufacturer, id);
+    //console.log(relatedProducts);
+    res.render("customer/navbar/productdetail", { layout: "customer/layout", activeTab: 'product', product: product, relatedProducts: relatedProducts });
 };
+
 
 const addProduct = async (req,res)=>{
     try{

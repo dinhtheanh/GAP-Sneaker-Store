@@ -26,6 +26,19 @@ const getProductDetail = async (id) => {
     }
 }
 
+const getRelatedProducts = async (productCategory, productBrand, productID) => {
+    try {
+        const products = await productModel.find({ 
+            category: productCategory, 
+            manufacturer: productBrand,
+            _id: { $ne: productID } });
+        return products;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw new Error('Unable to fetch products');
+    }
+}
+
 const addProduct = async(productData)=>{
     return new Promise(async(resolve,reject)=>{
         const {name,price,brand,gender,sizes,category}= productData
@@ -69,5 +82,6 @@ const addProduct = async(productData)=>{
 module.exports = { 
     getAllProducts,
     addProduct,
-    getProductDetail
+    getProductDetail,
+    getRelatedProducts
  }
