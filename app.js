@@ -10,8 +10,6 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const MongoStore = require('connect-mongo');
 
-
-
 // Server Initialization 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,13 +21,10 @@ app.use(session({
     //store: MongoStore.create({ mongoUrl: process.env.URL_DB })
 }));
 
-app.use(passport.initialize());
-//app.use(passport.authenticate('session'));
-app.use(passport.session());
-initRouteWeb(app);
-
 // Initialize Passport middleware
-
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/', initRouteWeb);
 
 // Establishing the connection to the database
 mongoose.connect(process.env.URL_DB)
@@ -46,6 +41,5 @@ const PORT = process.env.PORT;
 let server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 })
-
 
 module.exports = app

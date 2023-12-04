@@ -2601,6 +2601,9 @@ header.version_2 .search_mob_wp .btn_1:hover {
 }
 
 /*-------- 1.4 Navigation --------*/
+
+
+
 @media only screen and (min-width: 992px) {
   .menu {
     display: block !important;
@@ -2641,7 +2644,7 @@ header.version_2 .search_mob_wp .btn_1:hover {
 
 /*First level styles version 1 */
 .main-menu > ul > li > a {
-  padding: 30px 18px 25px 18px;
+  padding: 30px 15px 25px 15px;
   font-size: 13px;
   font-size: 0.8125rem;
   font-weight: 700;
@@ -2649,12 +2652,34 @@ header.version_2 .search_mob_wp .btn_1:hover {
   text-transform: uppercase;
 }
 
+.main-menu > ul {
+  display: flex;
+  justify-content: space-around; /* This will space out the items evenly */
+  list-style: none; /* Optional: removes bullet points */
+  padding: 0; /* Optional: removes default padding */
+}
+.main-menu > ul > li {
+  flex: 1; /* Each item will grow to fill the container equally */
+  text-align: center; /* Optional: centers the text inside each tab */
+}
+
 header.version_1 .main-menu > ul > li > a {
-  color: #fff;
+  color: rgb(255, 255, 255);
 }
 
 header.version_1 .main-menu > ul > li:hover > a {
-  color: #fff;
+  color: #000000;
+  background-color: white;
+}
+
+header.version_1 .main-menu > ul > li.active-tab > a {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5)!important;
+}
+
+header.version_1 .main-menu > ul > li.active-tab:hover > a {
+  color: black;
+  background-color: white!important;
 }
 
 .main-menu > ul > li.submenu:hover > a:after {

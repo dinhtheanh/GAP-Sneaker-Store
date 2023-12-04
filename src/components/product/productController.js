@@ -5,7 +5,7 @@ const async = require('hbs/lib/async')
 const getProductsPage = async (req, res) => {
     let products = await Services.getAllProducts();
     //console.log(products);
-    res.render("customer/navbar/products", { layout: "customer/layout", products: products });
+    res.render("customer/navbar/products", { layout: "customer/layout", products: products, activeTab: 'product' });
 }
 const addProduct = async (req,res)=>{
     try{
