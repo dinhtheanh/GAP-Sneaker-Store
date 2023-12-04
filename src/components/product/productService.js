@@ -1,6 +1,8 @@
 const async = require('hbs/lib/async.js');
 const productModel = require('./productModel.js'); // requiring the data model for product
+const { default: mongoose } = require('mongoose');
 
+// Get all the products from the database
 const getAllProducts = async () => {
     try {
         const products = await productModel.find();
@@ -10,6 +12,20 @@ const getAllProducts = async () => {
         throw new Error('Unable to fetch products');
     }
 };
+
+// Get the product detail page by id
+const getProductDetail = async (id) => {
+    try {
+        //onst objid = new mongoose.Types.ObjectId(id);
+        //console.log(objid);
+        const product = await productModel.findById(id);
+        return product;
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        throw new Error('Unable to fetch product');
+    }
+}
+
 const addProduct = async(productData)=>{
     return new Promise(async(resolve,reject)=>{
         const {name,price,brand,gender,sizes,category}= productData
@@ -52,5 +68,6 @@ const addProduct = async(productData)=>{
 
 module.exports = { 
     getAllProducts,
-    addProduct
+    addProduct,
+    getProductDetail
  }

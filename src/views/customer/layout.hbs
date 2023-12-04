@@ -33,6 +33,9 @@
     <!-- YOUR CUSTOM CSS -->
     <link href="/customer/css/custom.css" rel="stylesheet">
 
+    <script src="/customer/js/common_scripts.min.js" defer></script>
+    <script src="/customer/js/main.js" defer></script>
+
 </head>
 
 <body>
@@ -67,17 +70,17 @@
                                 </div>
                                 <ul>
                                     <li class="{{#if (eq activeTab 'home')}}active-tab{{/if}}">
-                                        <a href="home">Home</a>
+                                        <a href="/home">Home</a>
                                     </li>
                                     <li class="{{#if (eq activeTab 'product')}}active-tab{{/if}}">
-                                        <a href="products">Products</a>
+                                        <a href="/products">Products</a>
                                     </li>
 
                                     <li class="{{#if (eq activeTab 'contact')}}active-tab{{/if}}">
-                                        <a href="contact">Contact</a>
+                                        <a href="/contact">Contact</a>
                                     </li>
                                     <li class="{{#if (eq activeTab 'about')}}active-tab{{/if}}">
-                                        <a href="about">About us</a>
+                                        <a href="/about">About us</a>
                                     </li>
                                 </ul>
                             </div>
@@ -391,8 +394,8 @@
     <div id="toTop"></div><!-- Back to top button -->
 
     <!-- SPECIFIC SCRIPTS -->
-    <script src="/customer/js/common_scripts.min.js"></script>
-    <script src="/customer/js/main.js"></script>
+    
+    
 </body>
 
 </html>

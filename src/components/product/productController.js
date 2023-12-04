@@ -4,9 +4,17 @@ const async = require('hbs/lib/async')
 // Get all the products from the database
 const getProductsPage = async (req, res) => {
     let products = await Services.getAllProducts();
-    //console.log(products);
     res.render("customer/navbar/products", { layout: "customer/layout", products: products, activeTab: 'product' });
 }
+
+// Get the product detail page
+const getProductDetailPage = async (req, res) => {
+    const id = req.params.productid;
+    const product = await Services.getProductDetail(id);
+    //console.log(product);
+    res.render("customer/navbar/productdetail", { layout: "customer/layout", activeTab: 'product', product: product });
+};
+
 const addProduct = async (req,res)=>{
     try{
         const {name,price,brand,gender,sizes,category}= req.body
@@ -33,5 +41,6 @@ const addProduct = async (req,res)=>{
 }
 module.exports = {
     getProductsPage,
-    addProduct
+    addProduct,
+    getProductDetailPage
 }

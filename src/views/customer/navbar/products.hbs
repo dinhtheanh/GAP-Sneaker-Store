@@ -58,25 +58,13 @@
 						<div class="collapse show" id="filter_1">
 							<ul>
 								<li>
-									<label class="container_check">Men <small>12</small>
+									<label class="container_check">Fashion <small>12</small>
 										<input type="checkbox">
 										<span class="checkmark"></span>
 									</label>
 								</li>
 								<li>
-									<label class="container_check">Women <small>24</small>
-										<input type="checkbox">
-										<span class="checkmark"></span>
-									</label>
-								</li>
-								<li>
-									<label class="container_check">Running <small>23</small>
-										<input type="checkbox">
-										<span class="checkmark"></span>
-									</label>
-								</li>
-								<li>
-									<label class="container_check">Training <small>11</small>
+									<label class="container_check">Sports <small>24</small>
 										<input type="checkbox">
 										<span class="checkmark"></span>
 									</label>
@@ -97,23 +85,18 @@
 									</label>
 								</li>
 								<li>
-									<label class="container_check">Red <small>12</small>
+									<label class="container_check">White <small>12</small>
 										<input type="checkbox">
 										<span class="checkmark"></span>
 									</label>
 								</li>
 								<li>
-									<label class="container_check">Orange <small>17</small>
+									<label class="container_check">Black <small>17</small>
 										<input type="checkbox">
 										<span class="checkmark"></span>
 									</label>
 								</li>
-								<li>
-									<label class="container_check">Black <small>43</small>
-										<input type="checkbox">
-										<span class="checkmark"></span>
-									</label>
-								</li>
+								
 							</ul>
 						</div>
 					</div>
@@ -194,8 +177,8 @@
 					<div class="col-sm-4">
 						<figure>
 							<span class="ribbon off">-30%</span>
-							<a href="product-detail-1.html">
-								<img class="img-fluid lazy productimg" src={{this.img}} alt="">
+							<a href=/products/{{idtoString this._id}}>
+								<img class="img-fluid lazy productimg" src={{this.img.[0]}} alt="">
 							</a>
 						</figure>
 					</div>
@@ -203,7 +186,7 @@
 						<div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i
 								class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i>
 						</div>
-						<a href="product-detail-1.html">
+						<a href="">
 							<h3>{{this.name}}</h3>
 						</a>
 
@@ -248,8 +231,8 @@
 	</div>
 	<!-- /container -->
 
-	<script src="/customer/js/common_scripts.min.js"></script>
-	<script src="/customer/js/main.js"></script>
+	{{!-- <script src="/customer/js/common_scripts.min.js"></script>
+	<script src="/customer/js/main.js"></script> --}}
 	<script src="/customer/js/sticky_sidebar.min.js"></script>
 	<script src="/customer/js/specific_listing.js"></script>
 </main>
