@@ -22,7 +22,8 @@ const productSchema = new mongoose.Schema({
     category: String,
     size: [Number],
     color: [String],
-    reviews: [reviewSchema]
+    reviews: [reviewSchema],
+    createdAt: Date,
 });
 
 const Product = mongoose.model("product", productSchema, 'product');

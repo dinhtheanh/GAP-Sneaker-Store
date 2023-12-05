@@ -113,11 +113,43 @@ const addProductReview = async(productId,userName,reviewText)=>{
         }
     };
 
+const prodsSortedByDate = async () => {
+    try {
+        const products = await productModel.find().sort({ createdAt: -1 });
+        return products;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw new Error('Unable to fetch products');
+    }
+};
+
+const prodsSortedByPrice = async () => {
+    try {
+        const products = await productModel.find().sort({ price: 1 });
+        return products;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw new Error('Unable to fetch products');
+    }
+};
+
+const prodsSortedByPriceDesc = async () => {
+    try {
+        const products = await productModel.find().sort({ price: -1 });
+        return products;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw new Error('Unable to fetch products');
+    }
+};
 
 module.exports = { 
     getAllProducts,
     addProduct,
     getProductDetail,
     getRelatedProducts,
-    addProductReview
+    addProductReview,
+    prodsSortedByDate,
+    prodsSortedByPrice,
+    prodsSortedByPriceDesc
  }

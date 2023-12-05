@@ -3,8 +3,23 @@ const async = require('hbs/lib/async')
 
 // Get all the products from the database
 const getProductsPage = async (req, res) => {
-    let products = await Services.getAllProducts();
-   
+    let products = [];
+    let sortby = req.query.sortby || 'date';
+    //let sortedProducts = [];
+    // Sorting logic
+    switch (sortby) {
+        case 'date':
+            products = await Services.prodsSortedByDate();
+            break;
+        case 'price':
+            products = await Services.prodsSortedByPrice();
+            break;
+        case 'price-desc':
+            products = await Services.prodsSortedByPriceDesc();
+            break;
+        // Add other cases for different sorting methods
+    }
+    //products = sortedProducts;
     // res.render("customer/navbar/products", { layout: "customer/layout", products: products, activeTab: 'product' });
     let page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 3;
@@ -29,8 +44,12 @@ const getProductsPage = async (req, res) => {
     let totalPages = Math.ceil(products.length / limit);
     let pages = Array.from({ length: totalPages }, (_, i) => i + 1);
     results.current = products.slice(startIndex, endIndex);
-    res.render('customer/navbar/products', { layout: "/customer/layout", products: results.current, pagination: results, pages: pages,
-    currentPage: page, activeTab: 'product' });
+    res.render('customer/navbar/products', {
+        layout: "/customer/layout", products: results.current, pagination: results, pages: pages,
+        currentPage: page,
+        activeTab: 'product',
+        currentSort: sortby
+    });
 }
 
 // Get the product detail page
@@ -40,30 +59,29 @@ const getProductDetailPage = async (req, res) => {
     //console.log(product);
     const relatedProducts = await Services.getRelatedProducts(product.category, product.manufacturer, id);
     //console.log(relatedProducts);
-    res.render("customer/navbar/productdetail", { layout: "customer/layout", activeTab: 'product', product: product, relatedProducts: relatedProducts});
+    res.render("customer/navbar/productdetail", { layout: "customer/layout", activeTab: 'product', product: product, relatedProducts: relatedProducts });
 };
 
 
-const addProduct = async (req,res)=>{
-    try{
-        const {name,price,brand,gender,sizes,category}= req.body
-       
-        if(!name||!price||brand||gender||sizes||category)
-        {
+const addProduct = async (req, res) => {
+    try {
+        const { name, price, brand, gender, sizes, category } = req.body
+
+        if (!name || !price || brand || gender || sizes || category) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'The input is required'
             })
         }
-        
+
 
         const response = await userSevice.addProduct(req.body)
-        
+
         return res.status(200).json(response)
     }
-    catch(err){
+    catch (err) {
         return res.status(404).json({
-            message :err
+            message: err
         })
 
     }
