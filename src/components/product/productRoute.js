@@ -9,5 +9,8 @@ productsRoute.get('/', productsController.getProductsPage);
 productsRoute.get('/:productid', productsController.getProductDetailPage);
 
 
+productsRoute.post('/filter', productsController.filterProducts);
+
+
 
 module.exports = productsRoute;

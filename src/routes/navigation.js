@@ -31,9 +31,12 @@ myRoute.use('/sign-up', userRouter.handleSignUp(myRoute));
 
 myRoute.use('/log-in', userRouter.handleLogin(myRoute));
 
+
+
 myRoute.get('/protect', isAuthenticated, (req, res) => {
     res.render("customer/protectPage", { layout: "customer/layout", user: req.user });
 });
+
 
 myRoute.get('/log-out', userRouter.handleLogout(myRoute));
 myRoute.use('/review', isAuthenticated, reviewRoute);

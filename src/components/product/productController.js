@@ -1,6 +1,55 @@
 const Services = require("./productService.js");
 const async = require('hbs/lib/async')
 
+
+const filterProducts = async (req, res) => {
+    const selectedCategories = req.body.category || [];
+    const selectedColors = req.body.color || [];
+    const selectedBrands = req.body.brand || []
+    const selectedPrices = req.body.price || [];
+
+  
+
+    const filteredProducts = await Services.getFilteredProducts(
+        selectedCategories,
+        selectedColors,
+        selectedBrands,
+        selectedPrices
+    );
+
+    console.log(filteredProducts)
+
+    
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 3;
+    let startIndex = (page - 1) * limit;
+    let endIndex = page * limit;
+
+    let results = {};
+
+    if (endIndex < filteredProducts.length) {
+        results.next = {
+            page: page + 1,
+            limit: limit
+        };
+    }
+
+    if (startIndex > 0) {
+        results.previous = {
+            page: page - 1,
+            limit: limit
+        };
+    }
+    // console.log(filteredProducts)
+    let totalPages = Math.ceil(filteredProducts.length / limit);
+    let pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+    results.current = filteredProducts.slice(startIndex, endIndex);
+    console.log(results.current)
+    res.render('customer/navbar/products', { layout: "/customer/layout", products: results.current, pagination: results, pages: pages,
+    currentPage: page, activeTab: 'product' });
+}
+
+
 // Get all the products from the database
 const getProductsPage = async (req, res) => {
     let products = await Services.getAllProducts();
@@ -72,4 +121,5 @@ module.exports = {
     getProductsPage,
     addProduct,
     getProductDetailPage,
+    filterProducts,
 }
