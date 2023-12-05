@@ -96,7 +96,7 @@
 										<span class="checkmark"></span>
 									</label>
 								</li>
-								
+
 							</ul>
 						</div>
 					</div>
@@ -208,20 +208,25 @@
 				{{/each}}
 				<div class="pagination__wrapper">
 					<ul class="pagination">
-						<li><a href="#0" class="prev" title="previous page">&#10094;</a></li>
+						{{#if pagination.previous}}
+						<li><a href="/products?page={{pagination.previous.page}}&limit={{pagination.previous.limit}}"
+								class="prev" title="previous page">&#10094;</a></li>
+						{{/if}}
+
+						{{!-- Generate page links dynamically --}}
+						{{#each pages}}
 						<li>
-							<a href="#0" class="active">1</a>
+							<a href="/products?page={{this}}&limit={{../pagination.limit}}"
+								class="{{#checkCurTab ../currentPage this}}active{{/checkCurTab}}">
+								{{this}}
+							</a>
 						</li>
-						<li>
-							<a href="#0">2</a>
-						</li>
-						<li>
-							<a href="#0">3</a>
-						</li>
-						<li>
-							<a href="#0">4</a>
-						</li>
-						<li><a href="#0" class="next" title="next page">&#10095;</a></li>
+						{{/each}}
+
+						{{#if pagination.next}}
+						<li><a href="/products?page={{pagination.next.page}}&limit={{pagination.next.limit}}"
+								class="next" title="next page">&#10095;</a></li>
+						{{/if}}
 					</ul>
 				</div>
 			</div>
@@ -231,7 +236,8 @@
 	</div>
 	<!-- /container -->
 
-	{{!-- <script src="/customer/js/common_scripts.min.js"></script>
+	{{!--
+	<script src="/customer/js/common_scripts.min.js"></script>
 	<script src="/customer/js/main.js"></script> --}}
 	<script src="/customer/js/sticky_sidebar.min.js"></script>
 	<script src="/customer/js/specific_listing.js"></script>
