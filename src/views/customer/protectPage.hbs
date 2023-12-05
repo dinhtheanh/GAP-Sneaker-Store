@@ -6,19 +6,20 @@
 <main>
 
 	<!-- /top_banner -->
-	<div id="stick_here" style="justify-content: center;"></div>
+	<div class="container margin_60_35">
+		<div id="stick_here" style="justify-content: center;"></div>
 
-	<!-- /toolbox -->
-	<!-- /filter_type -->
+		<!-- /toolbox -->
+		<!-- /filter_type -->
 
-	<!-- /col -->
-	<h1>User Information</h1>
-	<p><strong>Name:</strong> {{user.name}}</p>
-	<p><strong>Phone:</strong> {{user.phone}}</p>
-	<p><strong>Address:</strong> {{user.address}}</p>
-	<form action="/log-out" method="post">
-		<button type="submit">Logout</button>
-	</form> <!-- /col -->
+		<!-- /col -->
+		<h1>User Information</h1>
+		<p><strong>Name:</strong> {{user.name}}</p>
+		<p><strong>Phone:</strong> {{user.phone}}</p>
+		<p><strong>Address:</strong> {{user.address}}</p>
+		<form action="/log-out" method="post">
+			<button type="submit" class="btn_1">Logout</button>
+		</form> <!-- /col -->
 	</div>
 	<!-- /row -->
 </main>

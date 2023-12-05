@@ -27,13 +27,23 @@
 				<li>
 					<div class="sort_select">
 						<select name="sort" id="sort">
-							<option value="popularity" selected="selected">Sort by popularity</option>
-							<option value="rating">Sort by average rating</option>
-							<option value="date">Sort by newness</option>
-							<option value="price">Sort by price: low to high</option>
-							<option value="price-desc">Sort by price: high to
+								<option value="date" {{#if (eq currentSort "date" )}}selected{{/if}}>Sort by newness
+								</option>
+								<option value="price" {{#if (eq currentSort "price" )}}selected{{/if}}>Sort by price:
+									low to high</option>
+								<option value="price-desc" {{#if (eq currentSort "price-desc" )}}selected{{/if}}>Sort by
+									price: high to low</option>
 						</select>
 					</div>
+					<script>
+						document.addEventListener('DOMContentLoaded', function () {
+							var sortSelect = document.getElementById('sort');
+							sortSelect.addEventListener('change', function () {
+								var selectedSort = this.value;
+								window.location.href = '/products?sortby=' + selectedSort;
+							});
+						});
+					</script>
 				</li>
 				<li>
 					<a href="#0"><i class="ti-view-grid"></i></a>
