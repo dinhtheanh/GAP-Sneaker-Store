@@ -114,19 +114,28 @@ const getProductDetailPage = async (req, res) => {
 
 const addProduct = async (req, res) => {
     try {
-        const { name, price, brand, gender, sizes, category } = req.body
-
-        if (!name || !price || brand || gender || sizes || category) {
+       const name = req.body.name
+       const price = req.body.price
+       const category = req.body.category
+       const size = req.body.size
+       const color = req.body.color
+       const brand = req.body.brand
+       const image =req.body.imgurl
+       
+        if (!name || !price || !brand || !color || !size || !category|| !image) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'The input is required'
             })
         }
 
+        const response = await Services.addProduct(name,price,category,size,color,brand,image)
+        const relatedProducts = await Services.getRelatedProducts(response.category, response.manufacturer, response.id_);
+        //console.log(relatedProducts);
+        res.render("customer/navbar/productdetail", { layout: "customer/layout", activeTab: 'product', product: response, relatedProducts: relatedProducts });
+        
 
-        const response = await userSevice.addProduct(req.body)
-
-        return res.status(200).json(response)
+        res.render("admin/addProductForm", { layout: "admin/layout" })
     }
     catch (err) {
         return res.status(404).json({

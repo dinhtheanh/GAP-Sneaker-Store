@@ -1,6 +1,7 @@
 const async = require('hbs/lib/async.js');
+const mongoose = require('mongoose');
+
 const productModel = require('./productModel.js'); // requiring the data model for product
-const { default: mongoose } = require('mongoose');
 const getMinPrice = (selectedPrices, priceRanges) => {
     return Math.min(...selectedPrices.map(price => priceRanges[price].min));
 };
@@ -83,41 +84,39 @@ const getRelatedProducts = async (productCategory, productBrand, productID) => {
     }
 }
 
-const addProduct = async (productData) => {
-    return new Promise(async (resolve, reject) => {
-        const { name, price, brand, gender, sizes, category } = productData
+const addProduct = async (name,price,category,size,color,brand,image) => {
         try {
             const checkProduct = await productModel.findOne({
                 name: name
             })
             if (checkProduct !== null) {
-                resolve({
+                return {
                     status: 'ERR',
                     message: 'The product is already in shop'
-                })
+                }
             }
             const addedProduct = await productModel.create({
+                _id: new mongoose.Types.ObjectId(),
                 name,
                 price,
-                brand,
-                gender,
-                sizes,
-                category
-            })
-            if (addedProduct) {
-                resolve({
-                    status: 'OK',
-                    message: 'SUCCESS',
-                    data: createdUser
-                })
-            }
+                manufacturer: brand,
+                size,
+                color,
+                category,
+                img:image
+            });
+
+            console.log(addedProduct)
+            return addedProduct;
+            
+            
 
         }
         catch (err) {
             console.log(err)
-            reject(err)
+            throw(err)
         }
-    })
+    
 
 }
 

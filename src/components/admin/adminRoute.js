@@ -18,7 +18,7 @@ adminRoute.get('/productlist', adminController.getProductListPage);
 
 adminRoute.get('/addProductForm', adminController.getAddProductPage);
 
-adminRoute.post('/admin/addProductForm',productController.addProduct);
+adminRoute.post('/addProductForm',productController.addProduct); 
 
 adminRoute.get('/dashboard', adminController.getMaintenancePage);
 
