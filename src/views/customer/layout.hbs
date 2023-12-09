@@ -180,10 +180,15 @@
                             </nav>
                         </div>
                         <div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
-                            <div class="custom-search-input">
-                                <input type="text" placeholder="Search over 10.000 products">
+                            <form class="custom-search-input" method="/post" action="/products/search">
+                                <input type="text" id="search-box" name="search-input" placeholder="Search over 100 products"
+                                    onkeyup="sendData(this)">
+
                                 <button type="submit"><i class="header-icon_search_custom"></i></button>
-                            </div>
+                                <section id="searchResults" class="bg-white"></section>
+                            </form>
+
+
                         </div>
                         <div class="col-xl-3 col-lg-2 col-md-3">
                             <ul class="top_tools">
@@ -301,7 +306,7 @@
                             <ul>
                                 <li><a href="listing-grid-1-full.html">Fashion</a></li>
                                 <li><a href="listing-grid-2-full.html">Sport</a></li>
-                                
+
                             </ul>
                         </div>
                     </div>
@@ -392,8 +397,50 @@
     <div id="toTop"></div><!-- Back to top button -->
 
     <!-- SPECIFIC SCRIPTS -->
+    <script>
+        function sendData(e) {
+            const searchResult = document.getElementById('searchResults');
+            let match = e.value.match(/^[a-zA-Z]*/);
+            let match2 = e.value.match(/\s*/);
+            if (match2[0] === e.value) {
+                searchResult.innerHTML = '';
+                return;
+            }
+            if (match[0] === e.value) {
+                fetch('getSearchProducts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ payload: e.value })
+                }).then(res => res.json()).then(data => {
+                    let payload = data.payload;
+                    searchResult.innerHTML = '';
+                    if (!payload || payload.length < 1) {
+                        searchResult.innerHTML = '<p>Sorry, there is no product names ' + e.value + '</p>';
+                        return;
+                    }
+                    payload.forEach((item, index) => {
+                        if (index > 0) searchResult.innerHTML += '<hr>';
+                        searchResult.innerHTML += `<a  href="/products/${item._id}"><p class ="text-lg-left bg-white" ><img src="${item.img[0]}" style ="margin-right:20px" width="60" height="60">${item.name}</p></a>`;
+                    });
+                });
+                return;
+            }
+            searchResult.innerHTML = '';
+        }
+    </script>
+    <style>
+        #searchResults {
+            margin: 0;
+            padding: 0;
+            font-weight: 600;
+            font-family: Helvetica-Neue;
+            justify-content: center;
+            padding-left: 30px;  
+            
+        }
+        
 
-
+    </style>
 </body>
 
 </html>

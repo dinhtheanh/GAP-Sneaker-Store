@@ -56,6 +56,16 @@ const getAllProducts = async () => {
         throw new Error('Unable to fetch products');
     }
 };
+const getProductByName = async (data) => {
+    try {
+        const products = await productModel.find({name:data});
+        return products;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw new Error('Unable to fetch products');
+    }
+};
+
 
 // Get the product detail page by id
 const getProductDetail = async (id) => {
@@ -154,34 +164,28 @@ const addProductReview = async (productId, userName, reviewText) => {
     }
 };
 
-const prodsSortedByDate = async () => {
-    try {
-        const products = await productModel.find().sort({ createdAt: -1 });
+const prodsSortedByDate = async (searchName) => {
+        
+
+        const products = await productModel.find({name:{$regex: new RegExp('^'+searchName+'.*','i')}}).exec().sort({ createdAt: -1 });
         return products;
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        throw new Error('Unable to fetch products');
-    }
+ 
 };
 
-const prodsSortedByPrice = async () => {
-    try {
-        const products = await productModel.find().sort({ price: 1 });
+const prodsSortedByPrice = async (searchName) => {
+    
+       
+        
+        const products = await productModel.find({name:{$regex: new RegExp('^'+searchName+'.*','i')}}).exec().sort({ price: 1 });
         return products;
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        throw new Error('Unable to fetch products');
-    }
+  
 };
 
-const prodsSortedByPriceDesc = async () => {
-    try {
-        const products = await productModel.find().sort({ price: -1 });
+const prodsSortedByPriceDesc = async (searchName) => {
+       
+        const products = await productModel.find({name:{$regex: new RegExp('^'+searchName+'.*','i')}}).exec().sort({ price: -1 });
         return products;
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        throw new Error('Unable to fetch products');
-    }
+
 };
 
 module.exports = {

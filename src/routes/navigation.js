@@ -4,6 +4,7 @@ const productsRoute = require('../components/product/productRoute');
 const userRouter = require('../components/account/accountRoute');
 const adminRoute = require('../components/admin/adminRoute');
 const homeRoute = require('../components/home/homeRoute');
+const searchRoute = require('../components/product/search/searchRoute')
 const reviewRoute = require('../components/product/review/reviewRoute')
 function isAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
@@ -12,7 +13,7 @@ function isAuthenticated(req, res, next) {
     // If not authenticated, redirect to a login page or return an error
     res.redirect('/log-in'); // or res.status(401).send('Not authenticated');
 }
-
+myRoute.use('/', searchRoute);
 myRoute.use('/admin', adminRoute);
 
 myRoute.use('/', homeRoute);
