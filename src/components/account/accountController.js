@@ -77,13 +77,32 @@ const createUser = async (req, res) => {
 //     }
 // }
 const loginUser = (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/protect',
-        failureRedirect: '/log-in',
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            // Xử lý trường hợp đăng nhập không thành công
+            return res.redirect('/log-in');
+        }
 
+        // Đăng nhập thành công, lưu trạng thái người dùng vào session
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+
+            // Lấy địa chỉ trang trước đó từ session hoặc chuyển hướng mặc định
+            const returnTo = req.session.returnTo || '/home';
+            
+            // Xóa trường returnTo từ session
+            delete req.session.returnTo;
+
+            // Chuyển hướng người dùng về địa chỉ đã lưu
+            return res.redirect(returnTo);
+        });
     })(req, res, next);
 };
-
 const logoutUser = (req, res, next) => {
     req.logout((err) => {
         if (err) {

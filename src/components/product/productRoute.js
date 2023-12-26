@@ -8,8 +8,10 @@ productsRoute.get('/', productsController.getProductsPage);
 
 productsRoute.get('/:productid', productsController.getProductDetailPage);
 
+productsRoute.post('/:productid/addtocart', productsController.getProductDetailPage);
 
-productsRoute.post('/filter', productsController.filterProducts);
+
+
 
 
 

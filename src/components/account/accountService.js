@@ -1,6 +1,5 @@
 const User = require("./accountModel.js");
 const bcrypt = require("bcrypt");
-const { generalAccessToken, generalRefressToken } = require("./jwtService.js");
 
 const createUser =(userData)=>{
     return new Promise(async(resolve,reject)=>{
@@ -64,16 +63,7 @@ const loginUser =(userData,done)=>{
                     message: 'Invalid password'
                 })
             }
-            const access_token = await generalAccessToken(
-                {
-                    id: checkUser.id,
-                    isAdmin: checkUser.isAdmin
-                })
-            const refresh_token = await generalRefressToken(
-                {
-                    id: checkUser.id,
-                    isAdmin: checkUser.isAdmin
-                })
+           
 
             resolve({
                 status: "SUCCESS",

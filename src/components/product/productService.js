@@ -67,6 +67,8 @@ const getProductByName = async (data) => {
 };
 
 
+
+
 // Get the product detail page by id
 const getProductDetail = async (id) => {
     try {
@@ -164,27 +166,24 @@ const addProductReview = async (productId, userName, reviewText) => {
     }
 };
 
-const prodsSortedByDate = async (searchName) => {
+const prodsSortedByDate = async (products) => {
         
 
-        const products = await productModel.find({name:{$regex: new RegExp('^'+searchName+'.*','i')}}).exec().sort({ createdAt: -1 });
-        return products;
+    return products.sort((a, b) => a.createdAt - b.createdAt);
+
  
 };
 
-const prodsSortedByPrice = async (searchName) => {
+const prodsSortedByPrice = async (products) => {
     
-       
-        
-        const products = await productModel.find({name:{$regex: new RegExp('^'+searchName+'.*','i')}}).exec().sort({ price: 1 });
-        return products;
+    return products.sort((a, b) => a.price - b.price);
+
   
 };
 
-const prodsSortedByPriceDesc = async (searchName) => {
+const prodsSortedByPriceDesc = async (products) => {
        
-        const products = await productModel.find({name:{$regex: new RegExp('^'+searchName+'.*','i')}}).exec().sort({ price: -1 });
-        return products;
+    return products.sort((a, b) => b.price - a.price);
 
 };
 

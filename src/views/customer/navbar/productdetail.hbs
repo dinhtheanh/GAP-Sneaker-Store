@@ -98,7 +98,12 @@
                                             class="old_price">${{product.price}}</span></div>
                                 </div>
                                 <div class="col-lg-4 col-md-6">
-                                    <div class="btn_add_to_cart"><a href="#0" class="btn_1">Add to Cart</a></div>
+
+                                    <form method="post" action="addtocart" class="btn_add_to_cart">
+                                        <input type="hidden" name="userid" value="{{user._id}}">
+                                        <input type="hidden" name="productid" value="{{product._id}}">
+                                        <a href="#0" class="btn_1">Add to Cart</a>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -452,7 +457,8 @@
                         </div>
                     </div>
                     <div class="col-md-5 btn_panel">
-                        <a href="cart.html" class="btn_1 outline">View cart</a> <a href="checkout.html"
+                        <a href=/cart class="btn_1 outline">View cart</a> 
+                        <a href="checkout.html"
                             class="btn_1">Checkout</a>
                     </div>
                 </div>

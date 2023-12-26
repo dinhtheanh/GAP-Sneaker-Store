@@ -2,69 +2,47 @@ const Services = require("./productService.js");
 const async = require('hbs/lib/async')
 
 
-const filterProducts = async (req, res) => {
-    const selectedCategories = req.body.category || [];
-    const selectedColors = req.body.color || [];
-    const selectedBrands = req.body.brand || []
-    const selectedPrices = req.body.price || [];
 
-  
-
-    const filteredProducts = await Services.getFilteredProducts(
-        selectedCategories,
-        selectedColors,
-        selectedBrands,
-        selectedPrices
-    );
-
-    console.log(filteredProducts)
-
-    
-    let page = parseInt(req.query.page) || 1;
-    let limit = parseInt(req.query.limit) || 3;
-    let startIndex = (page - 1) * limit;
-    let endIndex = page * limit;
-
-    let results = {};
-
-    if (endIndex < filteredProducts.length) {
-        results.next = {
-            page: page + 1,
-            limit: limit
-        };
-    }
-
-    if (startIndex > 0) {
-        results.previous = {
-            page: page - 1,
-            limit: limit
-        };
-    }
-    // console.log(filteredProducts)
-    let totalPages = Math.ceil(filteredProducts.length / limit);
-    let pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-    results.current = filteredProducts.slice(startIndex, endIndex);
-    console.log(results.current)
-    res.render('customer/navbar/products', { layout: "/customer/layout", products: results.current, pagination: results, pages: pages,
-    currentPage: page, activeTab: 'product' });
-}
 
 
 // Get all the products from the database
 const getProductsPage = async (req, res) => {
     let products = [];
+    
     let sortby = req.query.sortby || 'date';
+    let colors = req.query.color || '';
+    let categories = req.query.category || '';
+    let brands = req.query.brand || '';
+    let pricerange = req.query.price || '';
+
+    let searchName = req.query.search || '';
+
+    
+    console.log(searchName,'hehe')
+
+    const allFiltersEmpty = (
+        categories.length === 0 &&
+        colors.length === 0 &&
+        brands.length === 0 &&
+        pricerange.length === 0
+    );
+
+    if (allFiltersEmpty) {
+        filteredProducts = await Services.getAllProducts();
+    } else {
+        filteredProducts = await Services.getFilteredProducts(categories, colors, brands, pricerange);
+    }
     //let sortedProducts = [];
     // Sorting logic
     switch (sortby) {
         case 'date':
-            products = await Services.prodsSortedByDate();
+            products = await Services.prodsSortedByDate(filteredProducts);
             break;
         case 'price':
-            products = await Services.prodsSortedByPrice();
+            products = await Services.prodsSortedByPrice(filteredProducts);
             break;
         case 'price-desc':
-            products = await Services.prodsSortedByPriceDesc();
+            products = await Services.prodsSortedByPriceDesc(filteredProducts);
             break;
         // Add other cases for different sorting methods
     }
@@ -91,10 +69,16 @@ const getProductsPage = async (req, res) => {
         };
     }
     let totalPages = Math.ceil(products.length / limit);
+
     let pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+
     results.current = products.slice(startIndex, endIndex);
     res.render('customer/navbar/products', {
-        layout: "/customer/layout", products: results.current, pagination: results, pages: pages,
+        layout: "/customer/layout", 
+        products: results.current, 
+        pagination: results, 
+        pages: pages,
         currentPage: page,
         activeTab: 'product',
         currentSort: sortby
@@ -111,7 +95,9 @@ const getProductDetailPage = async (req, res) => {
     res.render("customer/navbar/productdetail", { layout: "customer/layout", activeTab: 'product', product: product, relatedProducts: relatedProducts });
 };
 
-
+const addToCart = async(req,res) => {
+    
+}
 const addProduct = async (req, res) => {
     try {
        const name = req.body.name
@@ -148,5 +134,5 @@ module.exports = {
     getProductsPage,
     addProduct,
     getProductDetailPage,
-    filterProducts,
+    
 }

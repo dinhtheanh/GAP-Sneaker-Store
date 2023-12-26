@@ -6,6 +6,8 @@ const adminRoute = require('../components/admin/adminRoute');
 const homeRoute = require('../components/home/homeRoute');
 const searchRoute = require('../components/product/search/searchRoute')
 const reviewRoute = require('../components/product/review/reviewRoute')
+const cartRoute = require('../components/cart/cartRoute')
+
 function isAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -15,6 +17,10 @@ function isAuthenticated(req, res, next) {
 }
 myRoute.use('/', searchRoute);
 myRoute.use('/admin', adminRoute);
+myRoute.use('/cart', isAuthenticated,cartRoute);
+
+
+
 
 myRoute.use('/', homeRoute);
 
@@ -27,6 +33,7 @@ myRoute.get('/about', (req, res) => {
 myRoute.get('/contact', (req, res) => {
     res.render("customer/navbar/contact", { layout: "customer/layout", activeTab: 'contact' });
 });
+
 
 myRoute.use('/sign-up', userRouter.handleSignUp(myRoute));
 

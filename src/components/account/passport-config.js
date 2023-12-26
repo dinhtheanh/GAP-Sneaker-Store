@@ -34,6 +34,17 @@ passport.deserializeUser(async (id, done) => {
         done(error);
     }
 });
+
+const saveReturnTo = (req, res, next) => {
+    if (req.method === 'GET' && !req.isAuthenticated()) {
+        req.session.returnTo = req.originalUrl;
+    }
+    next();
+};
+
+// Sử dụng middleware saveReturnTo trong ứng dụng của bạn
+passport.use(saveReturnTo);
+
 // passport.use(new LocalStrategy(User.authenticate()));
 //passport.serializeUser(User.serializeUser());
 //passport.deserializeUser(User.deserializeUser());
