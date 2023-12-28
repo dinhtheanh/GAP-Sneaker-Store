@@ -6,7 +6,9 @@ const productRouter = require('../product/productRoute')
 const productController = require('../product/productController')
 // Routing for products
 
-adminRoute.get('/', adminController.getHomePage);
+adminRoute.get('/login', adminController.getLoginPage);
+
+adminRoute.get('/signup', adminController.getSignupPage);
 
 adminRoute.get('/customerstable', adminController.getCustomerListPage);
 

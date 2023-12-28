@@ -8,6 +8,10 @@ const getHomePage = (req, res) => {
     res.render("admin/layout");
 }
 
+const getLoginPage = (req, res) => {
+    res.render("admin/login");
+}
+
 const getAccountSettingsPage = (req, res) => {
     res.render("admin/accountsettings", {layout: "admin/layout"});
 }
@@ -27,6 +31,10 @@ const getAddProductPage = (req, res) => {
 const getMaintenancePage = (req, res) => {
     res.render("admin/maintenance");
 }
+
+const getSignupPage = (req, res) => {
+    res.render("admin/signup");
+}
 module.exports = {
     getCustomerListPage,
     getHomePage,
@@ -34,5 +42,7 @@ module.exports = {
     getOrderPage,
     getProductListPage,
     getAddProductPage,
-    getMaintenancePage
+    getMaintenancePage,
+    getLoginPage,
+    getSignupPage
 }
