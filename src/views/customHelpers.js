@@ -8,7 +8,7 @@ hbs.registerHelper('calcDiscount', function (price) {
         return discountedPrice.toFixed(2);
 });
 
-hbs.registerHelper('eq', function (arg1, arg2) {
+hbs.registerHelper('equal', function (arg1, arg2) {
         return arg1 == arg2;
 });
 

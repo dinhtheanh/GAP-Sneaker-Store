@@ -2,13 +2,10 @@
 const express = require('express');
 const adminController = require('./adminController');
 let adminRoute = express.Router();
-const productRouter = require('../product/productRoute')
 const productController = require('../product/productController')
 // Routing for products
 
 adminRoute.get('/login', adminController.getLoginPage);
-
-adminRoute.get('/signup', adminController.getSignupPage);
 
 adminRoute.get('/customerstable', adminController.getCustomerListPage);
 

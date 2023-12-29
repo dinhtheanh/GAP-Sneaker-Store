@@ -1,7 +1,9 @@
-const getCustomerListPage = (req, res) => {
-    //let products = await Services.getAllProducts();
-    //console.log(products);
-    res.render("admin/customerstable", {layout: "admin/layout"});
+const accountService = require('../account/accountService');
+
+const getCustomerListPage = async (req, res) => {
+    const data = await accountService.getAllUsers();
+    console.log(data);
+    res.render("admin/customerstable", {layout: "admin/layout", users: data["users"]});
 }
 
 const getHomePage = (req, res) => {
@@ -32,9 +34,6 @@ const getMaintenancePage = (req, res) => {
     res.render("admin/maintenance");
 }
 
-const getSignupPage = (req, res) => {
-    res.render("admin/signup");
-}
 module.exports = {
     getCustomerListPage,
     getHomePage,
@@ -43,6 +42,5 @@ module.exports = {
     getProductListPage,
     getAddProductPage,
     getMaintenancePage,
-    getLoginPage,
-    getSignupPage
+    getLoginPage
 }

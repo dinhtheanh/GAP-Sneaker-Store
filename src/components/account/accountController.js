@@ -2,7 +2,7 @@ const async = require('hbs/lib/async')
 const userSevice = require('./accountService.js')
 const passport = require('./passport-config');
 
-
+// Authenticating functions
 const createUser = async (req, res) => {
     
     try {
@@ -43,39 +43,7 @@ const createUser = async (req, res) => {
 
     }
 }
-// const loginUser = async (req,res)=>{
 
-//     try{
-//         const {email,password} = req.body
-//         const  reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-//         const isValidEmail = reg.test(email)
-//         console.log(password)
-//         if(!email||!password)
-//         {
-//             return res.status(200).json({
-//                 status: 'ERR',
-//                 message: 'The input is required'
-//             })
-//         }
-//         else if(!isValidEmail){
-//             return res.status(200).json({
-//                 status : 'ERR',
-//                 message: 'Not a valid email-address'
-//             })
-//         }
-
-
-//         const response = await userSevice.loginUser(req.body)
-
-//         return res.status(200).json(response)
-//     }
-//     catch(err){
-//         return res.status(404).json({
-//             message :err
-//         })
-
-//     }
-// }
 const loginUser = (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         if (err) {
@@ -115,7 +83,20 @@ const logoutUser = (req, res, next) => {
     });
 };
 
-
+// // Geting users
+// const getAllUsers = async (req, res) => {
+//     try {
+//         const response = await userSevice.getAllUsers()
+//         res.status(200).json({
+//             data: response
+//         })
+//     }
+//     catch (err) {
+//         res.status(404).json({
+//             message: err
+//         })
+//     }
+// }
 
 module.exports = {
     createUser,

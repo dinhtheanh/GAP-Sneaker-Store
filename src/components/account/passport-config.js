@@ -45,8 +45,4 @@ const saveReturnTo = (req, res, next) => {
 // Sử dụng middleware saveReturnTo trong ứng dụng của bạn
 passport.use(saveReturnTo);
 
-// passport.use(new LocalStrategy(User.authenticate()));
-//passport.serializeUser(User.serializeUser());
-//passport.deserializeUser(User.deserializeUser());
-
 module.exports = passport;
