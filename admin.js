@@ -14,6 +14,7 @@ const app = express();
 // Set the source of static files
 app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/src/views'));
+//app.set('view cache', false);
 
 // Set the view engine
 app.set("view engine", "hbs");

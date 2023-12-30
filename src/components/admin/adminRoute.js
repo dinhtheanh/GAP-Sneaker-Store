@@ -21,4 +21,6 @@ adminRoute.post('/addProductForm',productController.addProduct);
 
 adminRoute.get('/dashboard', adminController.getMaintenancePage);
 
+adminRoute.get('/api/search', adminController.searchCustomer);
+
 module.exports = adminRoute;

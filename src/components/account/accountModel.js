@@ -1,5 +1,5 @@
 const mongoose =require('mongoose')
-const passportLocalMongoose = require('passport-local-mongoose');
+//const passportLocalMongoose = require('passport-local-mongoose');
 
 const userSchema = new mongoose.Schema({
     name: {type: String, require:true},
@@ -8,14 +8,11 @@ const userSchema = new mongoose.Schema({
     address:{type:String,require:true},
     password: {type:String, require:true, minlength: 8},
     isAdmin :{type:Boolean,require:true,default:false},
-    acessToken:{type:String,require:true},
-    refreshToken:{type:String,require:true},
+    isBanned:{type:Boolean,require:true,default:false},
     },
     {
         timestamps:true
     })
-    
-userSchema.plugin(passportLocalMongoose);
-
+//userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 const User = mongoose.model('user',userSchema);
 module.exports = User; 

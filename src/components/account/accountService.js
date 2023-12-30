@@ -1,6 +1,49 @@
 const User = require("./accountModel.js");
 const bcrypt = require("bcrypt");
 
+const findUser = (keyword, filter, sortby) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Determine the filter field
+      let filterField;
+      if (filter === 'Name') {
+        filterField = 'name';
+      } else if (filter == "Email") {
+        // Add other filters as needed
+        filterField = 'email';
+      }
+
+      // Determine the sort order
+      let sortOrder;
+      if (sortby === 'nameasc') {
+        sortOrder = 'name';
+      } else if (sortby === 'namedes') {
+        sortOrder = '-name';
+      } else if (sortby === 'mailasc') {
+        sortOrder = 'email';
+        // Add other sort orders as needed
+      } else if (sortby === 'maildes') {
+        sortOrder = '-email';
+      } else if (sortby === 'timeasc') {
+        sortOrder = 'createdAt';
+      }
+      else if (sortby === 'timedes') {
+        sortOrder = '-createdAt';
+      }
+      // Build the query
+      let query = {};
+      query[filterField] = new RegExp(keyword, 'i');
+      // Execute the query
+      console.log(query)
+      console.log(sortOrder)
+      const users = await User.find(query).sort(sortOrder).exec();
+      resolve(users);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 const createUser = (userData) => {
   return new Promise(async (resolve, reject) => {
     const { name, email, password, cfpassword, phone, address } = userData;
@@ -90,5 +133,6 @@ const getAllUsers = () => {
 module.exports = {
   createUser,
   loginUser,
-  getAllUsers
+  getAllUsers,
+  findUser
 };

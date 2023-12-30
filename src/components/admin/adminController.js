@@ -34,6 +34,50 @@ const getMaintenancePage = (req, res) => {
     res.render("admin/maintenance");
 }
 
+const searchCustomer = async (req, res) => {
+    try {
+        const keyword = req.query.keyword;
+        const filter = req.query.filter;
+        const sort = req.query.sort;
+        const limit = parseInt(req.query.limit) || 2;
+        const page = parseInt(req.query.page)  || 1;
+
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+
+        const results = {};
+       
+
+        //console.log(payload);
+        const result = await accountService.findUser(keyword, filter, sort);
+        if (endIndex < result.length) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            };
+        }
+
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
+            };
+        }
+
+        const totalPages = Math.ceil(result.length / limit);
+        
+        
+
+        results.current = result.slice(startIndex, endIndex);
+
+        console.log(results.current);
+        res.status(200).send({ result: results.current, pages: totalPages, currentPage: page});
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     getCustomerListPage,
     getHomePage,
@@ -42,5 +86,6 @@ module.exports = {
     getProductListPage,
     getAddProductPage,
     getMaintenancePage,
-    getLoginPage
+    getLoginPage,
+    searchCustomer
 }
