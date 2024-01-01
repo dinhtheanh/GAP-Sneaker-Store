@@ -130,9 +130,16 @@ const getAllUsers = () => {
     };
 
 
+const getUserById = async (id) => {
+  const userFound = await User.findById(id);
+  console.log(userFound);
+  return userFound;
+}
+
 module.exports = {
   createUser,
   loginUser,
   getAllUsers,
-  findUser
+  findUser,
+  getUserById
 };

@@ -32,22 +32,21 @@
             </thead>
             <tbody class="table-border-bottom-0" id="template">
               {{#each users}}
+            
               <tr>
-                <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>{{this.name}}</strong></td>
-                <td>{{this.phone}}</td>
-                <td>{{this.email}}</td>
-                {{#if (equal this.isAdmin false)}}
-                <td><span class="badge bg-label-success me-1">Customer</span></td>
-                {{else}}
-                <td><span class="badge bg-label-warning me-1">Administrator</span></td>
-                {{/if}}
+                <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>{{this.name}} </strong></td>
+                <td> {{this.phone}} </td>
+                <td> {{this.email}} </td>
+                
+                <td><span class="badge {{#if this.isAdmin}}bg-label-warning{{else}}bg-label-success{{/if}} me-1"> {{#if this.isAdmin}} 'Admin'{{else}} 'Customer'{{/if}}  </span></td>
+                
                 <td>
                   <div class="dropdown">
                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i>
+                      <a class="dropdown-item" href="/customerstable/{{this._id}}"><i class="bx bx-edit-alt me-1"></i>
                         Edit</a>
                       <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i>
                         Delete</a>
@@ -57,32 +56,13 @@
                   </div>
                 </td>
               </tr>
+             
               {{/each}}
             </tbody>
           </table>
           <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
-              <li class="page-item prev">
-                <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-left"></i></a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0);">1</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0);">2</a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="javascript:void(0);">3</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0);">4</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0);">5</a>
-              </li>
-              <li class="page-item next">
-                <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-right"></i></a>
-              </li>
+              
             </ul>
           </nav>
         </div>
@@ -97,12 +77,12 @@
             <div class="col-md">
               <small class="text-light fw-semibold">Search by</small>
               <div class="form-check mt-3">
-                <input name="default-radio-1" class="form-check-input" type="radio" value="" id="defaultRadio1" />
+                <input name="default-radio-1" class="form-check-input" type="radio" value="" id="defaultRadio1" checked/>
                 <label class="form-check-label" for="defaultRadio1">Name</label>
               </div>
               <div class="form-check">
                 <input name="default-radio-1" class="form-check-input" type="radio" value="" id="defaultRadio2"
-                  checked />
+                   />
                 <label class="form-check-label" for="defaultRadio2">Email</label>
               </div>
 
@@ -207,7 +187,7 @@
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i>
+                      <a class="dropdown-item" href="` + "/customerstable/" + usersFetch[i]._id  + `"><i class="bx bx-edit-alt me-1"></i>
                         Edit</a>
                       <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i>
                         Delete</a>

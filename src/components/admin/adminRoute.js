@@ -23,4 +23,6 @@ adminRoute.get('/dashboard', adminController.getMaintenancePage);
 
 adminRoute.get('/api/search', adminController.searchCustomer);
 
+adminRoute.get('/customerstable/:id', adminController.getCustomerDetailsPage);
+
 module.exports = adminRoute;

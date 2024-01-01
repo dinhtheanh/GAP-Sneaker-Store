@@ -3,7 +3,7 @@ const accountService = require('../account/accountService');
 const getCustomerListPage = async (req, res) => {
     const data = await accountService.getAllUsers();
     console.log(data);
-    res.render("admin/customerstable", {layout: "admin/layout", users: data["users"]});
+    res.render("admin/customerstable", {layout: "admin/layout", users: data['users']});
 }
 
 const getHomePage = (req, res) => {
@@ -78,6 +78,18 @@ const searchCustomer = async (req, res) => {
     }
 }
 
+const getCustomerDetailsPage = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await accountService.getUserById(id);
+        res.render("admin/customerdetail", {layout: "admin/layout", user: result});
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+
+}
+
 module.exports = {
     getCustomerListPage,
     getHomePage,
@@ -87,5 +99,6 @@ module.exports = {
     getAddProductPage,
     getMaintenancePage,
     getLoginPage,
-    searchCustomer
+    searchCustomer,
+    getCustomerDetailsPage
 }
