@@ -46,12 +46,14 @@
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="/customerstable/{{this._id}}"><i class="bx bx-edit-alt me-1"></i>
+                      <a class="dropdown-item" href="customerstable/{{this._id}}"><i class="bx bx-edit-alt me-1"></i>
                         Edit</a>
                       <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i>
                         Delete</a>
-                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i>
-                        Ban/Unban</a>
+                      <a class="dropdown-item" href="ban/{{this._id}}"><i class="bx bx-trash me-1"></i>
+                        Ban</a>
+                        <a class="dropdown-item" href="unban/{{this._id}}"><i class="bx bx-trash me-1"></i>
+                        Unban</a>
                     </div>
                   </div>
                 </td>
@@ -150,7 +152,7 @@
     const search = (keyword, filter, sort, page) => {
       console.log(keyword, filter, sort);
 
-      const url = new URL('/api/search', window.location.origin);
+      const url = new URL('/admin/api/search', window.location.origin);
       url.searchParams.append('limit', '2');
       url.searchParams.append('page', page);
       url.searchParams.append('keyword', keyword);
@@ -187,7 +189,7 @@
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="` + "/customerstable/" + usersFetch[i]._id  + `"><i class="bx bx-edit-alt me-1"></i>
+                      <a class="dropdown-item" href="` + "customerstable/" + usersFetch[i]._id  + `"><i class="bx bx-edit-alt me-1"></i>
                         Edit</a>
                       <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i>
                         Delete</a>

@@ -1,0 +1,47 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Customers
+            /</span>
+        Customer's Details</h4>
+    <div class="col-xl">
+        <div class="card">
+
+            <div class="card-body">
+                <form method="POST" action="/change-account-permission">
+                    <div class="mb-3">
+                        <label class="form-label" for="id">ID</label>
+                        <input type="text" class="form-control" id="id" placeholder="{{user.id}}" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="{{user.name}}" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-email">Email</label>
+                        <div class="input-group input-group-merge">
+                            <input type="text" id="basic-default-email" class="form-control"
+                                placeholder="{{user.email}}" aria-label="john.doe"
+                                aria-describedby="basic-default-email2" readonly />
+                        </div>
+                    </div>
+                    <div class="mb-">
+                        <label class="form-label" for="basic-default-phone">Phone Number</label>
+                        <input type="text" id="basic-default-phone" class="form-control phone-mask"
+                            placeholder="{{user.phone}}" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="address">Address</label>
+                        <input type="text" class="form-control" id="address" placeholder="{{user.address}}" readonly />
+
+                    </div>
+                    <div class="form-check form-check-inline mt-3 mb-3">
+                        <label class="form-check-label" for="inlineCheckbox1">Administrator</label>
+
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" {{#if user.isAdmin}}checked{{/if}}/>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

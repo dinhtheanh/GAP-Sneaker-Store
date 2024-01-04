@@ -59,7 +59,7 @@ const loginUser = (req, res, next) => {
             if (err) {
                 return next(err);
             }
-
+            if (user.isAdmin == false) {
             // Lấy địa chỉ trang trước đó từ session hoặc chuyển hướng mặc định
             const returnTo = req.session.returnTo || '/home';
             
@@ -68,6 +68,12 @@ const loginUser = (req, res, next) => {
 
             // Chuyển hướng người dùng về địa chỉ đã lưu
             return res.redirect(returnTo);
+            }
+            else {
+                const returnTo = '/admin';
+                
+                return res.redirect(returnTo);
+            }
         });
     })(req, res, next);
 };

@@ -10,6 +10,7 @@ const getMaxPrice = (selectedPrices, priceRanges) => {
     return Math.max(...selectedPrices.map(price => priceRanges[price].max));
 };
 
+
 const getFilteredProducts = async (selectedCategories, selectedColors, selectedManufacturer, selectedPrices) => {
     try {
         const priceRanges = {
@@ -56,15 +57,7 @@ const getAllProducts = async () => {
         throw new Error('Unable to fetch products');
     }
 };
-const getProductByName = async (data) => {
-    try {
-        const products = await productModel.find({name:data});
-        return products;
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        throw new Error('Unable to fetch products');
-    }
-};
+
 
 
 
@@ -132,6 +125,33 @@ const addProduct = async (name,price,category,size,color,brand,image) => {
 
 }
 
+const findProduct = async (keyword, cateFilter, manuFilter, sort) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let query = {};
+            query['category'] = cateFilter == 'sportfilter' ? 'Sport' : 'Fashion';
+            query['manufacturer'] = manuFilter == 'nikefilter' ? 'Nike' : 'Adidas';
+            query['name'] = new RegExp(keyword, 'i');
+
+            let sortby;
+            if (sort === 'priceasc') {
+                sortby = 'price';
+            } else if (sort === 'pricedes'){
+                sortby = '-price';
+            } else if (sort === 'timeasc'){
+                sortby = 'createdAt';
+            } else if (sort === 'timedes'){
+                sortby = '-createdAt';
+            }
+            console.log(query);
+            const products = await productModel.find(query).sort(sortby).exec();
+            resolve(products);
+        } catch (error){
+            reject(error);
+        }
+    });
+}
+
 const addProductReview = async (productId, userName, reviewText) => {
     try {
         const product = await productModel.findById(productId);
@@ -196,5 +216,6 @@ module.exports = {
     prodsSortedByDate,
     prodsSortedByPrice,
     prodsSortedByPriceDesc,
-    getFilteredProducts
+    getFilteredProducts,
+    findProduct
 }

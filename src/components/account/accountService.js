@@ -80,6 +80,39 @@ const createUser = (userData) => {
   });
 };
 
+//const updateUserProfile()
+
+const unbanUser = async (id) => {
+  try {
+    User.findByIdAndUpdate({ _id: id}, {isBanned: false}, {new: true}).then((result) => {
+      if (result != null){
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+const banUser = async (id) => {
+  try {
+    User.findByIdAndUpdate({ _id: id}, {isBanned: true}, {new: true}).then((result) => {
+      if (result != null){
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 
 const loginUser = (userData, done) => {
   return new Promise(async (resolve, reject) => {
@@ -141,5 +174,7 @@ module.exports = {
   loginUser,
   getAllUsers,
   findUser,
-  getUserById
+  getUserById,
+  banUser,
+  unbanUser
 };

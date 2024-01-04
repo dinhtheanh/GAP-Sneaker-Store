@@ -21,7 +21,9 @@ app.use(session({
     secret: 'theanhngu', // Add a strong, secure secret key
     resave: false,
     saveUninitialized: false,
-    //store: MongoStore.create({ mongoUrl: process.env.URL_DB })
+    cookie: {
+        maxAge: 10 * 60 * 1000 // Sets the maximum age (in milliseconds) of the session
+    }
 }));
 
 // Initialize Passport middleware
@@ -37,7 +39,7 @@ async function EstablishConnection(){
 }
 
 app.use('/', initRouteWeb);
-
+//app.use('/admin', adminRoute);
 
 
 // Start the server
