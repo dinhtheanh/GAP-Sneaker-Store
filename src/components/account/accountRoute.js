@@ -1,5 +1,5 @@
 const userController = require('./accountController.js')
-
+const multer = require('multer');
 const handleSignUp = (router) => {
     router.post('/sign-up', userController.createUser);
     router.get('/sign-up', (req, res) => {
@@ -20,8 +20,17 @@ const handleLogout = (router)=>{
     router.post('/log-out', userController.logoutUser);
     return router;
 }
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
+const handleChangeProfile = (router)=>{
+    router.post('/update-profile',upload.single('avatar'),userController.changeProfile);
+    return router;
+}
 module.exports = {
     handleSignUp,
     handleLogin,
-    handleLogout
+    handleLogout,
+    handleChangeProfile
 }

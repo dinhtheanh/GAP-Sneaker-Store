@@ -1,5 +1,28 @@
 const User = require("./accountModel.js");
 const bcrypt = require("bcrypt");
+const changeProfile = async (data,avatar,id)=>{
+    try {
+        const user = await User.findById(id);
+
+        user.name = data.name ? data.name : user.name;
+        user.address = data.address ? data.address : user.address;
+        user.phone = data.phone ? data.phone : user.phone;
+        user.gender = data.gender ? data.gender : user.gender;
+        if (avatar) {
+            const imgBuffer = avatar.buffer.toString('base64');
+            const imgBase64 = `data:${avatar.mimetype};base64,${imgBuffer}`;
+            user.img = imgBase64;
+        }
+
+        // Convert the buffer to a base64-encoded string
+        
+        await user.save();
+        
+        // Trả về một giá trị hoặc thông báo nếu cần thiết
+        return { success: true, message: 'Profile updated successfully' };
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        throw new Error('Internal Server Error');}};
 
 const createUser =(userData)=>{
     return new Promise(async(resolve,reject)=>{
@@ -79,7 +102,28 @@ const loginUser =(userData,done)=>{
     })
 }
 
+const clearCart=async  (userId) =>{
+    try {
+        // Find the user by ID
+        const user = await User.findById(userId);
+
+        // Assuming your user model has a 'cart' property
+        user.cart = [];
+
+        // Save the updated user with an empty cart
+        await user.save();
+
+        
+        return true; // Indicate success
+    } catch (error) {
+        console.log(error);
+        return false; // Indicate failure
+    }
+
+};
 module.exports ={
     createUser,
-    loginUser
+    loginUser,
+    clearCart,
+    changeProfile
 }

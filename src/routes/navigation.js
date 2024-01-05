@@ -7,20 +7,22 @@ const homeRoute = require('../components/home/homeRoute');
 const searchRoute = require('../components/product/search/searchRoute')
 const reviewRoute = require('../components/product/review/reviewRoute')
 const cartRoute = require('../components/cart/cartRoute')
+const orderRoute = require('../components/order/orderRoute')
+const passport = require('passport');
+const isAuthenticated = require('../components/account/isAuthenticated');
 
-function isAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    // If not authenticated, redirect to a login page or return an error
-    res.redirect('/log-in'); // or res.status(401).send('Not authenticated');
-}
 myRoute.use('/', searchRoute);
 myRoute.use('/admin', adminRoute);
-myRoute.use('/cart', isAuthenticated,cartRoute);
+myRoute.use('/cart',isAuthenticated,cartRoute);
+myRoute.use('/orderlist',isAuthenticated,orderRoute);
+myRoute.get('/countProduct', (req, res) => {
+    const totalQuantity = req.user.cart.reduce((total, item) => total + item.quantity, 0);
+    res.json({ count: totalQuantity });
+});
 
-
-
+myRoute.get('/confirm', (req, res) => {
+    res.render("customer/navbar/confirm", { layout: "customer/layout", activeTab: 'about' });
+});
 
 myRoute.use('/', homeRoute);
 
@@ -41,13 +43,15 @@ myRoute.use('/log-in', userRouter.handleLogin(myRoute));
 
 
 
-myRoute.get('/protect', isAuthenticated, (req, res) => {
+myRoute.get('/profile',isAuthenticated, (req, res) => {
     res.render("customer/protectPage", { layout: "customer/layout", user: req.user });
 });
 
+myRoute.use('/update-profile', userRouter.handleChangeProfile(myRoute));
+
 
 myRoute.get('/log-out', userRouter.handleLogout(myRoute));
-myRoute.use('/review', isAuthenticated, reviewRoute);
+myRoute.use('/review', isAuthenticated,reviewRoute);
 
 
 

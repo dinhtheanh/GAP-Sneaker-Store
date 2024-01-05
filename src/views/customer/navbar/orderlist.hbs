@@ -1,0 +1,116 @@
+<link href="/customer/css/cart.css" rel="stylesheet">
+<link href="/customer/css/style.css" rel="stylesheet">
+
+<div>
+	
+	<div id = "page">
+		<main class="bg_gray">
+			<div class="container margin_30">
+                <div class="page_header">
+                    <div class="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li>Your orders</li>
+                        </ul>
+                    </div>
+                    <h1>Your Orders</h1>
+                </div>
+            
+			<!-- /page_header -->
+            {{#each orders}}
+            <div class="form_container">
+                <table class="table table-striped cart-list">
+                    <thead>
+                        <tr>
+                            <th>
+                                Products
+                            </th>
+                            <th>
+                                Price
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+                            <td>
+                                <div class="thumb_cart">
+                                    <img src={{productId.img.[0]}} class="lazy" alt="Image">
+                                </div>
+                                <span class="item_cart">{{productId.name}}</span>
+                            </td>
+                            <td>
+                                <strong>{{productId.price}}</strong>
+                            </td>
+                            <td>
+                                <strong>{{quantity}}</strong>
+                            </td>
+                
+
+                        </tr>
+                            
+                        {{/each}}
+                        
+                        
+                    </tbody>
+                        
+                </table>
+                <hr class="custom-hr">
+                
+                  <div class="d-flex justify-content-between ">
+                            <th>
+                                <h5 
+                                style="color : rgb(41, 85, 167);
+                                font-weight: bold;">
+                                Status: {{status}}
+                                </h5>
+                            </th>
+                            <th>
+                                <h5 style="color : rgb(41, 85, 167);
+                                font-weight: bold;">
+                                Shipping Method: {{shippingMethod}}
+                                </h5>
+                            </th>
+                            <th>
+                                <h4 style="color : rgb(167, 41, 41);
+                                font-weight: bold;">
+                                Total Pay: {{totalPay}}$
+                                </h4>
+                            </th>
+                           
+                         
+                        </div>
+            </div>
+            {{/each}}
+
+			</div>			
+		</main>
+	</div>
+</div>
+<style>
+    .form_container {
+    background-color: #fff;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    position: relative;
+    margin-bottom: 30px;
+    }
+    .custom-hr {
+        margin-top: 0;
+        margin-bottom: 10px;
+        }
+    .th .h5{
+        color: red;
+    }
+</style>
+
+<script>
+		
+  
+</script>

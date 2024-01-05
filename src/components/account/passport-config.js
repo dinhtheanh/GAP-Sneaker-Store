@@ -8,7 +8,7 @@ passport.use(new LocalStrategy({usernameField: 'email'}, async (email, password,
         try {
             const userData = { email, password };
             const userR = await accountService.loginUser(userData);
-            console.log(userR.checkUser);
+            
 
             if (userR.status === 'ERR') {
                 console.log("Failed to login");
@@ -35,18 +35,10 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-const saveReturnTo = (req, res, next) => {
-    if (req.method === 'GET' && !req.isAuthenticated()) {
-        req.session.returnTo = req.originalUrl;
-    }
-    next();
-};
 
-// Sử dụng middleware saveReturnTo trong ứng dụng của bạn
-passport.use(saveReturnTo);
 
 // passport.use(new LocalStrategy(User.authenticate()));
-//passport.serializeUser(User.serializeUser());
-//passport.deserializeUser(User.deserializeUser());
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 module.exports = passport;
