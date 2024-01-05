@@ -1,8 +1,24 @@
 const Services = require("./productService.js");
+const User = require("../account/accountModel.js");
+
 const async = require('hbs/lib/async')
 
 
+function getIntersection(listA, listB) {
+    const intersection = [];
 
+    for (const itemA of listA) {
+        for (const itemB of listB) {
+            if (itemA.name === itemB.name) {
+                intersection.push(itemA);
+                break;
+            }
+        }
+    }
+
+    console.log(intersection)
+    return intersection;
+}
 
 
 // Get all the products from the database
@@ -18,8 +34,7 @@ const getProductsPage = async (req, res) => {
     let searchName = req.query.search || '';
 
     
-    console.log(searchName,'hehe')
-
+    
     const allFiltersEmpty = (
         categories.length === 0 &&
         colors.length === 0 &&
@@ -32,20 +47,32 @@ const getProductsPage = async (req, res) => {
     } else {
         filteredProducts = await Services.getFilteredProducts(categories, colors, brands, pricerange);
     }
+
+    if(searchName==='')
+    {
+        searchProduct = await Services.getAllProducts();
+    }
+    else{
+        searchProduct = await Services.getProductByName(searchName);
+    }
+    const intersectedResults = getIntersection(filteredProducts, searchProduct);
+    
     //let sortedProducts = [];
     // Sorting logic
     switch (sortby) {
         case 'date':
-            products = await Services.prodsSortedByDate(filteredProducts);
+            products = await Services.prodsSortedByDate(intersectedResults);
             break;
         case 'price':
-            products = await Services.prodsSortedByPrice(filteredProducts);
+            products = await Services.prodsSortedByPrice(intersectedResults);
             break;
         case 'price-desc':
-            products = await Services.prodsSortedByPriceDesc(filteredProducts);
+            products = await Services.prodsSortedByPriceDesc(intersectedResults);
             break;
         // Add other cases for different sorting methods
     }
+
+    
     //products = sortedProducts;
     // res.render("customer/navbar/products", { layout: "customer/layout", products: products, activeTab: 'product' });
     let page = parseInt(req.query.page) || 1;
@@ -95,9 +122,7 @@ const getProductDetailPage = async (req, res) => {
     res.render("customer/navbar/productdetail", { layout: "customer/layout", activeTab: 'product', product: product, relatedProducts: relatedProducts });
 };
 
-const addToCart = async(req,res) => {
-    
-}
+
 const addProduct = async (req, res) => {
     try {
        const name = req.body.name
@@ -134,5 +159,6 @@ module.exports = {
     getProductsPage,
     addProduct,
     getProductDetailPage,
+    
     
 }

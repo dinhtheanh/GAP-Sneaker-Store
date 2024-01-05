@@ -9,8 +9,12 @@ const getMinPrice = (selectedPrices, priceRanges) => {
 const getMaxPrice = (selectedPrices, priceRanges) => {
     return Math.max(...selectedPrices.map(price => priceRanges[price].max));
 };
-
-
+const updateStock = async (productid,quantity) =>{
+    const product = await productModel.findById(productid);
+    product.stock -= quantity;
+    await product.save();
+    return product;
+};
 const getFilteredProducts = async (selectedCategories, selectedColors, selectedManufacturer, selectedPrices) => {
     try {
         const priceRanges = {
@@ -57,7 +61,26 @@ const getAllProducts = async () => {
         throw new Error('Unable to fetch products');
     }
 };
+const getProductByName = async (data) => {
+    try {
+        const products = await productModel.find({ name: { $regex: new RegExp(data, 'i') } }).exec();;
 
+        return products;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw new Error('Unable to fetch products');
+    }
+};
+const getProductById = async (productIds) =>{
+    try{
+        const products = await productModel.find({ _id: { $in: productIds } });
+        
+        return products;
+    }catch (error) {
+        console.error('Error fetching products:', error);
+        throw new Error('Unable to fetch products');
+    }
+};
 
 
 
@@ -238,5 +261,8 @@ module.exports = {
     findProduct,
     addProductImage,
     deleteProductImage,
-    updateProduct
+    updateProduct,
+    getProductById,
+    updateStock,
+    getProductByName
 }

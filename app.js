@@ -10,20 +10,21 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const MongoStore = require('connect-mongo');
 
+
 // Server Initialization 
 const app = express();
 app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', path.join(__dirname, '/src/views'));
 app.set("view engine", "hbs");
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(session({
     secret: 'theanhngu', // Add a strong, secure secret key
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 10 * 60 * 1000 // Sets the maximum age (in milliseconds) of the session
-    }
+    saveUninitialized: true,
+    
+    //store: MongoStore.create({ mongoUrl: process.env.URL_DB })
 }));
 
 // Initialize Passport middleware

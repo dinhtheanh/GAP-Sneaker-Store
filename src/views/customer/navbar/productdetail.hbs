@@ -63,7 +63,7 @@
                                     class="icon-star voted"></i><i class="icon-star voted"></i><i
                                     class="icon-star"></i><em>4 reviews</em></span>
 
-                            <div class="prod_options">
+                            <form method="post" action="{{product._id}}/addtocart" class="prod_options">
                                 <div class="row">
                                     <label class="col-xl-5 col-lg-5  col-md-6 col-6 pt-0"><strong>Color</strong></label>
 
@@ -74,7 +74,7 @@
                                                 class="ti-help-alt"></i></a></label>
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                         <div class="custom-select-form">
-                                            <select class="wide">
+                                            <select class="wide"name ="size"> 
                                                 {{#each product.size}}
                                                 <option value="{{this}}">{{this}}</option>
                                                 {{/each}}
@@ -86,7 +86,7 @@
                                     <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Quantity</strong></label>
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                         <div class="numbers-row">
-                                            <input type="text" value="1" id="quantity_1" class="qty2" name="quantity_1">
+                                            <input type="text" value="1" id="quantity_1" class="qty2" name="quantity">
                                         </div>
                                     </div>
                                 </div>
@@ -99,14 +99,14 @@
                                 </div>
                                 <div class="col-lg-4 col-md-6">
 
-                                    <form method="post" action="addtocart" class="btn_add_to_cart">
-                                        <input type="hidden" name="userid" value="{{user._id}}">
-                                        <input type="hidden" name="productid" value="{{product._id}}">
-                                        <a href="#0" class="btn_1">Add to Cart</a>
-                                    </form>
+                                    <div  class="btn_add_to_cart">
+                                        <input type="hidden" name="userid" value="{{user.name}}">
+                                        {{!-- <button href="#0" type= "submit" class="btn_1">Add to Cart</button> --}}
+                                        <button  type= "submit" class="btn_1">Add to Cart</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                         <!-- /prod_info -->
                         <div class="product_actions">
                             <ul>
@@ -217,7 +217,7 @@
                                         </div>
                                         {{/each}}
                                     <!-- /row -->
-                                    <p class="text-end"><a href=/review/{{product.id}} class="btn_1">Leave a review</a>
+                                    <p class="text-end"><a href=/review/{{product._id}} class="btn_1">Leave a review</a>
                                     </p>
                                 </div>
                                 <!-- /card-body -->

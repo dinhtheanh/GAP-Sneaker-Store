@@ -10,7 +10,6 @@ const getProductReviewPage = async (req, res) => {
 
 const submitReview = async (req, res) => {
     const productId = req.params.productid;
-    console.log(productId)
     const userName = req.body.userName;
     const reviewText = req.body.review;
 
@@ -25,9 +24,11 @@ const submitReview = async (req, res) => {
         const response = await Services.addProductReview(productId, userName, reviewText);
         res.redirect('/products/' + productId);
     } catch (error) {
+        
+
         console.error('Error adding review:', error);
         res.status(500).json({
-            status: 'ERR',
+            status: 'ERR', 
             message: 'Internal Server Error'
         });
     }
