@@ -33,6 +33,8 @@ adminRoute.get('/productlist/:id', adminController.getProductDetailsPage);
 
 adminRoute.get('/api/search-for-products', adminController.searchProduct);
 
+adminRoute.get('/orderdetails', adminController.getOrderDetailsPage);
+
 adminRoute.post('/ban/:id', adminController.banUser);
 
 adminRoute.post('/unban/:id', adminController.unbanUser);

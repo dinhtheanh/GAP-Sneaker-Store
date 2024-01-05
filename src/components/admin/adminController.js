@@ -6,6 +6,10 @@ const getCustomerListPage = async (req, res) => {
     res.render("admin/customerstable", {layout: "admin/layout", users: data['users']});
 }
 
+const getOrderDetailsPage = async (req, res) => {
+    res.render("admin/orderdetail", {layout: "admin/layout"});
+}
+
 const getProductDetailsPage = async (req, res) => {
     const data = await productService.getProductDetail(req.params.id);
     res.render("admin/productdetail", {layout: "admin/layout", product: data});
@@ -257,5 +261,6 @@ module.exports = {
     changeAdminProfile,
     updateProduct,
     uploadImageProduct,
-    deleteProductImage
+    deleteProductImage,
+    getOrderDetailsPage
 }

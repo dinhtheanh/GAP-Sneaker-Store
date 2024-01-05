@@ -1,130 +1,129 @@
 <div class="container-xxl flex-grow-1 container-p-y">
-  <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Products
-      /</span>
-    Orders</h4>
-  <div class="col-12 mb-3">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Products
+            /</span>
+        Orders</h4>
+    <div class="col-12 mb-3">
 
-    <div class="d-flex align-items-center">
 
-      <input type="text" id="search-box" class="form-control border-0 shadow-none" placeholder="Search..."
-        aria-label="Search..." />
+
     </div>
+    <div class="row">
 
-  </div>
-  <div class="row">
+        <div class="col-xl-9">
+            <div class="card">
+                <h5 class="card-header">ORDERS</h5>
+                <div class="">
 
-    <div class="col-xl-9">
-      <div class="card">
-        <h5 class="card-header">CUSTOMERS</h5>
-        <div class="">
+                </div>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Order ID</th>
+                                <th>Shipping Method</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0" id="template">
+                            {{#each users}}
 
+                            <tr>
+                                <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>{{this.name}} </strong>
+                                </td>
+                                <td> {{this.phone}} </td>
+                                <td> {{this.email}} </td>
+
+                                <td><span
+                                        class="badge {{#if this.isAdmin}}bg-label-warning{{else}}bg-label-success{{/if}} me-1">
+                                        {{#if
+                                        this.isAdmin}} 'Admin'{{else}} 'Customer'{{/if}} </span></td>
+
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                            data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="customerstable/{{this._id}}"><i
+                                                    class="bx bx-edit-alt me-1"></i>
+                                                Edit</a>
+
+                                            <a class="dropdown-item" onclick="ban('{{this._id}}')"><i
+                                                    class="bx bx-trash me-1"></i>
+                                                Ban</a>
+                                            <a class="dropdown-item" onclick="unban('{{this._id}}')"><i
+                                                    class="bx bx-trash me-1"></i>
+                                                Unban</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
-        <div class="table-responsive text-nowrap">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Type</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody class="table-border-bottom-0" id="template">
-              {{#each users}}
+        <div class="col-xl-3">
+            <div class="card mb-4">
+                <h5 class="card-header">Filter and sort</h5>
+                <!-- Checkboxes and Radios -->
+                <div class="card-body">
+                    <div class="row gy-3">
+                        <div class="col-md">
+                            <small class="text-light fw-semibold">Filter by</small>
+                            <div class="mb-3">
+                                <select id="status" class="form-select">
+                                    <option value="preparing">Preparing</option>
+                                    <option value="delivering">Delivering</option>
+                                    <option value="success">Successfully Delivered</option>
+                                    <option value="delay">Delayed</option>
+                                    <option value="cancel">Canceled</option>
+                                </select>
+                            </div>
 
-              <tr>
-                <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>{{this.name}} </strong></td>
-                <td> {{this.phone}} </td>
-                <td> {{this.email}} </td>
+                        </div>
 
-                <td><span class="badge {{#if this.isAdmin}}bg-label-warning{{else}}bg-label-success{{/if}} me-1"> {{#if
-                    this.isAdmin}} 'Admin'{{else}} 'Customer'{{/if}} </span></td>
-
-                <td>
-                  <div class="dropdown">
-                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                      <i class="bx bx-dots-vertical-rounded"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="customerstable/{{this._id}}"><i class="bx bx-edit-alt me-1"></i>
-                        Edit</a>
-                  
-                      <a class="dropdown-item" onclick="ban('{{this._id}}')"><i class="bx bx-trash me-1"></i>
-                        Ban</a>
-                      <a class="dropdown-item" onclick="unban('{{this._id}}')"><i class="bx bx-trash me-1"></i>
-                        Unban</a>
                     </div>
-                  </div>
-                </td>
-              </tr>
+                </div>
+                <hr class="m-0" />
+                <div class="card-body">
+                    <small class="text-light fw-semibold">Sort by</small>
 
-              {{/each}}
-            </tbody>
-          </table>
-          <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
+                    <div class="mb-3">
+                        <select id="time" class="form-select">
+                            <option value="timeasc">Create time: oldest to lastest</option>
+                            <option value="timedes">Create time: lastest to oldest</option>
+                        </select>
+                    </div>
 
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3">
-      <div class="card mb-4">
-        <h5 class="card-header">Filter and sort</h5>
-        <!-- Checkboxes and Radios -->
-        <div class="card-body">
-          <div class="row gy-3">
-            <div class="col-md">
-              <small class="text-light fw-semibold">Search by</small>
-              <div class="form-check mt-3">
-                <input name="default-radio-1" class="form-check-input" type="radio" value="" id="defaultRadio1"
-                  checked />
-                <label class="form-check-label" for="defaultRadio1">Name</label>
-              </div>
-              <div class="form-check">
-                <input name="default-radio-1" class="form-check-input" type="radio" value="" id="defaultRadio2" />
-                <label class="form-check-label" for="defaultRadio2">Email</label>
-              </div>
+                </div>
+                <!-- Inline Checkboxes -->
 
             </div>
 
-          </div>
         </div>
-        <hr class="m-0" />
-        <div class="card-body">
-          <small class="text-light fw-semibold">Sort by</small>
-
-          <div class="mb-3">
-            <select id="defaultSelect" class="form-select">
-              <option value="nameasc">Name: A - Z</option>
-              <option value="namedes">Name: Z - A</option>
-              <option value="mailasc">Email: A - Z</option>
-              <option value="maildes">Email: Z - A</option>
-              <option value="timeasc">Create time: oldest to lastest</option>
-              <option value="timedes">Create time: lastest to oldest</option>
-            </select>
-          </div>
-
-        </div>
-        <!-- Inline Checkboxes -->
-
-      </div>
 
     </div>
+    <script src="https://unpkg.com/handlebars@latest/dist/handlebars.min.js"></script>
+    <script>
 
-  </div>
-  <script src="https://unpkg.com/handlebars@latest/dist/handlebars.min.js"></script>
-  <script>
-    
 
-    
 
-   
 
-  </script>
 
-  
+
+    </script>
+
+
 
 </div>
