@@ -24,6 +24,7 @@ const productSchema = new mongoose.Schema({
     color: [String],
     reviews: [reviewSchema],
     createdAt: Date,
+    stock: Number
 });
 
 const Product = mongoose.model("product", productSchema, 'product');

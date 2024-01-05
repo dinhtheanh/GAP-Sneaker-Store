@@ -10,70 +10,42 @@
         <!-- Account -->
         <hr class="my-0" />
         <div class="card-body">
-          <form id="formAccountSettings" method="POST" onsubmit="return false">
+          <form id="formAccountSettings" onsubmit="event.preventDefault();saveNewProfile('{{user.id}}');">
             <div class="row">
               <div class="mb-3 col-md-6">
                 <label for="name" class="form-label">Name</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value="{{user.name}}"
-                  autofocus
-                
-                />
+                <input class="form-control" type="text" id="name" name="name" value="{{user.name}}" autofocus />
               </div>
               <div class="mb-3 col-md-6">
                 <label for="email" class="form-label">E-mail</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  id="email"
-                  name="email"
-                  value="{{user.email}}"
-                  placeholder="john.doe@example.com"
-                />
+                <input class="form-control" type="text" id="email" name="email" value="{{user.email}}"
+                  placeholder="john.doe@example.com" />
               </div>
 
               <div class="mb-3 col-md-6">
                 <label class="form-label" for="phoneNumber">Phone Number</label>
                 <div class="input-group input-group-merge">
-                  <input
-                    type="text"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    class="form-control"
-                    placeholder="202 555 0111"
-                    value="{{user.phone}}"
-                  />
+                  <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="202 555 0111"
+                    value="{{user.phone}}" />
                 </div>
               </div>
               <div class="mb-3 col-md-6">
                 <label for="address" class="form-label">Address</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="address"
-                  name="address"
-                  placeholder="Address"
-                  value="{{user.address}}"
-                />
+                <input type="text" class="form-control" id="address" name="address" placeholder="Address"
+                  value="{{user.address}}" />
               </div>
 
             </div>
             <div class="mt-2">
-              <button type="submit" class="btn btn-primary me-2">Save changes</button>
-              <button
-                type="reset"
-                class="btn btn-outline-secondary"
-              >Cancel</button>
+              <button type="submit" class="btn btn-primary me-2" >Save
+                changes</button>
+
             </div>
           </form>
         </div>
         <!-- /Account -->
       </div>
-      
+
     </div>
   </div>
 
@@ -81,9 +53,7 @@
   <script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
   <script src="/admin/assets/vendor/libs/popper/popper.js"></script>
   <script src="/admin/assets/vendor/js/bootstrap.js"></script>
-  <script
-    src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"
-  ></script>
+  <script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
   <script src="/admin/assets/vendor/js/menu.js"></script>
   <!-- endbuild -->
@@ -91,13 +61,48 @@
   <!-- Vendors JS -->
 
   <!-- Main JS -->
-  <script src="/admin/assets/js/main.js"></script>
+
 
   <!-- Page JS -->
   <script src="/admin/assets/js/pages-account-settings-account.js"></script>
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <script>
+    function saveNewProfile(id) {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phoneNumber = document.getElementById("phoneNumber").value;
+      const address = document.getElementById("address").value;
+      const data = {
+        id: id,
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+      };
+
+      const url = new URL('/admin/change-profile', window.location.origin);
+      //console.log(JSON.stringify(data));
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      }).then((response) => response.json())
+        .then((data) => {
+          if (data.result == "success")
+            alert("Change profile successfully!");
+          else alert("Change profile failed!");
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+
+    }
+  </script>
 
 </div>
 <!-- / Content -->

@@ -101,8 +101,8 @@
     </div>
     <script src="https://unpkg.com/handlebars@latest/dist/handlebars.min.js"></script>
     <script>
-        let selectedCateFilter = "sportfilter"; // default mode
-        let selectedManuFilter = "nikefilter"; // default mode
+        let selectedCateFilter = "Sport"; // default mode
+        let selectedManuFilter = "Nike"; // default mode
         let selectedSort = "timeasc";
         let debounceTimeout;
 
@@ -116,6 +116,7 @@
                 if (this.checked) {
                     // Get the corresponding label text
                     var label = document.querySelector('label[for="' + this.id + '"]').textContent;
+                    console.log("Selected category: ", label)
                     selectedCateFilter = label;
                 }
             });
@@ -126,6 +127,8 @@
                 if (this.checked) {
                     // Get the corresponding label text
                     var label = document.querySelector('label[for="' + this.id + '"]').textContent;
+                    console.log("Selected manufacturer: ", label)
+
                     selectedManuFilter = label;
                 }
             });
@@ -185,8 +188,7 @@
                         Edit</a>
                       <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i>
                         Delete</a>
-                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i>
-                        Ban/Unban</a>
+                      
                     </div>
                   </div>
                 </td>

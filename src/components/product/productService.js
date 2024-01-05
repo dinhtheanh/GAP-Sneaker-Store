@@ -129,8 +129,8 @@ const findProduct = async (keyword, cateFilter, manuFilter, sort) => {
     return new Promise(async (resolve, reject) => {
         try {
             let query = {};
-            query['category'] = cateFilter == 'sportfilter' ? 'Sport' : 'Fashion';
-            query['manufacturer'] = manuFilter == 'nikefilter' ? 'Nike' : 'Adidas';
+            query['category'] = cateFilter;
+            query['manufacturer'] = manuFilter;
             query['name'] = new RegExp(keyword, 'i');
 
             let sortby;
@@ -150,6 +150,24 @@ const findProduct = async (keyword, cateFilter, manuFilter, sort) => {
             reject(error);
         }
     });
+}
+
+const addProductImage = async (productId, image) => {
+    try {
+        const result = await productModel.findByIdAndUpdate({ _id: productId }, {$push: { img: image }}, { new: true });
+        return result;
+    } catch (error) {
+        console.error('Error adding image to product:', error);
+        throw error;
+    }
+}
+
+const deleteProductImage = async (productId, image) => {
+
+}
+
+const updateProduct = (productId, name, price, stock, category, manufacturer) => {
+    return productModel.findByIdAndUpdate({ _id: productId }, { name: name, price: price, stock: stock, category: category, manufacturer: manufacturer }, { new: true });
 }
 
 const addProductReview = async (productId, userName, reviewText) => {
@@ -217,5 +235,8 @@ module.exports = {
     prodsSortedByPrice,
     prodsSortedByPriceDesc,
     getFilteredProducts,
-    findProduct
+    findProduct,
+    addProductImage,
+    deleteProductImage,
+    updateProduct
 }

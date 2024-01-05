@@ -33,8 +33,14 @@ adminRoute.get('/productlist/:id', adminController.getProductDetailsPage);
 
 adminRoute.get('/api/search-for-products', adminController.searchProduct);
 
-adminRoute.get('/ban/:id', adminController.banUser);
+adminRoute.post('/ban/:id', adminController.banUser);
 
-adminRoute.get('/unban/:id', adminController.unbanUser);
+adminRoute.post('/unban/:id', adminController.unbanUser);
+
+adminRoute.post('/update-product', adminController.updateProduct);
+
+adminRoute.post('/change-profile', adminController.changeAdminProfile);
+
+adminRoute.post('/upload-product-image', adminController.uploadImageProduct);
 
 module.exports = adminRoute;

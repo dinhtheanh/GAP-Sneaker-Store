@@ -171,6 +171,58 @@ const getCustomerDetailsPage = async (req, res) => {
 
 }
 
+const changeAdminProfile = async (req, res) => {
+    try {
+        //console.log("hello");
+        console.log("request params",req.params);
+        console.log("request body",req.body);
+        const { id, name, email, phoneNumber, address } = req.body;
+        let result = await accountService.changeAdminProfile(id, name, email, phoneNumber, address);
+        
+        console.log("result is", result);
+        if (result) {
+            res.status(200).send({ result: 'success', message: 'Profile changed' });
+        } else {
+            
+            res.status(500).send({ result: 'error', message: 'Internal server error' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+}
+}
+
+const updateProduct = async (req, res) => {
+    try {
+        const { id, name, stock, price, category, manufacturer} = req.body;
+        const result = await productService.updateProduct(id, name, price, stock, category, manufacturer);
+        if (result) {
+            res.status(200).send({ result: 'success', message: 'Product updated' });
+        } else {
+            res.status(500).send({ result: 'error', message: 'Internal server error' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+}
+
+const uploadImageProduct = async (req, res) => {
+    try {
+        const { id, img } = req.body;
+        let result = await productService.addProductImage(id, img);
+        if (result) {
+            console.log(result);
+            res.status(200).send({ result: 'success', message: 'Product image added' });
+        } else {
+            res.status(500).send({ result: 'error', message: 'Internal server error' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     getCustomerListPage,
     getHomePage,
@@ -185,5 +237,8 @@ module.exports = {
     searchProduct,
     banUser,
     unbanUser,
-    getProductDetailsPage
+    getProductDetailsPage,
+    changeAdminProfile,
+    updateProduct,
+    uploadImageProduct
 }

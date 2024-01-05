@@ -80,7 +80,15 @@ const createUser = (userData) => {
   });
 };
 
-//const updateUserProfile()
+const changeAdminProfile = (id, name, email, phone, address) => {
+  try {
+    return User.findByIdAndUpdate({ _id: id}, {name: name, phone: phone, email: email,  address: address}, {new: true});
+
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 
 const unbanUser = async (id) => {
   try {
@@ -176,5 +184,6 @@ module.exports = {
   findUser,
   getUserById,
   banUser,
-  unbanUser
+  unbanUser,
+  changeAdminProfile
 };
