@@ -6,7 +6,7 @@ const passport = require('./passport-config');
 const createUser = async (req, res) => {
     try {
         const { name, email, password, cfpassword, phone, address } = req.body
-        console.log(req.body);
+        
 
         const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
         const isValidEmail = reg.test(email)
@@ -75,22 +75,61 @@ const createUser = async (req, res) => {
 
 //     }
 // }
+const changePassword = async(req,res)=>{
+    try {
+        // Your logic for changing the password goes here
+
+        // Example: Accessing form data from the request body
+        const { email, password, newpassword, cfnewpassword } = req.body;
+        
+
+        if(!email||!password||!newpassword||!cfnewpassword){
+            console.log('All fields are required');
+            return res.status(400).json({ error: 'All fields are required' })
+        }
+        if(newpassword!=cfnewpassword)
+        {
+            return res.status(400).json({ error: 'Incorrect confirm for new password' })
+
+        }
+        if(newpassword===password)
+        {
+            return res.status(400).json({ error: 'New password must be different from the current password.' })
+
+        }
+        if(email!=req.user.email)
+        {
+            return res.status(400).json({ error: 'Invalid email address' })
+        }
+        
+
+        const result = await userService.changePassword(req.user._id,password,newpassword);
+        if (result.success) {
+            res.status(200).json({ message: result.message });
+        } else {
+            res.status(400).json({ error: result.message }); // Assuming a 401 status for incorrect password
+        }
+    } catch (error) {
+        // Handle errors
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 const changeProfile = async (req,res) =>{
     try {
-        // Access form data using req.body (text fields) and req.file (uploaded file)
         const newInfo = req.body;
-        if(!req.file)
-        console.log('there is no file');
+        
 
-        const avatar = req.file; // Assuming you are using upload.single('avatar')
+        const avatar = req.file; 
 
         if (Object.keys(newInfo).length > 0 || avatar) {
             const response = await userService.changeProfile(newInfo, avatar, req.user._id);
 
-            // Trả về thông báo và dữ liệu khi cập nhật thành công
+            
             res.status(200).json({ success: true, message: 'Profile updated successfully', data: response });
         } else {
-            // Trả về thông báo nếu không có dữ liệu mới
+            
             res.status(400).json({ success: false, message: 'No new data provided for update' });
         }
 
@@ -147,5 +186,6 @@ module.exports = {
     createUser,
     loginUser,
     logoutUser,
-    changeProfile
+    changeProfile,
+    changePassword
 }

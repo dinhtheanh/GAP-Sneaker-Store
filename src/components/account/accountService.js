@@ -1,5 +1,28 @@
 const User = require("./accountModel.js");
 const bcrypt = require("bcrypt");
+const changePassword = async(id,curps,newps)=>{
+    try {
+        console.log(id);
+        const user = await User.findById(id);
+        const passwordCompare = bcrypt.compareSync(curps,user.password);
+        if(!passwordCompare)
+        {
+            return { success: false, message: 'Your password is incorect' };
+
+        }
+        const hash = bcrypt.hashSync(newps,10)
+        user.password=hash;
+        // Convert the buffer to a base64-encoded string
+        
+        await user.save();
+        
+        // Trả về một giá trị hoặc thông báo nếu cần thiết
+        return { success: true, message: 'Password updated successfully' };
+    } catch (error) {
+       console.log(error);
+        throw new Error('Internal Server Error');
+    }};
+
 const changeProfile = async (data,avatar,id)=>{
     try {
         const user = await User.findById(id);
@@ -106,6 +129,7 @@ const clearCart=async  (userId) =>{
     try {
         // Find the user by ID
         const user = await User.findById(userId);
+        
 
         // Assuming your user model has a 'cart' property
         user.cart = [];
@@ -125,5 +149,6 @@ module.exports ={
     createUser,
     loginUser,
     clearCart,
-    changeProfile
+    changeProfile,
+    changePassword
 }
