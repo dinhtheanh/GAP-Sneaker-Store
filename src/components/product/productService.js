@@ -185,7 +185,14 @@ const addProductImage = async (productId, image) => {
     }
 }
 
-const deleteProductImage = async (productId, image) => {
+const deleteProductImage = async (productId, image) => {   
+    try {
+        const newProduct = await productModel.findByIdAndUpdate({ _id: productId }, {$pull: { img: image }}, { new: true });
+        return newProduct;
+    } catch (error) {
+        console.error('Error deleting image to product:', error);
+        throw error;
+    }
 
 }
 

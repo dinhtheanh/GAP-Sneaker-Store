@@ -223,6 +223,22 @@ const uploadImageProduct = async (req, res) => {
     }
 }
 
+const deleteProductImage = async (req, res) => {
+    try {
+        const { id, img } = req.body;
+        let result = await productService.deleteProductImage(id, img);
+        if (result) {
+            console.log(result);
+            res.status(200).send({ result: 'success', message: 'Product image deleted' });
+        } else {
+            res.status(500).send({ result: 'error', message: 'Internal server error' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     getCustomerListPage,
     getHomePage,
@@ -240,5 +256,6 @@ module.exports = {
     getProductDetailsPage,
     changeAdminProfile,
     updateProduct,
-    uploadImageProduct
+    uploadImageProduct,
+    deleteProductImage
 }

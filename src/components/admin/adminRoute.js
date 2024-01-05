@@ -43,4 +43,6 @@ adminRoute.post('/change-profile', adminController.changeAdminProfile);
 
 adminRoute.post('/upload-product-image', adminController.uploadImageProduct);
 
+adminRoute.post('/delete-product-image', adminController.deleteProductImage);
+
 module.exports = adminRoute;

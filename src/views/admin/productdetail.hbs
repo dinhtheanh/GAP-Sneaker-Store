@@ -75,7 +75,7 @@
 
             <div class="card-body">
                 {{#each product.img}}
-                <form method="POST" action="/delete-image">
+                <form onsubmit="event.preventDefault();deleteImageProduct('{{../product._id}}', '{{this}}')">
                     <div class="mb-3">
                         <input type="text" class="form-control mb-3" id="newImg" placeholder="{{this}}" readonly />
                         <button type="submit" class="btn btn-primary">Delete this image</button>
@@ -142,5 +142,29 @@
                 }
             })
         }
+
+        const deleteImageProduct = (id, image) => {
+            const data = {
+                id: id,
+                img: image
+            }
+            console.log(data);
+            const url = new URL('/admin/delete-product-image', window.location.origin);
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((res) => res.json()).then((res) =>{
+                if (res.message == 'Product image deleted') {
+                    alert("Delete successfully");
+                } else {
+                    alert(res.message);
+                }
+            })
+            
+        }
+
     </script>
 </div>
