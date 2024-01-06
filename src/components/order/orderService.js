@@ -10,6 +10,19 @@ const getOrdersbyId = async(userid)=>{
             throw error;
         }
 }
+
+const getOrdersByOrderId = async(orderId)=>{
+    try{
+        const orders = await Order.find({ _id: orderId }).populate('products.productId');
+        return orders;
+
+    }
+    catch(error){
+        throw error;
+    }
+
+}
+
 const addOrder = async(products,totalPay,shippingMethod,userID) => {
     try {
         const formattedProducts = products.map(item => ({
@@ -50,7 +63,46 @@ const addOrder = async(products,totalPay,shippingMethod,userID) => {
     }
 };
 
+const getAllOrders = async () => {
+    try {
+        const orders = await Order.find();
+        return orders;
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        throw new Error('Unable to fetch orders');
+    }
+};
+
+const findOrderByStatus = async (orderStatus, sort) => {
+    try {
+        console.log(orderStatus)
+        console.log(sort)
+
+        const ordersFound = await Order.find({ status: orderStatus }).sort(sort);
+        return ordersFound;
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        throw new Error('Unable to fetch orders');
+    }
+}
+
+const updateOrderStatus = async (orderID, newStatus) => {
+    try {
+        const order = await Order.findById(orderID);
+        order.status = newStatus;
+        await order.save();
+        return order;
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        throw error;
+    }
+}
+
 module.exports ={
     addOrder,
-    getOrdersbyId
+    getOrdersbyId,
+    findOrderByStatus,
+    getAllOrders,
+    getOrdersByOrderId,
+    updateOrderStatus
 }

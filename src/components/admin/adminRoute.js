@@ -9,8 +9,6 @@ adminRoute.get('/', (req, res) => {
     res.send("Admin page");
 });
 
-adminRoute.get('/login', adminController.getLoginPage);
-
 adminRoute.get('/customerstable', adminController.getCustomerListPage);
 
 adminRoute.get('/accountsettings', adminController.getAccountSettingsPage);
@@ -33,6 +31,8 @@ adminRoute.get('/productlist/:id', adminController.getProductDetailsPage);
 
 adminRoute.get('/api/search-for-products', adminController.searchProduct);
 
+adminRoute.get('/api/sort-and-filter-orders', adminController.sortAndFilterOrder);
+
 adminRoute.get('/orderdetails', adminController.getOrderDetailsPage);
 
 adminRoute.post('/ban/:id', adminController.banUser);
@@ -41,10 +41,14 @@ adminRoute.post('/unban/:id', adminController.unbanUser);
 
 adminRoute.post('/update-product', adminController.updateProduct);
 
+adminRoute.get('/orders/:id', adminController.getOrderDetailsPage);
+
 adminRoute.post('/change-profile', adminController.changeAdminProfile);
 
 adminRoute.post('/upload-product-image', adminController.uploadImageProduct);
 
 adminRoute.post('/delete-product-image', adminController.deleteProductImage);
+
+adminRoute.put('/api/update-order-status', adminController.updateOrderStatus);
 
 module.exports = adminRoute;

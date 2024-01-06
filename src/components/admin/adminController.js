@@ -1,13 +1,26 @@
 const accountService = require('../account/accountService');
 const productService = require('../product/productService');
+const orderService = require('../order/orderService');
 const getCustomerListPage = async (req, res) => {
     const data = await accountService.getAllUsers();
     console.log(data);
     res.render("admin/customerstable", {layout: "admin/layout", users: data['users']});
 }
 
+const updateOrderStatus = async (req, res) => {
+    const { id, status } = req.body;
+    const result = await orderService.updateOrderStatus(id, status);
+    if (result) {
+        res.status(200).send({ result: 'success', message: 'Order status updated' });
+    } else {
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+}
+
 const getOrderDetailsPage = async (req, res) => {
-    res.render("admin/orderdetail", {layout: "admin/layout"});
+    const data = await orderService.getOrdersByOrderId(req.params.id);
+    console.log(data)
+    res.render("admin/orderdetail", {layout: "admin/layout", order: data[0]});
 }
 
 const getProductDetailsPage = async (req, res) => {
@@ -24,12 +37,14 @@ const getLoginPage = (req, res) => {
 }
 
 const getAccountSettingsPage = (req, res) => {
-    console.log(req.user);
+    //console.log(req.user);
     res.render("admin/accountsettings", {layout: "admin/layout", user: req.user});
 }
 
-const getOrderPage = (req, res) => {
-    res.render("admin/orders", {layout: "admin/layout"});
+const getOrderPage = async (req, res) => {
+    const allOrders = await orderService.getAllOrders();
+    //console.log(allOrders);
+    res.render("admin/orders", {layout: "admin/layout", orders: allOrders});
 }
 
 const getProductListPage = (req, res) => {
@@ -72,6 +87,11 @@ const unbanUser = async (req, res) => {
     }
 }
 }
+
+const getDashboardPage = (req, res) => {
+
+}
+
 const getMaintenancePage = (req, res) => {
     res.render("admin/maintenance");
 }
@@ -243,6 +263,68 @@ const deleteProductImage = async (req, res) => {
     }
 }
 
+const sortAndFilterOrder = async (req, res) => {
+    try {
+        const filterParam = req.query.filter;
+        const sortParam = req.query.sort;
+        let sort, filter;
+        if (sortParam == 'timeasc') {
+            sort = 'createdAt';
+        } else if (sortParam == 'timedes') {
+            sort = '-createdAt';
+        }
+
+        if (filterParam == 'preparing') {
+            filter = 'Preparing';
+        } else if (filterParam == 'delivering') {
+            filter = 'Delivering';
+        } else if (filterParam == 'success') {
+            filter = 'Successfully Delivered';
+        } else if (filterParam == 'delay') {
+            filter = 'Delayed';
+        } else if (filterParam == 'cancel') {
+            filter = 'Cancelled';
+        }
+            
+
+        const limit = parseInt(req.query.limit) || 3;
+        const page = parseInt(req.query.page)  || 1;
+
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+
+        const results = {};
+       
+        //console.log(payload);
+        const result = await orderService.findOrderByStatus(filter, sort);
+        if (endIndex < result.length) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            };
+        }
+
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
+            };
+        }
+
+        const totalPages = Math.ceil(result.length / limit);
+        
+        
+
+        results.current = result.slice(startIndex, endIndex);
+
+        console.log(results.current);
+        res.status(200).send({ result: results.current, pages: totalPages, currentPage: page});
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     getCustomerListPage,
     getHomePage,
@@ -262,5 +344,8 @@ module.exports = {
     updateProduct,
     uploadImageProduct,
     deleteProductImage,
-    getOrderDetailsPage
+    getOrderDetailsPage,
+    sortAndFilterOrder,
+    updateOrderStatus,
+    getDashboardPage
 }
