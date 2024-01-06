@@ -6,9 +6,10 @@ const user = require('../account/accountService')
 const addToCart = async(req,res) => {
     const userId = req.user._id;
     const productId = req.params.productid;
-    const quantity = req.body.addToCartquantity;
+    const quantity = req.body.quantity;
 
     try {
+        console.log(userId,productId,quantity)
         const response = await Cart.addToCart(userId,productId,quantity)
         res.redirect('/products/' + productId);
        

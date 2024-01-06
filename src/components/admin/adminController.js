@@ -325,6 +325,42 @@ const sortAndFilterOrder = async (req, res) => {
     }
 }
 
+const getRevenueReport = async (req, res) => {
+    try {
+        const timestamps = req.body.timestamps;
+        const result = await orderService.getRevenueReport(timestamps);
+        res.status(200).send({ result: result });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+}
+
+const getRevenueReportByProduct = async (req, res) => {
+    try {
+        const timestamps = req.body.timestamps;
+        const result = await orderService.getRevenueReportByProduct(timestamps);
+        res.status(200).send({ result: result });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+}
+
+const changePassword = async (req, res) => {
+    try {
+        const { id, oldPassword, newPassword } = req.body;
+        const result = await accountService.changePassword(id, oldPassword, newPassword);
+        if (result) {
+            res.status(200).send({ result: 'success', message: 'Password changed' });
+        } else {
+            res.status(500).send({ result: 'error', message: 'Internal server error' });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 module.exports = {
     getCustomerListPage,
     getHomePage,
@@ -347,5 +383,8 @@ module.exports = {
     getOrderDetailsPage,
     sortAndFilterOrder,
     updateOrderStatus,
-    getDashboardPage
+    getDashboardPage,
+    getRevenueReport,
+    getRevenueReportByProduct,
+    changePassword
 }

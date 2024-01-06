@@ -49,4 +49,10 @@ adminRoute.post('/delete-product-image', adminController.deleteProductImage);
 
 adminRoute.put('/api/update-order-status', adminController.updateOrderStatus);
 
+adminRoute.post('/api/revenue-report', adminController.getRevenueReport);
+
+adminRoute.post('/api/revenue-report-by-product', adminController.getRevenueReportByProduct);
+
+adminRoute.post('/api/change-password', adminController.changePassword);
+
 module.exports = adminRoute;

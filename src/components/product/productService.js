@@ -10,8 +10,11 @@ const getMaxPrice = (selectedPrices, priceRanges) => {
     return Math.max(...selectedPrices.map(price => priceRanges[price].max));
 };
 const updateStock = async (productid,quantity) =>{
+    
     const product = await productModel.findById(productid);
     product.stock -= quantity;
+    console.log("Updating stock: ",product)
+
     await product.save();
     return product;
 };

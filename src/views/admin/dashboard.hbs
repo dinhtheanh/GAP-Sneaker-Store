@@ -60,8 +60,12 @@
         let timeRangeForRevenue = '7day';
         let timeRangeForProductRevenue = '7day';
         let labelsForRevenue = [];
+        let timestamps = [];
+        let timestampsForProduct = [];
         let dataForRevenue = [];
         const setLabelForRevenue = (timeRange) => {
+            timestamps = [];
+            labelsForRevenue = [];
             if (timeRange === '7day') {
                 const currentDate = new Date();
                 const labels = [];
@@ -72,9 +76,11 @@
                     const day = date.getDate();
                     const label = `${month} ${day}`;
                     labels.push(label);
+                    timestamps.push(date.getTime());
                 }
                 console.log(labels);
-                labelsForRevenue = labels;
+                timestamps.reverse();
+                labelsForRevenue = labels.reverse();
             } else if (timeRange === '4week') {
                 const currentDate = new Date();
                 const labels = [];
@@ -85,9 +91,11 @@
                     const day = date.getDate();
                     const label = `${month} ${day}`;
                     labels.push(label);
+                    timestamps.push(date.getTime());
                 }
                 console.log(labels);
-                labelsForRevenue = labels;
+                timestamps.reverse();
+                labelsForRevenue = labels.reverse();
 
             } else if (timeRange === '3month') {
                 const currentDate = new Date();
@@ -98,9 +106,58 @@
                     const month = date.toLocaleString('default', { month: 'long' });
                     const label = `${month} ${date.getDate()}`;
                     labels.push(label);
+                    timestamps.push(date.getTime());
                 }
                 console.log(labels);
-                labelsForRevenue = labels;
+                timestamps.reverse();
+                labelsForRevenue = labels.reverse();
+            }
+        }
+
+        const setTimestampForRevenueByProduct = (timeRange) => {
+            timestampsForProduct = [];
+            if (timeRange === '7day') {
+                const currentDate = new Date();
+                const labels = [];
+                for (let i = 0; i < 7; i++) {
+                    const dayCount = i;
+                    const date = new Date(currentDate.getTime() - dayCount * 24 * 60 * 60 * 1000);
+                    const month = date.toLocaleString('default', { month: 'long' });
+                    const day = date.getDate();
+                    const label = `${month} ${day}`;
+                    //labels.push(label);
+                    timestampsForProduct.push(date.getTime());
+                }
+                //console.log(labels);
+                timestampsForProduct.reverse();
+                
+            } else if (timeRange === '4week') {
+                const currentDate = new Date();
+                const labels = [];
+                for (let i = 0; i < 4; i++) {
+                    const dayCount = i * 7;
+                    const date = new Date(currentDate.getTime() - dayCount * 24 * 60 * 60 * 1000);
+                    const month = date.toLocaleString('default', { month: 'long' });
+                    const day = date.getDate();
+                    const label = `${month} ${day}`;
+                    timestampsForProduct.push(date.getTime());
+                }
+                timestampsForProduct.reverse();
+
+            } else if (timeRange === '3month') {
+                const currentDate = new Date();
+                const labels = [];
+                for (let i = 0; i < 3; i++) {
+                    const monthCount = i;
+                    const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - monthCount, 1);
+                    const month = date.toLocaleString('default', { month: 'long' });
+                    const label = `${month} ${date.getDate()}`;
+                    labels.push(label);
+                    timestampsForProduct.push(date.getTime());
+                }
+                console.log(labels);
+                timestampsForProduct.reverse();
+                
             }
         }
 
@@ -109,66 +166,112 @@
         timeRangeDoc.addEventListener('change', (event) => {
             timeRangeForRevenue = event.target.value;
             setLabelForRevenue(timeRangeForRevenue);
+            getData(labelsForRevenue, timestamps)
             //console.log(timeRangeForRevenue);
         });
         timeRangeProductDoc.addEventListener('change', (event) => {
             timeRangeForProductRevenue = event.target.value;
-            //console.log(timeRangeForProductRevenue);
+            setTimestampForRevenueByProduct(timeRangeForProductRevenue);
+            getDataByProduct(timestampsForProduct)
+            console.log(timeRangeForProductRevenue);
+            console.log(timestampsForProduct);
         });
+        const getData = (labels, timestamps) => {
 
+            //console.log(timestamps);
+            fetch('/admin/api/revenue-report', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    timestamps: timestamps
+                }),
+            }).then((response) => response.json()).then(data => {
+                //console.log(data);
+                //const revenueData = data.result.map(item => item.revenue);
+                //console.log(revenueData);
+                drawRevenueChart(labels, data.result);
+            });
+        }
 
+        const getDataByProduct = (timestamps) => {
+            //console.log(timestamps);
+            fetch('/admin/api/revenue-report-by-product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    timestamps: timestamps
+                }),
+            }).then((response) => response.json()).then(data => {
+                console.log(data);
+                //const revenueData = data.result.map(item => item.revenue);
+                //console.log(revenueData);
+                const productLabels = Object.keys(data.result)
+                const dataToDraw = Object.values(data.result)
+                drawRevenueByProductChart(productLabels, dataToDraw);
+            });
+        }
 
-        // Revenue Chart
-        var revenueChartCtx = document.getElementById('revenueChart').getContext('2d');
-        var revenueChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-            datasets: [{
-                label: 'Revenue',
-                data: [1000, 2000, 1500, 3000, 2500, 4000],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        };
-        var revenueChartOptions = {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+        const drawRevenueChart = (labels, data) => {
+            var revenueChartCtx = document.getElementById('revenueChart').getContext('2d');
+            var revenueChartData = {
+                labels: labels,
+                datasets: [{
+                    label: 'Revenue',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+            var revenueChartOptions = {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
-            }
-        };
-        var revenueChart = new Chart(revenueChartCtx, {
-            type: 'line',
-            data: revenueChartData,
-            options: revenueChartOptions
-        });
+            };
+            var revenueChart = new Chart(revenueChartCtx, {
+                type: 'line',
+                data: revenueChartData,
+                options: revenueChartOptions
+            });
+        }
+
 
         // Product Revenue Chart
-        var productRevenueChartCtx = document.getElementById('productRevenueChart').getContext('2d');
-        var productRevenueChartData = {
-            labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
-            datasets: [{
-                label: 'Revenue',
-                data: [500, 1000, 800, 1500, 1200],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        };
-        var productRevenueChartOptions = {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+        const drawRevenueByProductChart = (labels, data) => {
+            var productRevenueChartCtx = document.getElementById('productRevenueChart').getContext('2d');
+            var productRevenueChartData = {
+                labels: labels,
+                datasets: [{
+                    label: 'Revenue',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            };
+            var productRevenueChartOptions = {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
-            }
-        };
-        var productRevenueChart = new Chart(productRevenueChartCtx, {
-            type: 'bar', // Change the chart type to 'bar'
-            data: productRevenueChartData,
-            options: productRevenueChartOptions
-        });
+            };
+            var productRevenueChart = new Chart(productRevenueChartCtx, {
+                type: 'bar', // Change the chart type to 'bar'
+                data: productRevenueChartData,
+                options: productRevenueChartOptions
+            });
+        }
+
+        
     </script>
 
 

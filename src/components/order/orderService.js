@@ -1,5 +1,43 @@
 const Order = require('./orderModel')
 
+const getRevenueReport = async (timestamps) => {
+    // Find the revenue in first day
+    const startTime = new Date(timestamps[0]);
+    console.log(startTime);
+    const startOfDay = new Date(startTime.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(startTime.setHours(23, 59, 59, 999));
+    const revenueOnFirstDate = await Order.find({ createdAt: { $gte: startOfDay, $lt: endOfDay } })
+    let revenue = [];
+    revenue.push(revenueOnFirstDate.reduce((total, order) => total + order.totalPay, 0));
+    /// Find the revenue from first day the the end of each day since the first day
+    for (let i = 1; i < timestamps.length; i++) {
+        timestamps[i] = new Date(timestamps[i]);
+        console.log(timestamps[i]);
+        const allorders = await Order.find({ createdAt: { $gte: startOfDay, $lt: timestamps[i].setHours(23, 59, 59, 999) } })
+        console.log(allorders);
+        revenue.push(allorders.reduce((total, order) => total + order.totalPay, 0));
+    }
+    console.log(revenue)
+    return revenue;
+}
+
+const getRevenueReportByProduct = async (timestamps) => {
+    const startTime = new Date(timestamps[0]);
+    const endTime = new Date(timestamps[timestamps.length - 1]);
+    
+    let revenue = {};
+    
+    /// Find the revenue from first day the the end of each day since the first day
+    const allOrders = await Order.find({ createdAt: { $gte: startTime, $lte: endTime } }).populate('products.productId'); 
+
+    allOrders.forEach(order => {
+        revenue[order.products[0].productId.name] = revenue[order.products[0].productId.name] ? revenue[order.products[0].productId.name] + order.totalPay : order.totalPay;
+    });
+    
+    
+    return revenue;
+}
+
 const getOrdersbyId = async(userid)=>{
         try{
             const orders = await Order.find({ userID: userid }).populate('products.productId');
@@ -104,5 +142,7 @@ module.exports ={
     findOrderByStatus,
     getAllOrders,
     getOrdersByOrderId,
-    updateOrderStatus
+    updateOrderStatus,
+    getRevenueReport,
+    getRevenueReportByProduct
 }

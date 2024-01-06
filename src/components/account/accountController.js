@@ -194,12 +194,11 @@ const loginUser = async (req, res, next) => {
 
             }
             if (user.isAdmin == false) {
-            //return res.status(200).json({ success: true, message: 'Login successful' });
+                return res.status(200).json({ success: true, message: 'Login successful', admin: user.isAdmin});
+
             }
             else {
-                const returnTo = '/admin/dashboard';
-                
-                return res.redirect(returnTo);
+                return res.status(200).json({ success: true, message: 'Login successful', admin: user.isAdmin });
             }
         });
       })(req, res, next);

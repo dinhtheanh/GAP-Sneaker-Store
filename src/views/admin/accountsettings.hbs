@@ -10,7 +10,7 @@
         <!-- Account -->
         <hr class="my-0" />
         <div class="card-body">
-          <form id="formAccountSettings" onsubmit="event.preventDefault();saveNewProfile('{{user.id}}');">
+          <form id="form" onsubmit="event.preventDefault();saveNewProfile('{{user.id}}');">
             <div class="row">
               <div class="mb-3 col-md-6">
                 <label for="name" class="form-label">Name</label>
@@ -35,17 +35,51 @@
                   value="{{user.address}}" />
               </div>
 
+
+
             </div>
             <div class="mt-2">
-              <button type="submit" class="btn btn-primary me-2" >Save
+              <button type="submit" class="btn btn-primary me-2">Save
                 changes</button>
 
             </div>
           </form>
+
         </div>
+
         <!-- /Account -->
       </div>
 
+
+      <div class="card mb-4">
+        <h5 class="card-header"> Change password</h5>
+        <!-- Account -->
+        <hr class="my-0" />
+        <div class="card-body">
+          <form id="formForChangePass" onsubmit="event.preventDefault();changePassword('{{user.id}}');">
+            <div class="row">
+              <div class="mb-3 col-md-6">
+                <label for="confirmPass" class="form-label">Enter your password</label>
+                <input class="form-control" type="password" id="confirmPass" name="confirmPass" value="" placeholder="Enter password before changing it"autofocus />
+              </div>
+              <br class="mb-3">
+              <div class="mb-3 col-md-6">
+                <label for="newPassword" class="form-label">Enter your new password</label>
+                <input class="form-control" type="password" id="newPassword" name="newPassword" value=""
+                  placeholder="Your new password here..." />
+              </div>
+            </div>
+            <div class="mt-2">
+              <button type="submit" class="btn btn-primary me-2">Save
+                password</button>
+
+            </div>
+          </form>
+
+        </div>
+
+        <!-- /Account -->
+      </div>
     </div>
   </div>
 
@@ -70,6 +104,35 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 
   <script>
+    const changePassword = (id) => {
+      const confirmPass = document.getElementById("confirmPass").value;
+      const newPassword = document.getElementById("newPassword").value;
+      const data = {
+        id: id,
+        oldPassword: confirmPass,
+        newPassword: newPassword,
+      };
+
+      const url = new URL('/admin/api/change-password', window.location.origin);
+      //console.log(JSON.stringify(data));
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      }).then((response) => response.json())
+        .then((data) => {
+          if (data.result == "success")
+            alert("Change password successfully!");
+          else alert("Change password failed!");
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+
+
     function saveNewProfile(id) {
       const name = document.getElementById("name").value;
       const email = document.getElementById("email").value;

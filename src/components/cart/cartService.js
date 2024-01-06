@@ -20,6 +20,7 @@ const deleteProduct = async (userid,productid) =>{
 };
 const addToCart = async (userId,productId,quantity,res) =>{
     try{
+      console.log("Adding to cart in cart Service")
         const product = await Product.findById(productId);
         const user = await User.findById(userId)
         if (!product) {
