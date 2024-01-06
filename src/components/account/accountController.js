@@ -176,7 +176,7 @@ const loginUser = async (req, res, next) => {
        // Sử dụng middleware authenticate với chiến lược 'local'
        //console.log(req.body)
        passport.authenticate('local', (err, user, info) => {
-        console.log(user)
+        //console.log(user)
         if (err) {
           // Xử lý lỗi nếu có
           return res.status(500).json({ success: false, message: 'Internal Server Error' });
@@ -194,11 +194,10 @@ const loginUser = async (req, res, next) => {
 
             }
             if (user.isAdmin == false) {
-            // Lấy địa chỉ trang trước đó từ session hoặc chuyển hướng mặc định
-            return res.status(200).json({ success: true, message: 'Login successful' });
+            //return res.status(200).json({ success: true, message: 'Login successful' });
             }
             else {
-                const returnTo = '/admin';
+                const returnTo = '/admin/dashboard';
                 
                 return res.redirect(returnTo);
             }
