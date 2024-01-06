@@ -1,5 +1,68 @@
 const User = require("./accountModel.js");
 const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer');
+require('dotenv/config');
+const sendPasswordEmail = async (recipientEmail) => {
+    // Create a nodemailer transporter
+    const emailUsername = process.env.EMAIL_USERNAME;
+    const emailPassword = process.env.EMAIL_PASSWORD; // your email password or application-specific password
+    const defaultPassword = process.env.DEFAULT_PASSWORD;
+    const transporter = nodemailer.createTransport({
+        host: "smtp.forwardemail.net",
+        port: 465,
+        secure: true,
+        auth: {
+          // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+          user: emailUsername,
+          pass: emailPassword,
+        },
+      });
+  
+    // Email content
+    const mailOptions = {
+      from: emailUsername,
+      to: recipientEmail,
+      subject: 'Your Default Password',
+      text: `Your default password is: ${defaultPassword}`,
+    };
+  
+    try {
+      // Send the email
+      const info = await transporter.sendMail(mailOptions);
+      return { success: true, message: 'Your new password was sent successfully' };
+
+    } catch (error) {
+      console.error('Error sending email:', error);
+      throw new Error('Failed to send email');
+    }
+  };
+const resetPassword = async(email)=>{
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            // User not found
+            return { success: false, message: 'User not found' };
+          }
+        
+        
+        
+        // Trả về một giá trị hoặc thông báo nếu cần thiết
+        const emailResult = await sendPasswordEmail(email, process.env.DEFAULT_PASSWORD);
+
+        if (emailResult.success) {
+            const hash = bcrypt.hashSync(process.env.DEFAULT_PASSWORD,10);
+            user.password=hash;
+          return { success: true, message: 'Password updated and email sent successfully' };
+        } else {
+          // Handle the case where the email sending failed
+          return { success: false, message: 'Error while sending email, pleae try again later' };
+        }
+    } catch (error) {
+       console.log(error);
+        throw new Error('Internal Server Error');
+    }};
+
+
 const changePassword = async(id,curps,newps)=>{
     try {
         console.log(id);
@@ -150,5 +213,6 @@ module.exports ={
     loginUser,
     clearCart,
     changeProfile,
-    changePassword
+    changePassword,
+    resetPassword
 }

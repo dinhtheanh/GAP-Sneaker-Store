@@ -127,7 +127,6 @@
             gender: document.getElementById('gender').value,
             // ... other fields ...
         };
-		 console.log("somthing");
         // Use AJAX to send the data to the server
         $.ajax({
             type: 'POST',
@@ -135,13 +134,12 @@
             contentType: 'application/json',
             data: JSON.stringify({newInfo }),
             success: function (response) {
-				console.log(response.message)
                  alert(response.message);
 
                 // Handle success response (e.g., show a success message)
             },
             error: function (error) {
-				console.log('Error updating profile: ' + error.responseJSON.message);
+				
        			alert('Error updating profile: ' + error.responseJSON.message);
                 // Handle error response (e.g., show an error message)
             }

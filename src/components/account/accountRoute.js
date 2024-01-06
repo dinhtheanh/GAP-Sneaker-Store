@@ -38,10 +38,16 @@ const handleChangeProfile = (router)=>{
     return router;
 }
 
+const handleResetPassword = (router)=>{
+    router.post('/reset-password',userController.resetPassword);
+    return router;
+}
+
 module.exports = {
     handleSignUp,
     handleLogin,
     handleLogout,
     handleChangeProfile,
-    handleChangePassword
+    handleChangePassword,
+    handleResetPassword
 }

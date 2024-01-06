@@ -55,6 +55,7 @@ myRoute.get('/change-password',isAuthenticated, (req, res) => {
     res.render("customer/navbar/changePassword", { layout: "customer/layout" });
 });
 myRoute.use('/update-password',isAuthenticated, userRouter.handleChangePassword(myRoute));
+myRoute.use('/reset-password', userRouter.handleResetPassword(myRoute));
 
 
 

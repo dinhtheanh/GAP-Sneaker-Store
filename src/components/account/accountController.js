@@ -2,6 +2,33 @@ const async = require('hbs/lib/async')
 const userService = require('./accountService.js')
 const passport = require('./passport-config');
 
+const resetPassword = async(req,res)=>{
+    try {
+        // Your logic for changing the password goes here
+
+        // Example: Accessing form data from the request body
+        const email = req.body.email;
+        
+
+        if(!email){
+
+            return res.status(400).json({ error: 'Please enter your email' })
+        }
+        
+        
+
+        const result = await userService.resetPassword(email);
+        if (result.success) {
+            res.status(200).json({ message: result.message });
+        } else {
+            res.status(400).json({ error: result.message }); // Assuming a 401 status for incorrect password
+        }
+    } catch (error) {
+        // Handle errors
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 const createUser = async (req, res) => {
     try {
@@ -187,5 +214,6 @@ module.exports = {
     loginUser,
     logoutUser,
     changeProfile,
-    changePassword
+    changePassword,
+    resetPassword
 }
