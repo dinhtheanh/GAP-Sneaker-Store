@@ -194,7 +194,7 @@ const loginUser = async (req, res, next) => {
 
             }
             if (user.isAdmin == false) {
-            //return res.status(200).json({ success: true, message: 'Login successful' });
+                return res.status(200).json({ success: true, message: 'Login successful' });
             }
             else {
                 const returnTo = '/admin/dashboard';
@@ -211,7 +211,7 @@ const logoutUser = (req, res, next) => {
             return next(err);
         }
         req.session.destroy((err) => {
-            res.redirect('/home');
+            // res.redirect('/home');
         });
     });
 };

@@ -18,13 +18,11 @@ const deleteProduct = async (userid,productid) =>{
           throw error;
     }
 };
-const addToCart = async (userId,productId,quantity,res) =>{
+const addToCart = async (userId,productId,quantity) =>{
     try{
         const product = await Product.findById(productId);
         const user = await User.findById(userId)
-        if (!product) {
-            return res.status(404).json({ error: 'Product not found' });
-          }
+        
           if (!user.cart) {
             user.cart = [];
           }
@@ -38,7 +36,7 @@ const addToCart = async (userId,productId,quantity,res) =>{
             existingCartItem.quantity += quantityToAdd;
           } else {
             // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
-            user.cart.push({ product: product._id, quantity: 1 });
+            user.cart.push({ product: product._id, quantity: quantity });
           }
       
           await user.save();

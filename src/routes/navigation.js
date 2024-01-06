@@ -16,10 +16,12 @@ myRoute.use('/admin', isAuthenticated, adminRoute);
 myRoute.use('/cart',isAuthenticated,cartRoute);
 myRoute.use('/orderlist',isAuthenticated,orderRoute);
 myRoute.get('/countProduct', (req, res) => {
-    if(!req.user)
-    return;
-    const totalQuantity = req.user.cart.reduce((total, item) => total + item.quantity, 0);
-    res.json({ count: totalQuantity });
+    if (!req.user) {
+        // Nếu không có người dùng đăng nhập, trả về một JSON với count là 0 và user là false
+        return res.json({ count: 0, user: false });
+    }
+    const totalProducts = req.user.cart.length;
+    res.json({ count: totalProducts ,user:true});
 });
 
 myRoute.get('/confirm', (req, res) => {
