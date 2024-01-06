@@ -16,6 +16,8 @@ myRoute.use('/admin', isAuthenticated, adminRoute);
 myRoute.use('/cart',isAuthenticated,cartRoute);
 myRoute.use('/orderlist',isAuthenticated,orderRoute);
 myRoute.get('/countProduct', (req, res) => {
+    if(!req.user)
+    return;
     const totalQuantity = req.user.cart.reduce((total, item) => total + item.quantity, 0);
     res.json({ count: totalQuantity });
 });
@@ -48,6 +50,13 @@ myRoute.get('/profile',isAuthenticated, (req, res) => {
 });
 
 myRoute.use('/update-profile', userRouter.handleChangeProfile(myRoute));
+
+myRoute.get('/change-password',isAuthenticated, (req, res) => {
+    res.render("customer/navbar/changePassword", { layout: "customer/layout" });
+});
+myRoute.use('/update-password',isAuthenticated, userRouter.handleChangePassword(myRoute));
+myRoute.use('/reset-password', userRouter.handleResetPassword(myRoute));
+
 
 
 myRoute.get('/log-out', userRouter.handleLogout(myRoute));

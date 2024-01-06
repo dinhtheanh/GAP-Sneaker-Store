@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -35,6 +35,8 @@
 
     <script src="/customer/js/common_scripts.min.js" defer></script>
     <script src="/customer/js/main.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
 
 </head>
 
@@ -404,8 +406,7 @@
     $(document).ready(function() {
         // Hàm để cập nhật số lượng sản phẩm trong giỏ hàng
         function updateCartCount() {
-            if(!user)
-            return;
+            
             $.ajax({
                 type: 'GET',
                 url: '/countProduct', // Thay thế đường dẫn bằng đường dẫn tương ứng trên máy chủ của bạn
