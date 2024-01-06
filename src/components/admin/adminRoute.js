@@ -5,9 +5,7 @@ let adminRoute = express.Router();
 const productController = require('../product/productController')
 // Routing for products
 
-adminRoute.get('/', (req, res) => {
-    res.send("Admin page");
-});
+adminRoute.get('/', adminController.getDashboardPage);
 
 adminRoute.get('/customerstable', adminController.getCustomerListPage);
 
@@ -21,7 +19,7 @@ adminRoute.get('/addProductForm', adminController.getAddProductPage);
 
 adminRoute.post('/addProductForm',productController.addProduct); 
 
-adminRoute.get('/dashboard', adminController.getMaintenancePage);
+adminRoute.get('/dashboard', adminController.getDashboardPage);
 
 adminRoute.get('/api/search', adminController.searchCustomer);
 

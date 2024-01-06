@@ -89,7 +89,7 @@ const unbanUser = async (req, res) => {
 }
 
 const getDashboardPage = (req, res) => {
-
+    res.render("admin/dashboard", {layout: "admin/layout"});
 }
 
 const getMaintenancePage = (req, res) => {

@@ -12,7 +12,7 @@ const passport = require('passport');
 const isAuthenticated = require('../components/account/isAuthenticated');
 
 myRoute.use('/', searchRoute);
-myRoute.use('/admin', adminRoute);
+myRoute.use('/admin', isAuthenticated, adminRoute);
 myRoute.use('/cart',isAuthenticated,cartRoute);
 myRoute.use('/orderlist',isAuthenticated,orderRoute);
 myRoute.get('/countProduct', (req, res) => {

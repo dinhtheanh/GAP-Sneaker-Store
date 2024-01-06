@@ -1,0 +1,176 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">Dashboard</h4>
+    <div class="col-12 mb-3"></div>
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="card">
+                <h5 class="card-header">Revenue Report</h5>
+                <div class="card-body">
+                    <canvas id="revenueChart"></canvas> <!-- Canvas for Revenue Chart -->
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div class="card mb-4">
+                <h5 class="card-header">Select time range</h5>
+                <!-- Checkboxes and Radios -->
+                <div class="card-body">
+                    <div class="mb-3">
+                        <select id="timerange" class="form-select">
+                            <option value="7day">Last 7 days</option>
+                            <option value="4week">Last 4 weeks</option>
+                            <option value="3month">Last 3 months</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Inline Checkboxes -->
+            </div>
+        </div>
+    </div>
+    <br class="mb-3">
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="card">
+                <h5 class="card-header">Revenue Report By Products</h5>
+                <div class="card-body">
+                    <canvas id="productRevenueChart"></canvas> <!-- Canvas for Product Revenue Chart -->
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div class="card mb-4">
+                <h5 class="card-header">Select time range</h5>
+                <!-- Checkboxes and Radios -->
+                <div class="card-body">
+                    <div class="mb-3">
+                        <select id="timerangebyproduct" class="form-select">
+                            <option value="7day">Last 7 days</option>
+                            <option value="4week">Last 4 weeks</option>
+                            <option value="3month">Last 3 months</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Inline Checkboxes -->
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/handlebars@latest/dist/handlebars.min.js"></script>
+    <script>
+        let timeRangeForRevenue = '7day';
+        let timeRangeForProductRevenue = '7day';
+        let labelsForRevenue = [];
+        let dataForRevenue = [];
+        const setLabelForRevenue = (timeRange) => {
+            if (timeRange === '7day') {
+                const currentDate = new Date();
+                const labels = [];
+                for (let i = 0; i < 7; i++) {
+                    const dayCount = i;
+                    const date = new Date(currentDate.getTime() - dayCount * 24 * 60 * 60 * 1000);
+                    const month = date.toLocaleString('default', { month: 'long' });
+                    const day = date.getDate();
+                    const label = `${month} ${day}`;
+                    labels.push(label);
+                }
+                console.log(labels);
+                labelsForRevenue = labels;
+            } else if (timeRange === '4week') {
+                const currentDate = new Date();
+                const labels = [];
+                for (let i = 0; i < 4; i++) {
+                    const dayCount = i * 7;
+                    const date = new Date(currentDate.getTime() - dayCount * 24 * 60 * 60 * 1000);
+                    const month = date.toLocaleString('default', { month: 'long' });
+                    const day = date.getDate();
+                    const label = `${month} ${day}`;
+                    labels.push(label);
+                }
+                console.log(labels);
+                labelsForRevenue = labels;
+
+            } else if (timeRange === '3month') {
+                const currentDate = new Date();
+                const labels = [];
+                for (let i = 0; i < 3; i++) {
+                    const monthCount = i;
+                    const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - monthCount, 1);
+                    const month = date.toLocaleString('default', { month: 'long' });
+                    const label = `${month} ${date.getDate()}`;
+                    labels.push(label);
+                }
+                console.log(labels);
+                labelsForRevenue = labels;
+            }
+        }
+
+        const timeRangeDoc = document.getElementById('timerange');
+        const timeRangeProductDoc = document.getElementById('timerangebyproduct');
+        timeRangeDoc.addEventListener('change', (event) => {
+            timeRangeForRevenue = event.target.value;
+            setLabelForRevenue(timeRangeForRevenue);
+            //console.log(timeRangeForRevenue);
+        });
+        timeRangeProductDoc.addEventListener('change', (event) => {
+            timeRangeForProductRevenue = event.target.value;
+            //console.log(timeRangeForProductRevenue);
+        });
+
+
+
+        // Revenue Chart
+        var revenueChartCtx = document.getElementById('revenueChart').getContext('2d');
+        var revenueChartData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Revenue',
+                data: [1000, 2000, 1500, 3000, 2500, 4000],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+        var revenueChartOptions = {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+        var revenueChart = new Chart(revenueChartCtx, {
+            type: 'line',
+            data: revenueChartData,
+            options: revenueChartOptions
+        });
+
+        // Product Revenue Chart
+        var productRevenueChartCtx = document.getElementById('productRevenueChart').getContext('2d');
+        var productRevenueChartData = {
+            labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
+            datasets: [{
+                label: 'Revenue',
+                data: [500, 1000, 800, 1500, 1200],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+        var productRevenueChartOptions = {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+        var productRevenueChart = new Chart(productRevenueChartCtx, {
+            type: 'bar', // Change the chart type to 'bar'
+            data: productRevenueChartData,
+            options: productRevenueChartOptions
+        });
+    </script>
+
+
+
+</div>
