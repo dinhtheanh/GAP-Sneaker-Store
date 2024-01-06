@@ -7,15 +7,14 @@ const User = require('./accountModel');
 passport.use(new LocalStrategy({usernameField: 'email'}, async (email, password, done) => {
         try {
             const userData = { email, password };
+            console.log("console log from", userData)
             const userR = await accountService.loginUser(userData);
             
-
+            console.log(userR)
             if (userR.status === 'ERR') {
-                console.log("Failed to login");
-                return done(null, false);
+                return done(null, false, { message: userR.message });
             }
-            console.log("Success");
-            return done(null, userR.checkUser);
+            return done(null, userR.checkUser, { message: 'Login successfully' });
         } catch (error) {
             return done(error);
         }

@@ -8,13 +8,12 @@ const sendPasswordEmail = async (recipientEmail) => {
     const emailPassword = process.env.EMAIL_PASSWORD; // your email password or application-specific password
     const defaultPassword = process.env.DEFAULT_PASSWORD;
     const transporter = nodemailer.createTransport({
-        host: "smtp.forwardemail.net",
-        port: 465,
-        secure: true,
+        host: "smtp.gmail.com",
+        port: 587 ,
+        secure: false,
         auth: {
-          // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-          user: emailUsername,
-          pass: emailPassword,
+          user: emailUsername, // your Gmail address
+          pass: emailPassword, // the app-specific password generated for your app
         },
       });
   
@@ -47,12 +46,14 @@ const resetPassword = async(email)=>{
         
         
         // Trả về một giá trị hoặc thông báo nếu cần thiết
-        const emailResult = await sendPasswordEmail(email, process.env.DEFAULT_PASSWORD);
+        const emailResult = await sendPasswordEmail(email);
 
         if (emailResult.success) {
             const hash = bcrypt.hashSync(process.env.DEFAULT_PASSWORD,10);
             user.password=hash;
-          return { success: true, message: 'Password updated and email sent successfully' };
+            await user.save();
+
+          return { success: true, message: 'Your new password was sent to your email' };
         } else {
           // Handle the case where the email sending failed
           return { success: false, message: 'Error while sending email, pleae try again later' };
@@ -151,13 +152,15 @@ const createUser =(userData)=>{
 }
 const loginUser =(userData,done)=>{
     return new Promise(async(resolve,reject)=>{
-        const {name,email,password,cfpassword,phone,address} = userData
+        const {email,password} = userData
+        console.log(userData)
         try{
-
+           
             const checkUser =  await  User.findOne({
                 email: email
             })
-            //console.log(checkUser)
+           
+            console.log(checkUser)
             if (checkUser === null) {
                 resolve({
                     status: 'ERR',

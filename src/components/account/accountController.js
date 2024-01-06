@@ -167,33 +167,30 @@ const changeProfile = async (req,res) =>{
 };
 const loginUser = async (req, res, next) => {
        // Sử dụng middleware authenticate với chiến lược 'local'
+       //console.log(req.body)
        passport.authenticate('local', (err, user, info) => {
+        console.log(user)
         if (err) {
-            // Xử lý lỗi nếu có
-            return next(err);
+          // Xử lý lỗi nếu có
+          return res.status(500).json({ success: false, message: 'Internal Server Error' });
         }
-
+    
         if (!user) {
-            // Xử lý trường hợp đăng nhập không thành công
-            return res.redirect('/log-in'); // Chuyển hướng đến trang đăng nhập
+          // Xử lý trường hợp đăng nhập không thành công
+          return res.status(401).json({ success: false, message: 'Email do not match any account' });
         }
-
+    
         // Đăng nhập thành công, sử dụng req.login để lưu trạng thái người dùng vào session
         req.login(user, (err) => {
-            if (err) {
-                return next(err);
-            }
-
-            // Lấy địa chỉ trang trước đó từ session hoặc chuyển hướng mặc định
-            const returnTo = req.session.returnTo || '/home';
-
-            // Xóa trường returnTo từ session
-            delete req.session.returnTo;
-
-            // Chuyển hướng người dùng về địa chỉ đã lưu
-            return res.redirect(returnTo);
+          if (err) {
+            return res.status(500).json({ success: false, message: 'Internal Server Error' });
+          }
+    
+          // Lấy địa chỉ trang trước đó từ session hoặc chuyển hướng mặc định
+          // Chuyển hướng người dùng về địa chỉ đã lưu
+          return res.status(200).json({ success: true, message: 'Login successful' });
         });
-    })(req, res, next);
+      })(req, res, next);
 };
 const logoutUser = (req, res, next) => {
     req.logout((err) => {
