@@ -20,7 +20,6 @@
           shadow : true,
           shadowOpacity: 0.8,
           zIndex : -100,
-        position : 'relative',
 
         }, options ),
 
@@ -30,7 +29,7 @@
     if ($this.outerHeight() <= $win.outerHeight() && $this.offset().top >= $win.outerHeight()) {
       $this.css({
         'z-index' : defaults.zIndex,
-        position : 'fixed',
+        position : 'relative',
         bottom : 0
       });
 
