@@ -122,12 +122,13 @@
             sortAndFilterOrders(sortValue, filterValue);
         });
 
-        const sortAndFilterOrders = (sortValue, filterValue) => {
+        const sortAndFilterOrders = (sortValue, filterValue, page) => {
             console.log(sortValue);
             console.log(filterValue);
             const url = new URL('/admin/api/sort-and-filter-orders', window.location.origin);
             url.searchParams.append('sort', sortValue);
             url.searchParams.append('filter', filterValue);
+            url.searchParams.append('page', page);
             fetch(url, {
                 method: 'GET',
                 headers: {
