@@ -208,7 +208,13 @@
                                     <div class="dropdown dropdown-access">
                                         <a  class="access_link"><span>Account</span></a>
                                         <div class="dropdown-menu">
-                                            <a href="/log-in" class="btn_1">Sign In or Sign Up</a>
+                                            
+                                                <!-- Nút sẽ chỉ hiển thị khi người dùng đã đăng nhập -->
+                                                <button onclick="logOut();" id="logoutButton" class="btn_1" style="display:none">Sign Out</button>
+                                            
+                                                <!-- Nút sẽ chỉ hiển thị khi người dùng chưa đăng nhập -->
+                                                <a href="/log-in" id="signInButton" class="btn_1" style="display:none">Sign In or Sign Up</a>
+                                            
                                             <ul>
                                                 <li>
                                                     <a href="track-order.html"><i class="ti-truck"></i>Track your
@@ -372,6 +378,26 @@
 
     <!-- SPECIFIC SCRIPTS -->
     <script>
+        
+        function logOut() {
+    // Sử dụng Fetch API để gửi yêu cầu POST đến /log-out
+    fetch('/log-out', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        // Đối tượng JSON trống vì bạn chỉ cần gửi yêu cầu không cần dữ liệu gửi đi
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+       window.location.reload(true);
+    })
+    .catch(error => {
+        // Xử lý lỗi trong quá trình gửi yêu cầu
+        console.error('Error:', error);
+    });
+}
         function sendData(e) {
             const searchResult = document.getElementById('searchResults');
             let match = e.value.match(/^[a-zA-Z]*/);
@@ -412,9 +438,19 @@
                 url: '/countProduct', // Thay thế đường dẫn bằng đường dẫn tương ứng trên máy chủ của bạn
                 success: function(data) {
                     $('#cartItemCount').text(data.count);
+                    if(data.user)
+                    {
+                        $('#logoutButton').show();
+                        $('#signInButton').hide();
+                    }
+                    else
+                    {
+                        $('#logoutButton').hide();
+                        $('#signInButton').show();
+                    }
                 },
                 error: function(error) {
-                    console.error('Error updating cart count:', error);
+                    
                 }
             });
         }

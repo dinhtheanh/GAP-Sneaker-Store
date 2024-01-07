@@ -137,7 +137,6 @@ const addProduct = async (name,price,category,size,color,brand,image) => {
                 img:image
             });
 
-            console.log(addedProduct)
             return addedProduct;
             
             
@@ -257,8 +256,46 @@ const prodsSortedByPriceDesc = async (products) => {
     return products.sort((a, b) => b.price - a.price);
 
 };
+const getHighestProduct = async()=>{
+    try {
+        const highest = await productModel.findOne()
+          .sort({ price: -1 }) // Sort by createdAt in descending order
+          .limit(1); // Limit the result to 4 documents
+        return highest;
+      } catch (error) {
+        console.error('Error retrieving latest products:', error);
+        throw error;
+      }
+    };
 
+const getLatestProducts = async () => {
+    try {
+      const latestProducts = await productModel.find()
+        .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+        .limit(4); // Limit the result to 4 documents
+      return latestProducts;
+    } catch (error) {
+      console.error('Error retrieving latest products:', error);
+      throw error;
+    }
+  };
+
+  const getExProduct = async () => {
+    try {
+      const expensivProduct = await productModel.find()
+        .sort({ price: -1 }) // Sort by createdAt in descending order
+        .limit(4); // Limit the result to 4 documents
+  
+      return expensivProduct;
+    } catch (error) {
+      console.error('Error retrieving latest products:', error);
+      throw error;
+    }
+  };
+  
+  
 module.exports = {
+    getLatestProducts,
     getAllProducts,
     addProduct,
     getProductDetail,
@@ -274,5 +311,7 @@ module.exports = {
     updateProduct,
     getProductById,
     updateStock,
-    getProductByName
+    getProductByName,
+    getExProduct,
+    getHighestProduct
 }

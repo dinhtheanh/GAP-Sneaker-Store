@@ -52,6 +52,7 @@ const resetPassword = async(email)=>{
             const hash = bcrypt.hashSync(process.env.DEFAULT_PASSWORD,10);
             user.password=hash;
             await user.save();
+            console
 
           return { success: true, message: 'Your new password was sent to your email' };
         } else {
@@ -66,7 +67,6 @@ const resetPassword = async(email)=>{
 
 const changePassword = async(id,curps,newps)=>{
     try {
-        console.log(id);
         const user = await User.findById(id);
         const passwordCompare = bcrypt.compareSync(curps,user.password);
         if(!passwordCompare)
@@ -155,18 +155,18 @@ const findUser = (keyword, filter, sortby) => {
 }
 
 
-const createUser = (userData) => {
-  return new Promise(async (resolve, reject) => {
-    const { name, email, password, cfpassword, phone, address } = userData;
+const createUser = async (userData) => {
     try {
+      const { name, email, password, cfpassword, phone, address,gender } = userData;
+
       const checkUser = await User.findOne({
         email: email,
       });
       if (checkUser !== null) {
-        resolve({
+        return{
           status: "ERR",
           message: "The email is already used",
-        });
+        };
       }
 
       const hash = bcrypt.hashSync(password, 10);
@@ -176,19 +176,19 @@ const createUser = (userData) => {
         password: hash,
         phone,
         address,
+        gender  
       });
       if (createdUser) {
-        resolve({
+        return{
           status: "OK",
-          message: "SUCCESS",
-          data: createdUser,
-        });
+          message: "Success to register account",
+        };
       }
     } catch (err) {
       console.log(err);
-      reject(err);
+      return {err};
     }
-  });
+  
 };
 
 const changeAdminProfile = (id, name, email, phone, address) => {
@@ -284,7 +284,6 @@ const getAllUsers = () => {
 
 const getUserById = async (id) => {
   const userFound = await User.findById(id);
-  console.log(userFound);
   return userFound;
 }
 
