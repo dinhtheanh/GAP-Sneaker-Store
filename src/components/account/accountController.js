@@ -181,15 +181,14 @@ const changePassword = async(req,res)=>{
 const changeProfile = async (req,res) =>{
     try {
         const newInfo = req.body;
+       
         
 
-        const avatar = req.file; 
-
-        if (Object.keys(newInfo).length > 0 || avatar) {
-            const response = await userService.changeProfile(newInfo, avatar, req.user._id);
+        if (Object.keys(newInfo).length > 0 ) {
+            const response = await userService.changeProfile(newInfo, req.user._id);
 
             
-            res.status(200).json({ success: true, message: 'Profile updated successfully', data: response });
+            res.status(200).json({ success: true, message: 'Profile updated successfully' });
         } else {
             
             res.status(400).json({ success: false, message: 'No new data provided for update' });
