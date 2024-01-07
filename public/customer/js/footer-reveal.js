@@ -19,8 +19,11 @@
         defaults = $.extend ({
           shadow : true,
           shadowOpacity: 0.8,
-          zIndex : -100
+          zIndex : -100,
+        position : 'relative',
+
         }, options ),
+
 
         settings = $.extend(true, {}, defaults, options);
 
