@@ -307,7 +307,16 @@ const clearCart=async  (userId) =>{
 
 };
 
-
+const changeAdminPermission = async (id, newPermission) => {
+  try {
+    const result = await User.findByIdAndUpdate({ _id: id}, {isAdmin: newPermission}, {new: true});
+    console.log(result)
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 
 module.exports = {
   createUser,
@@ -321,6 +330,7 @@ module.exports = {
   clearCart,
   resetPassword,
   changeProfile,
-  changePassword
+  changePassword,
+  changeAdminPermission
 };
 

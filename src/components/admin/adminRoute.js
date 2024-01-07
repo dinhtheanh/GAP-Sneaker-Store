@@ -55,4 +55,6 @@ adminRoute.post('/api/revenue-report-by-product', adminController.getRevenueRepo
 
 adminRoute.post('/api/change-password', adminController.changePassword);
 
+adminRoute.post('/change-account-permission', adminController.changeAdminPermission);
+
 module.exports = adminRoute;

@@ -1,6 +1,16 @@
 const accountService = require('../account/accountService');
 const productService = require('../product/productService');
 const orderService = require('../order/orderService');
+const changeAdminPermission = async (req, res) => {
+    const data = req.body;
+    const result = await accountService.changeAdminPermission(data.id, data.isAdmin);
+    if (result) {
+        res.status(200).send({ result: 'success', message: 'Admin permission of this user changed' });
+    } else {
+        res.status(500).send({ result: 'error', message: 'Internal server error' });
+    }
+}
+
 const getCustomerListPage = async (req, res) => {
     const data = await accountService.getAllUsers();
     console.log(data);
@@ -386,5 +396,6 @@ module.exports = {
     getDashboardPage,
     getRevenueReport,
     getRevenueReportByProduct,
-    changePassword
+    changePassword,
+    changeAdminPermission
 }
