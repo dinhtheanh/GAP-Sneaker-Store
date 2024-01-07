@@ -1,0 +1,33 @@
+<link href="/customer/css/leave_review.css" rel="stylesheet">
+
+<main>
+
+
+    <div class="container margin_60_35">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form class="write_review" method="post" action="/review/{{product._id}}/submit-review">
+                    <h1>{{product.name}}</h1>
+                     <input type="hidden" name="userName" value="{{user.name}}">
+
+                    <!-- /rating_submit -->
+                    <div class="form-group">
+                        <label>{{user.name}} review</label>
+                        <textarea name ="review" class="form-control" style="height: 180px;"
+                            placeholder="Write your review to help others learn about this online business"></textarea>
+                    </div>
+                    
+                    <input
+                        type = "submit"
+                        value="Submit"
+                        class="btn_1 "
+                />
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</main>
+<!--/main-->

@@ -1,0 +1,197 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Products
+            /</span>
+        Products's Details</h4>
+    <div class="col-xl">
+        <div class="card mb-3">
+
+            <div class="card-body">
+                <form onsubmit="event.preventDefault();updateProduct('{{product._id}}');">
+                    <div class="mb-3">
+                        <label class="form-label" for="id">ID</label>
+                        <input type="text" class="form-control" id="id" placeholder="{{product.id}}" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="{{product.name}}" />
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label" for="stock">Stock</label>
+                        <input type="text" class="form-control" id="stock" placeholder="{{product.stock}}" />
+
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="price">Price</label>
+                        <input type="text" class="form-control" id="price" placeholder="{{product.price}}" />
+
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label" for="selectManu">Manufacturer</label>
+                        <select class="form-select" id="selectManu">
+                            <option value="Nike" {{#if (equal product.manufacturer "Nike" )}} selected {{/if}}>
+                                Nike</option>
+                            <option value="Adidas" {{#if (equal product.manufacturer "Adidas" )}} selected {{/if}}>
+                                Adidas</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="selectCate">Category</label>
+                        <select class="form-select" id="selectCate">
+                            <option value="Sport" {{#if (equal product.category "Sport" )}} selected {{/if}}>Sport
+                            </option>
+                            <option value="Fashion" {{#if (equal product.category "Fashion" )}} selected {{/if}}>Fashion
+                            </option>
+                        </select>
+                    </div>
+
+
+                    <br>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <h5 class="card-header">Add images for the photo</h5>
+
+            <div class="card-body">
+
+                <form onsubmit="event.preventDefault();uploadImageProduct('{{product._id}}');">
+                    <div class="mb-3">
+                        <label class="form-label" for="newImg">URL</label>
+                        <input type="text" class="form-control" id="newImg" placeholder="Input the URL to new image" />
+                    </div>
+
+                    <br>
+                    <button type="submit" class="btn btn-primary">Add</button>
+
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <h5 class="card-header">Delete images</h5>
+
+            <div class="card-body">
+                {{#each product.img}}
+                <form onsubmit="event.preventDefault();deleteImageProduct('{{../product._id}}', '{{this}}')">
+                    <div class="mb-3">
+                        <input type="text" class="form-control mb-3" id="newImg" placeholder="{{this}}" readonly />
+                        <button type="submit" class="btn btn-primary">Delete this image</button>
+                    </div>
+                </form>
+                <hr class="m-3" />
+
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const updateProduct = (id) => {
+            const newName = document.getElementById("name").value;
+            const newStock = document.getElementById("stock").value;
+            const newPrice = document.getElementById("price").value;
+            const newCategory = document.getElementById("selectCate").value;
+            const newManufacturer = document.getElementById("selectManu").value;
+
+            // Validate stock and price
+            if (isNaN(newStock) || newStock <= 0) {
+                alert("Invalid stock value. Please enter a valid number greater than 0.");
+                return;
+            }
+
+            if (isNaN(newPrice) || newPrice <= 0) {
+                alert("Invalid price value. Please enter a valid number greater than 0.");
+                return;
+            }
+
+            const data = {
+                id: id,
+                name: newName,
+                stock: newStock,
+                price: newPrice,
+                category: newCategory,
+                manufacturer: newManufacturer
+            }
+            console.log(data);
+            const url = new URL('/admin/update-product', window.location.origin);
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((res) => res.json()).then((res) => {
+                if (res.message == 'Product updated') {
+                    alert("Update successfully");
+                } else {
+                    alert(res.message);
+                }
+            })
+        }
+
+
+        const isValidUrl = (url) => {
+            const urlPattern = /^(https?:\/\/)?([\w.]+)\.([a-z]{2,6}\.?)(\/[\w.]*)*\/?$/i;
+            return urlPattern.test(url);
+        }
+
+        const uploadImageProduct = (id) => {
+            const newImg = document.getElementById("newImg").value;
+            const data = {
+                id: id,
+                img: newImg
+            }
+
+            if (!isValidUrl(newImg)) {
+                alert("Invalid image URL. Please enter a valid URL.");
+                return;
+            }
+
+            console.log(data);
+            const url = new URL('/admin/upload-product-image', window.location.origin);
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((res) => res.json()).then((res) => {
+                if (res.message == 'Product image added') {
+                    alert("Add successfully");
+                } else {
+                    alert(res.message);
+                }
+            })
+        }
+
+        const deleteImageProduct = (id, image) => {
+            const data = {
+                id: id,
+                img: image
+            }
+            console.log(data);
+            const url = new URL('/admin/delete-product-image', window.location.origin);
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((res) => res.json()).then((res) => {
+                if (res.message == 'Product image deleted') {
+                    alert("Delete successfully");
+                } else {
+                    alert(res.message);
+                }
+            })
+
+        }
+
+    </script>
+</div>

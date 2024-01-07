@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -33,6 +33,11 @@
     <!-- YOUR CUSTOM CSS -->
     <link href="/customer/css/custom.css" rel="stylesheet">
 
+    
+    <script src="/customer/js/main.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+
 </head>
 
 <body>
@@ -46,8 +51,8 @@
                     <div class="row small-gutters">
                         <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                             <div id="logo">
-                                <a href="home" style="color: white;"><img src="/customer/img/logo-gap.svg" alt="" width="120"
-                                        height="40px"></a>
+                                <a href="/home" style="color: white;"><img src="/customer/img/logo-gap.svg" alt=""
+                                        width="120" height="40px"></a>
                             </div>
                         </div>
                         <nav class="col-xl-6 col-lg-7">
@@ -66,18 +71,18 @@
                                     <a href="#" class="open_close" id="close_in"><i class="ti-close"></i></a>
                                 </div>
                                 <ul>
-                                    <li>
-                                        <a href="home">Home</a>
+                                    <li class="{{#if (equal activeTab 'home')}}active-tab{{/if}}">
+                                        <a href="/home">Home</a>
                                     </li>
-                                    <li>
-                                        <a href="products">Products</a>
+                                    <li class="{{#if (equal activeTab 'product')}}active-tab{{/if}}">
+                                        <a href="/products">Products</a>
                                     </li>
 
-                                    <li>
-                                        <a href="contact">Contact</a>
+                                    <li class="{{#if (equal activeTab 'contact')}}active-tab{{/if}}">
+                                        <a href="/contact">Contact</a>
                                     </li>
-                                    <li>
-                                        <a href="about">About us</a>
+                                    <li class="{{#if (equal activeTab 'about')}}active-tab{{/if}}">
+                                        <a href="/about">About us</a>
                                     </li>
                                 </ul>
                             </div>
@@ -177,45 +182,22 @@
                             </nav>
                         </div>
                         <div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
-                            <div class="custom-search-input">
-                                <input type="text" placeholder="Search over 10.000 products">
+                            <form class="custom-search-input" method="get" action="/products">
+                                <input type="text" id="search-box" name="search" placeholder="Search over 100 products"
+                                    onkeyup="sendData(this)">
+
                                 <button type="submit"><i class="header-icon_search_custom"></i></button>
-                            </div>
+                                <section id="searchResults" class="bg-white"></section>
+                            </form>
+
+
                         </div>
                         <div class="col-xl-3 col-lg-2 col-md-3">
                             <ul class="top_tools">
                                 <li>
                                     <div class="dropdown dropdown-cart">
-                                        <a href="cart.html" class="cart_bt"><strong>2</strong></a>
-                                        <div class="dropdown-menu">
-                                            <ul>
-                                                <li>
-                                                    <a href="product-detail-1.html">
-                                                        <figure><img
-                                                                src="/customer/img/products/product_placeholder_square_small.jpg"
-                                                                data-src="/customer/img/products/shoes/thumb/1.jpg" alt=""
-                                                                width="50" height="50" class="lazy"></figure>
-                                                        <strong><span>1x Armor Air x Fear</span>$90.00</strong>
-                                                    </a>
-                                                    <a href="#0" class="action"><i class="ti-trash"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="product-detail-1.html">
-                                                        <figure><img
-                                                                src="/customer/img/products/product_placeholder_square_small.jpg"
-                                                                data-src="/customer/img/products/shoes/thumb/2.jpg" alt=""
-                                                                width="50" height="50" class="lazy"></figure>
-                                                        <strong><span>1x Armor Okwahn II</span>$110.00</strong>
-                                                    </a>
-                                                    <a href="0" class="action"><i class="ti-trash"></i></a>
-                                                </li>
-                                            </ul>
-                                            <div class="total_drop">
-                                                <div class="clearfix"><strong>Total</strong><span>$200.00</span></div>
-                                                <a href="cart.html" class="btn_1 outline">View Cart</a><a
-                                                    href="checkout.html" class="btn_1">Checkout</a>
-                                            </div>
-                                        </div>
+                                        <a href="/cart" class="cart_bt"><strong id = "cartItemCount">0</strong></a>
+                                    
                                     </div>
                                     <!-- /dropdown-cart-->
                                 </li>
@@ -224,23 +206,24 @@
                                 </li>
                                 <li>
                                     <div class="dropdown dropdown-access">
-                                        <a href="account" class="access_link"><span>Account</span></a>
+                                        <a  class="access_link"><span>Account</span></a>
                                         <div class="dropdown-menu">
-                                            <a href="account" class="btn_1">Sign In or Sign Up</a>
+                                            
+                                                <!-- Nút sẽ chỉ hiển thị khi người dùng đã đăng nhập -->
+                                                <button onclick="logOut();" id="logoutButton" class="btn_1" style="display:none">Sign Out</button>
+                                            
+                                                <!-- Nút sẽ chỉ hiển thị khi người dùng chưa đăng nhập -->
+                                                <a href="/log-in" id="signInButton" class="btn_1" style="display:none">Sign In or Sign Up</a>
+                                            
                                             <ul>
+                                                
                                                 <li>
-                                                    <a href="track-order.html"><i class="ti-truck"></i>Track your
-                                                        Order</a>
+                                                    <a href="/orderlist"><i class="ti-package"></i>My Orders</a>
                                                 </li>
                                                 <li>
-                                                    <a href="account"><i class="ti-package"></i>My Orders</a>
+                                                    <a href="/profile"><i class="ti-user"></i>My Profile</a>
                                                 </li>
-                                                <li>
-                                                    <a href="account"><i class="ti-user"></i>My Profile</a>
-                                                </li>
-                                                <li>
-                                                    <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
-                                                </li>
+                                                
                                             </ul>
                                         </div>
                                     </div>
@@ -264,10 +247,12 @@
                     </div>
                     <!-- /row -->
                 </div>
-                <div class="search_mob_wp">
-                    <input type="text" class="form-control" placeholder="Search over 10.000 products">
-                    <input type="submit" class="btn_1 full-width" value="Search">
-                </div>
+                {{!-- <form action="/products/search" method="post">
+                    <div class="search_mob_wp">
+                        <input type="text" name="search" class="form-control" placeholder="Search over 10.000 products">
+                        <input type="submit" class="btn_1 full-width" value="Search">
+                    </div>
+                </form> --}}
                 <!-- /search_mobile -->
             </div>
             <!-- /main_nav -->
@@ -284,12 +269,9 @@
                         <h3 data-bs-target="#collapse_1">Quick Links</h3>
                         <div class="collapse dont-collapse-sm links" id="collapse_1">
                             <ul>
-                                <li><a href="about">About us</a></li>
-                                <li><a href="help.html">Faq</a></li>
-                                <li><a href="help.html">Help</a></li>
-                                <li><a href="account">My account</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="contact">Contacts</a></li>
+                                <li><a href="/about">About us</a></li>
+                                <li><a href="/profile">My account</a></li>
+                                <li><a href="/contact">Contacts</a></li>
                             </ul>
                         </div>
                     </div>
@@ -297,12 +279,9 @@
                         <h3 data-bs-target="#collapse_2">Categories</h3>
                         <div class="collapse dont-collapse-sm links" id="collapse_2">
                             <ul>
-                                <li><a href="listing-grid-1-full.html">Clothes</a></li>
-                                <li><a href="listing-grid-2-full.html">Electronics</a></li>
-                                <li><a href="listing-grid-1-full.html">Furniture</a></li>
-                                <li><a href="listing-grid-3.html">Glasses</a></li>
-                                <li><a href="listing-grid-1-full.html">Shoes</a></li>
-                                <li><a href="listing-grid-1-full.html">Watches</a></li>
+                                <li><a href="listing-grid-1-full.html">Fashion</a></li>
+                                <li><a href="listing-grid-2-full.html">Sport</a></li>
+
                             </ul>
                         </div>
                     </div>
@@ -310,9 +289,9 @@
                         <h3 data-bs-target="#collapse_3">Contacts</h3>
                         <div class="collapse dont-collapse-sm contacts" id="collapse_3">
                             <ul>
-                                <li><i class="ti-home"></i>97845 Baker st. 567<br>Los Angeles - US</li>
-                                <li><i class="ti-headphone-alt"></i>+94 423-23-221</li>
-                                <li><i class="ti-email"></i><a href="#0">info@allaia.com</a></li>
+                                <li><i class="ti-home"></i>227 Nguyen Van Cu<br>Quan 5, TP. HCM</li>
+                                <li><i class="ti-headphone-alt"></i>+84 906643433</li>
+                                <li><i class="ti-email"></i><a href="#0">anhthedinh.work@gmail.com</a></li>
                             </ul>
                         </div>
                     </div>
@@ -338,7 +317,8 @@
                                                 data-src="/customer/img/facebook_icon.svg" alt="" class="lazy"></a></li>
                                     <li><a href="#0"><img
                                                 src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                                                data-src="/customer/img/instagram_icon.svg" alt="" class="lazy"></a></li>
+                                                data-src="/customer/img/instagram_icon.svg" alt="" class="lazy"></a>
+                                    </li>
                                     <li><a href="#0"><img
                                                 src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
                                                 data-src="/customer/img/youtube_icon.svg" alt="" class="lazy"></a></li>
@@ -371,14 +351,15 @@
                                 </div>
                             </li>
                             <li><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                                    data-src="/customer/img/cards_all.svg" alt="" width="198" height="30" class="lazy"></li>
+                                    data-src="/customer/img/cards_all.svg" alt="" width="198" height="30" class="lazy">
+                            </li>
                         </ul>
                     </div>
                     <div class="col-lg-6">
                         <ul class="additional_links">
                             <li><a href="#0">Terms and conditions</a></li>
                             <li><a href="#0">Privacy</a></li>
-                            <li><span>© 2022 Allaia</span></li>
+                            <li><span>© 2023 GAP</span></li>
                         </ul>
                     </div>
                 </div>
@@ -391,8 +372,101 @@
     <div id="toTop"></div><!-- Back to top button -->
 
     <!-- SPECIFIC SCRIPTS -->
-    <script src="/customer/js/common_scripts.min.js"></script>
-    <script src="/customer/js/main.js"></script>
+    <script>
+        
+        function logOut() {
+    // Sử dụng Fetch API để gửi yêu cầu POST đến /log-out
+    fetch('/log-out', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        // Đối tượng JSON trống vì bạn chỉ cần gửi yêu cầu không cần dữ liệu gửi đi
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+       window.location.reload(true);
+    })
+    .catch(error => {
+        // Xử lý lỗi trong quá trình gửi yêu cầu
+        console.error('Error:', error);
+    });
+}
+        function sendData(e) {
+            const searchResult = document.getElementById('searchResults');
+            let match = e.value.match(/^[a-zA-Z]*/);
+            let match2 = e.value.match(/\s*/);
+            if (match2[0] === e.value) {
+                searchResult.innerHTML = '';
+                return;
+            }
+            if (match[0] === e.value) {
+                fetch('getSearchProducts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ payload: e.value })
+                }).then(res => res.json()).then(data => {
+                    let payload = data.payload;
+                    searchResult.innerHTML = '';
+                    if (!payload || payload.length < 1) {
+                        searchResult.innerHTML = '<p>Sorry, there is no product names ' + e.value + '</p>';
+                        return;
+                    }
+                    payload.forEach((item, index) => {
+                        if (index > 0) searchResult.innerHTML += '<hr>';
+                        searchResult.innerHTML += `<a  href="/products/${item._id}"><p class ="text-lg-left bg-white" ><img src="${item.img[0]}" style ="margin-right:20px" width="60" height="60">${item.name}</p></a>`;
+                    });
+                });
+                return;
+            }
+            searchResult.innerHTML = '';
+        }
+    </script>
+    <script>
+    $(document).ready(function() {
+        // Hàm để cập nhật số lượng sản phẩm trong giỏ hàng
+        function updateCartCount() {
+            
+            $.ajax({
+                type: 'GET',
+                url: '/countProduct', // Thay thế đường dẫn bằng đường dẫn tương ứng trên máy chủ của bạn
+                success: function(data) {
+                    $('#cartItemCount').text(data.count);
+                    if(data.user)
+                    {
+                        $('#logoutButton').show();
+                        $('#signInButton').hide();
+                    }
+                    else
+                    {
+                        $('#logoutButton').hide();
+                        $('#signInButton').show();
+                    }
+                },
+                error: function(error) {
+                    
+                }
+            });
+        }
+
+        // Gọi hàm khi trang được tải
+        updateCartCount();
+    });
+    </script>
+    <style>
+        #searchResults {
+            margin: 0;
+            padding: 0;
+            font-weight: 600;
+            font-family: Helvetica-Neue;
+            justify-content: center;
+            padding-left: 30px;  
+            
+        }
+        
+
+    </style>
 </body>
 
 </html>

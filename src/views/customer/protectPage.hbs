@@ -1,0 +1,159 @@
+	<link href="/customer/css/style.css" rel="stylesheet">
+
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<body>
+<!-- /header -->
+	<div>
+		<div id = "page">
+			<main class="bg_gray">
+				<div class="col-xl d-flex margin_30 justify-content-center ">
+					<div class="card mb-4 col-6">
+						<div class="card-body ">
+							<div class="row  mb-3">
+								<div class="col-3 pl-1">
+										<div class="square-container" style="padding-top: 100%; position: relative; overflow: hidden;">
+											<img src="{{user.img}}" id ="previewImage"class="img-fluid rounded-circle position-absolute top-0 start-0 w-100 h-100" alt="User Image">
+										</div>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-4 " >
+									<input class="form-control" type="file" id="imageInput" name="avatar" onchange="displayImage()">
+								</div>
+							</div>
+							<div class="row no-gutters mb-3 ">
+								<div class="col-6 pl-1 " >
+									<label class="form-label" for="basic-icon-default-fullname">Username</label>
+									<div class="input-group input-group-merge">
+										<span id="basic-icon-default-box" class="input-group-text"><i
+												class="bx bxs-user"></i></span>
+										<input type="text" class="form-control" 
+											id = "name"
+											aria-describedby="basic-icon-default-fullname2"
+											placeholder="{{user.name}}" /> 
+									</div>
+								</div>
+								
+							</div>
+							<div class="row no-gutters mb-3">
+								<div class="col-3 pl-1" >
+									<label class="form-label" for="basic-icon-default-fullname">Phone</label>
+									<div class="input-group input-group-merge">
+										<span id="basic-icon-default-dollar" class="input-group-text"><i
+												class="bx bxs-phone"></i></span>
+										<input  
+											id ="phone" 
+											type="text" class="form-control" 
+											aria-describedby="basic-icon-default-fullname2"
+											placeholder="{{user.phone}}" /> 
+									</div>
+								</div>
+								<div class="col-3 pl-1" >
+									<label class="form-label" for="basic-icon-default-fullname">Gender</label>
+										<select id = "gender" class="form-select form-select-m" aria-label=".form-select-lg example">
+											<option value="default" selected>{{user.gender}}</option>
+											<option value="Male">Male</option>
+											<option value="Female">Female</option>
+											<option value="Others">Others</option>
+										</select>
+									</label>
+								</div>
+							</div>
+							<div class="row no-gutters mb-3">
+								<div class="col-6 pl-1" >
+									<label class="form-label" for="basic-icon-default-fullname">Adress</label>
+									<div class="input-group input-group-merge">
+										<span id="basic-icon-default-dollar" class="input-group-text">@</span>
+										<input 
+											id ="address" 
+											type="text" class="form-control" 
+											aria-describedby="basic-icon-default-fullname2" 
+											placeholder="{{user.address}}"/> 
+									</div>
+								</div>
+								
+								
+							</div>
+							
+						
+							
+							
+							<div class="row no-gutters mb-3 mt-4">
+								<div class="col-2">
+									<a><button type="submit"  onclick="updateProfile()" class="btn_1" >Upload</button></a>
+								</div>
+								<div class="col-3 ">
+									<a href="/change-password"><button  class="btn_1 bt">Change Password</button></a>
+								</div>
+								
+
+							</div>
+						
+							
+							
+						
+						</div>
+					</div>
+				</div>
+				
+			</main>
+		<div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+	 function displayImage() {
+            var input = document.getElementById('imageInput');
+            var preview = document.getElementById('previewImage');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+		function updateProfile() {
+        // Use JavaScript to gather data from the form
+        const newInfo = {
+            // Gather other fields as needed
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            address: document.getElementById('address').value,
+            gender: document.getElementById('gender').value,
+            // ... other fields ...
+        };
+        // Use AJAX to send the data to the server
+        $.ajax({
+            type: 'POST',
+            url: '/update-profile',
+            contentType: 'application/json',
+            data: JSON.stringify({newInfo }),
+            success: function (response) {
+                 alert(response.message);
+				 window.location.reload(); 
+
+                // Handle success response (e.g., show a success message)
+            },
+            error: function (error) {
+				
+       			alert('Error updating profile: ' + error.responseJSON.message);
+                // Handle error response (e.g., show an error message)
+            }
+        });
+    }
+</script>
+</body>
+
+<style>
+	.card-body .row{
+		display: flex;
+		justify-content: center;
+	}
+	
+</style>
+

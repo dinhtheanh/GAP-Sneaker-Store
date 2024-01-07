@@ -1,0 +1,93 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Orders
+            /</span>
+        Order Details</h4>
+    <div class="col-xl">
+        <div class="card">
+
+            <div class="card-body">
+                <form onsubmit="event.preventDefault();updateOrderStatus('{{order._id}}');">
+                    <div class="mb-3">
+                        <label class="form-label" for="id">Order ID</label>
+                        <input type="text" class="form-control" id="id" placeholder="{{order._id}}" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="userid">User ID</label>
+                        <input type="text" class="form-control" id="userid" placeholder="{{order.userID}}" readonly />
+                    </div>
+                    <div class="demo-inline-spacing mb-3">
+                        <label class="form-label" for="cart">Cart</label>
+                        <div class="list-group list-group-flush">
+                            {{#each order.products}}
+                            <a class="list-group-item list-group-item-action">{{this.productId.name}} x{{this.quantity}}</a>
+                            {{/each}}
+
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="totalPay">Total Pay</label>
+                        <input type="text" class="form-control" id="totalPay" placeholder="{{order.totalPay}}" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="shipMethod">Shipping Method</label>
+                        <input type="text" id="shipMethod" class="form-control phone-mask" placeholder="{{order.shippingMethod}}" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="status">Status</label>
+                        <select class="form-select" id="status">
+                            <option value="prepare" {{#if (equal order.status 'Preparing')}} selected {{/if}}>
+                                Preparing</option>
+                            <option value="deli" {{#if (equal order.status 'Delivering')}} selected {{/if}}>Delivering</option>
+                            <option value="success" {{#if (equal order.status 'Successfully Delivered')}} selected {{/if}}>Successfully Delivered</option>
+                            <option value="delay" {{#if (equal order.status 'Delayed')}} selected {{/if}}>Delayed</option>
+                            <option value="cancel" {{#if (equal order.status 'Cancelled')}} selected {{/if}}>Canceled</option>
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateOrderStatus(id) {
+            let status = document.getElementById("status").value;
+            if (status == 'prepare') {
+                status = 'Preparing';
+            } else if (status == 'deli') {
+                status = 'Delivering';
+            } else if (status == 'success') {
+                status = 'Successfully Delivered';
+            } else if (status == 'delay') {
+                status = 'Delayed';
+            } else if (status == 'cancel') {
+                status = 'Cancelled';
+            }
+            let data = {
+                id: id,
+                status: status
+            }
+            console.log(data);
+            fetch('/admin/api/update-order-status', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result == "success"){
+                        alert("Update order status successfully!");
+                    } else {
+                        alert("Update order status failed!");
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</div>
