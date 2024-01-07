@@ -12,7 +12,6 @@ const submitReview = async (req, res) => {
     const productId = req.params.productid;
     const userName = req.body.userName;
     const reviewText = req.body.review;
-
     if(!reviewText)
     {
         return res.status(200).json({

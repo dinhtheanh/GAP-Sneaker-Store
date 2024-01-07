@@ -56,6 +56,8 @@
                       <div class="form-group">
                         <input
                           name = "name"
+                          id = "name"
+
                           type="text"
                           class="form-control"
                           placeholder="Full name*"
@@ -128,12 +130,13 @@
   <script src="/customer/js/main.js"></script>
 
 </main>
+
 <script>
   function submitRegistrationForm() {
     // Thu thập dữ liệu từ form
     event.preventDefault();
     var formData = $("#registrationForm").serialize();
-    
+  
 
     // Gửi AJAX request
     $.ajax({
@@ -148,7 +151,7 @@
       },
       error: function (error) {
         // Xử lý lỗi
-        alert(error.responseJSON.error);
+        alert("Please input review!");
 
         // Thực hiện các hành động sau khi đăng ký thất bại (nếu có)
       },

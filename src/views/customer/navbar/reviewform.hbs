@@ -7,22 +7,23 @@
 
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <form class="write_review" method="post" action="/review/{{product._id}}/submit-review">
+                <form class="write_review" id="reviewForm" >
                     <h1>{{product.name}}</h1>
-                     <input type="hidden" name="userName" value="{{user.name}}">
+                     <input type="hidden" name="userName" id="userName"value="{{user.name}}">
+                     <input type="hidden" name="productid" id="productid"value="{{product._id}}">
 
                     <!-- /rating_submit -->
                     <div class="form-group">
                         <label>{{user.name}} review</label>
-                        <textarea name ="review" class="form-control" style="height: 180px;"
+                        <textarea name ="review" id="review" class="form-control" style="height: 180px;"
                             placeholder="Write your review to help others learn about this online business"></textarea>
                     </div>
                     
-                    <input
-                        type = "submit"
+                    <button
+                        onclick="submitreview()"
                         value="Submit"
                         class="btn_1 "
-                />
+                >Submit review</button>
                 </div>
             </div>
         </div>
@@ -30,4 +31,37 @@
     </div>
     <!-- /container -->
 </main>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+  function submitreview() {
+    event.preventDefault();
+
+    // Thu thập dữ liệu từ form
+    var formData = $("#reviewForm").serialize();
+    var productid = $("#productid").val();
+    var reviewText = $("#review").val();
+    if(!reviewText.trim())
+    {
+        alert("Please type in review");
+        window.location.reload(true);
+    }
+    // Gửi AJAX request
+    $.ajax({
+      type: "POST",
+      url: `/review/${productid}/submit-review`, // Đặt URL tương ứng của bạn
+      data: formData,
+      success: function (response) {
+            window.location.href = `/products/${productid}`;         // Xử lý phản hồi thành công
+        // Thực hiện các hành động sau khi đăng ký thành công (nếu có)
+      },
+      error: function (error) {
+        // Xử lý lỗi
+        
+
+        // Thực hiện các hành động sau khi đăng ký thất bại (nếu có)
+      },
+    });
+  }
+</script>
 <!--/main-->
