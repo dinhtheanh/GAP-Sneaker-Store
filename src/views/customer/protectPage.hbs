@@ -132,10 +132,10 @@
             type: 'POST',
             url: '/update-profile',
             contentType: 'application/json',
-            data: JSON.stringify({newInfo }),
+            data: JSON.stringify(newInfo ),
             success: function (response) {
                  alert(response.message);
-				 window.location.reload(); 
+				 window.location.href = ('/profile'); 
 
                 // Handle success response (e.g., show a success message)
             },

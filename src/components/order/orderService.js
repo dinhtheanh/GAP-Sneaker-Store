@@ -1,4 +1,6 @@
 const Order = require('./orderModel')
+const mongoose = require('mongoose');
+
 
 const getRevenueReport = async (timestamps) => {
     // Find the revenue in first day
@@ -84,17 +86,17 @@ const addOrder = async(products,totalPay,shippingMethod,userID) => {
           }
           
         const newOrder = new Order({
+            _id: new mongoose.Types.ObjectId(),
             userID: userID,
             products: formattedProducts,
             totalPay: totalPay,
             shippingMethod: shippingMethodName,
         });
-
-        // Save the new order to the database
-        const savedOrder = await newOrder.save();
+        
+        await newOrder.save();
 
         // Return the saved order if needed
-        return savedOrder;
+        return newOrder;
     } catch (error) {
         console.error('Error adding order:', error);
         throw error; // Rethrow the error for higher-level error handling

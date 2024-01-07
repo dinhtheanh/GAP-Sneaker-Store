@@ -87,19 +87,17 @@ const changePassword = async(id,curps,newps)=>{
         throw new Error('Internal Server Error');
     }};
 
-const changeProfile = async (data,avatar,id)=>{
+const changeProfile = async (data,id)=>{
     try {
         const user = await User.findById(id);
 
         user.name = data.name ? data.name : user.name;
+        
         user.address = data.address ? data.address : user.address;
         user.phone = data.phone ? data.phone : user.phone;
         user.gender = data.gender ? data.gender : user.gender;
-        if (avatar) {
-            const imgBuffer = avatar.buffer.toString('base64');
-            const imgBase64 = `data:${avatar.mimetype};base64,${imgBuffer}`;
-            user.img = imgBase64;
-        }
+
+        console.log(user.name,user.address,user.address,user.gender);
 
         // Convert the buffer to a base64-encoded string
         
