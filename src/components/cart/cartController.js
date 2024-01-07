@@ -70,7 +70,7 @@ const submitCheckout = async (req,res)=>{
 
     }
     catch(error){
-        console.error('Error during checkout hêhe:', error);
+        console.error('Error during checkout:', error);
         res.status(500).json({ error: 'Internal server error' });
 
     }
@@ -83,11 +83,11 @@ const deleteProduct = async (req,res)=>{
        
         await Cart.deleteProduct(userid,product);
         
-        res.status(200).json({message: 'Your order is successfully '});
+        res.status(200).json({message: 'Your order is successfully deleted'});
 
     }
     catch(error){
-        console.error('Error during checkout hêhe:', error);
+        console.error('Error during checkout:', error);
         res.status(500).json({ error: 'Internal server error' });
 
     }
