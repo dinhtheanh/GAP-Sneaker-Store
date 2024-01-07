@@ -19,7 +19,7 @@
             <h3 class="new_client">New Client</h3>
             <small class="float-right pt-2">* Required Fields</small>
             <div class="form_container">
-              <form method="post" action="/sign-up">
+              <form id="registrationForm">
                 <div class="form-group">
                   <input
                     type="email"
@@ -34,7 +34,7 @@
                     type="password"
                     class="form-control"
                     name="password"
-                    id="password_in_2"
+                    id="password_in_3"
                     value=""
                     placeholder="Password*"
                   />
@@ -83,6 +83,18 @@
                         />
                       </div>
                     </div>
+                    <div class="row no-gutters">
+                  <div class="col-6 pr-1">
+                      <div class="form-group">
+                        <select class="form-select" name="gender" aria-label="Default select example">
+                          <option selected value="Other"> Other</option>
+                          <option value="Male">Male</option>
+                          <option value="Male">Female</option>
+                      
+                        </select>
+                    </div>
+                    
+                    </div>
                    
                   </div>
                   <!-- /row -->
@@ -96,18 +108,12 @@
 
                 <!-- /company -->
                 <hr />
-                <div class="form-group">
-                  <label class="container_check">Accept
-                    <a href="#0">Terms and conditions</a>
-                    <input type="checkbox" />
-                    <span class="checkmark"></span>
-                  </label>
-                </div>
-                <div class="text-center"><input
-                    type="submit"
+                
+                <div class="text-center"><button
+                    onclick="submitRegistrationForm()"
                     value="Register"
                     class="btn_1 full-width"
-                  />
+                  >Submit</button>
                 </div>
               </form>
             </div>
@@ -122,3 +128,29 @@
   <script src="/customer/js/main.js"></script>
 
 </main>
+<script>
+  function submitRegistrationForm() {
+    // Thu thập dữ liệu từ form
+    event.preventDefault();
+    var formData = $("#registrationForm").serialize();
+
+    // Gửi AJAX request
+    $.ajax({
+      type: "POST",
+      url: "/sign-up", // Đặt URL tương ứng của bạn
+      data: formData,
+      success: function (response) {
+        // Xử lý phản hồi thành công
+        alert(response.message);
+        window.location.href=('/home');
+        // Thực hiện các hành động sau khi đăng ký thành công (nếu có)
+      },
+      error: function (error) {
+        // Xử lý lỗi
+        alert(error.responseJSON.error);
+
+        // Thực hiện các hành động sau khi đăng ký thất bại (nếu có)
+      },
+    });
+  }
+</script>

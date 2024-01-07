@@ -16,10 +16,8 @@ function getIntersection(listA, listB) {
         }
     }
 
-    console.log(intersection)
     return intersection;
 }
-
 
 // Get all the products from the database
 const getProductsPage = async (req, res) => {

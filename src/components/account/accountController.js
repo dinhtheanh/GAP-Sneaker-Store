@@ -32,39 +32,47 @@ const resetPassword = async(req,res)=>{
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, password, cfpassword, phone, address } = req.body
+        const { name, email, password, cfpassword, phone, address,gender } = req.body
         
 
         const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
         const isValidEmail = reg.test(email)
 
         if (!name || !email || !password || !cfpassword || !phone || !address) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The input is required'
+            return res.status(400).json({
+                
+                error: 'The input is required'
             })
         }
         else if (!isValidEmail) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'Not a valid email-address'
+            return res.status(400).json({
+                
+                error: 'Not a valid email-address'
             })
         }
         else if (password !== cfpassword) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'Please enter valid comfirm password'
+            return res.status(400).json({
+                
+                error: 'Please enter valid comfirm password'
             })
         }
-        //console.log(req.body);
-        //console.log("Hello");
-        const response = await userService.createUser(req.body)
+        
+        const  response = await userService.createUser(req.body);
+        if (response.status === 'OK') {
+            // Đăng ký thành công
+           return res.status(200).json({message: response.message});
+            // Trả về dữ liệu JSON nếu cần
+          } else if (response.status === 'ERR') {
+            
+            // Đăng ký thất bại
+            return res.status(400).json(
+                {error: response.message}); // Trả về dữ liệu JSON nếu cần
+          }
 
-        res.redirect('/home');
     }
     catch (err) {
         return res.status(404).json({
-            message: err
+            error: err
         })
 
     }
@@ -118,7 +126,6 @@ const changePassword = async(req,res)=>{
         
 
         if(!email||!password||!newpassword||!cfnewpassword){
-            console.log('All fields are required');
             return res.status(400).json({ error: 'All fields are required' })
         }
         if(newpassword!=cfnewpassword)
@@ -210,9 +217,17 @@ const logoutUser = (req, res, next) => {
             console.error('Error during logout:', err);
             return next(err);
         }
+
         req.session.destroy((err) => {
-            // res.redirect('/home');
+            if (err) {
+            console.error('Error during session destroy:', err);
+            return next(err);
+        }
+
+        // Đăng xuất thành công, chuyển hướng về trang chủ hoặc trang đăng nhập
+        res.redirect('/home');
         });
+
     });
 };
 

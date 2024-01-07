@@ -22,7 +22,10 @@ const addToCart = async (userId,productId,quantity) =>{
     try{
         const product = await Product.findById(productId);
         const user = await User.findById(userId)
-        
+        if(quantity>product.stock){
+          return {status:'ERR',message:'Product in stock do not enough'};
+        }
+        product.stock-=quantity;
           if (!user.cart) {
             user.cart = [];
           }

@@ -16,9 +16,6 @@
 </style>
 <div>
     <div id="page">
-
-
-
         <main>
             <div class="container margin_30">
 
@@ -63,7 +60,7 @@
                                     class="icon-star voted"></i><i class="icon-star voted"></i><i
                                     class="icon-star"></i><em>4 reviews</em></span>
 
-                            <form method="post" action="{{product._id}}/addtocart" class="prod_options">
+                            <form class="prod_options">
                                 <div class="row">
                                     <label class="col-xl-5 col-lg-5  col-md-6 col-6 pt-0"><strong>Color</strong></label>
 
@@ -86,7 +83,7 @@
                                     <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Quantity</strong></label>
                                     <div class="col-xl-4 col-lg-5 col-md-6 col-6">
                                         <div class="numbers-row">
-                                            <input type="text" value="1" id="quantity_1" class="qty2" name="quantity">
+                                            <input type="text" value="1" id="quantity" class="qty2" name="quantity">
                                         </div>
                                     </div>
                                 </div>
@@ -100,9 +97,8 @@
                                 <div class="col-lg-4 col-md-6">
 
                                     <div  class="btn_add_to_cart">
-                                        <input type="hidden" name="userid" value="{{user.name}}">
                                         {{!-- <button href="#0" type= "submit" class="btn_1">Add to Cart</button> --}}
-                                        <button  type= "submit" class="btn_1">Add to Cart</button>
+                                        <button  onclick="addtoCart('{{product._id}}')"  class="btn_1">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -616,3 +612,34 @@
     <script src="/customer/js/carousel_with_thumbs.js" defer></script>
 
 </div>
+
+<script>
+    function addtoCart(productId){
+    event.preventDefault();
+
+        var quantity = $("#quantity").val();
+         $.ajax({
+        type: "POST",
+        url: `/products/${productId}/addtocart`,
+        data: { quantity: quantity },
+        success: function (response) {
+        if(response.message)
+        {
+        alert("Congratulation",response.message);
+        window.location.reload(true);
+        }
+        else{
+            window.location.href='/log-in';
+            return;
+        }
+        // Thực hiện các hành động sau khi thêm vào giỏ hàng thành công (nếu có)
+        },
+        error: function (error) {
+        // Xử lý lỗi
+        alert("Product's stock is not enough");
+        // Thực hiện các hành động sau khi thêm vào giỏ hàng thất bại (nếu có)
+        },
+    });
+    }
+    
+</script>

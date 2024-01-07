@@ -7,11 +7,19 @@ const addToCart = async(req,res) => {
     const userId = req.user._id;
     const productId = req.params.productid;
     const quantity = req.body.quantity;
+    console.log("hello");
 
-
+    
+    console.log(userId,productId,quantity);
     try {
         const response = await Cart.addToCart(userId,productId,quantity)
-        res.redirect('/products/' + productId);
+        if(response.status==='OK')
+        {
+            return res.status(200).json({message:response.message});
+        }
+        console.log(response)
+        return res.status(400).json({error:response.message});
+
        
     } catch (error) {
         console.error(error);
@@ -54,8 +62,6 @@ const submitCheckout = async (req,res)=>{
             await productService.updateStock(product, quantity);
         }
 
-        console.log(totalPay)
-        console.log(shippingMethod)
         
 
         await order.addOrder(productsToUpdate,totalPay,shippingMethod,req.user._id);
