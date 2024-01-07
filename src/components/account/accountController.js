@@ -32,51 +32,72 @@ const resetPassword = async(req,res)=>{
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, password, cfpassword, phone, address,gender } = req.body
+        const { name, email, password, cfpassword, phone, address, gender } = req.body;
         
 
-        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        const isValidEmail = reg.test(email)
+        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const isValidEmail = reg.test(email);
+
+        // Verify password strength
+        const isStrongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        const isValidPassword = isStrongPassword.test(password);
 
         if (!name || !email || !password || !cfpassword || !phone || !address) {
             return res.status(400).json({
-                
                 error: 'The input is required'
-            })
-        }
-        else if (!isValidEmail) {
+            });
+        } else if (!isValidEmail) {
             return res.status(400).json({
-                
                 error: 'Not a valid email-address'
-            })
-        }
-        else if (password !== cfpassword) {
+            });
+        } else if (!isValidPassword) {
             return res.status(400).json({
-                
-                error: 'Please enter valid comfirm password'
-            })
+                error: 'Password must contain at least 8 characters, including uppercase, lowercase, and numbers'
+            });
+        } else if (password !== cfpassword) {
+            return res.status(400).json({
+                error: 'Please enter valid confirm password'
+            });
         }
         
-        const  response = await userService.createUser(req.body);
+        const response = await userService.createUser(req.body);
         if (response.status === 'OK') {
             // Đăng ký thành công
-           return res.status(200).json({message: response.message});
+            return res.status(200).json({ message: response.message });
             // Trả về dữ liệu JSON nếu cần
-          } else if (response.status === 'ERR') {
-            
+        } else if (response.status === 'ERR') {
             // Đăng ký thất bại
-            return res.status(400).json(
-                {error: response.message}); // Trả về dữ liệu JSON nếu cần
-          }
-
-    }
-    catch (err) {
+            return res.status(400).json({ error: response.message }); // Trả về dữ liệu JSON nếu cần
+        }
+    } catch (err) {
         return res.status(404).json({
             error: err
-        })
-
+        });
     }
 }
+
+// const loginUser = (req, res, next) => {
+//     passport.authenticate('local', (err, user, info) => {
+//         if (err) {
+//             return next(err);
+//         }
+//         if (!user) {
+//             // Xử lý trường hợp đăng nhập không thành công
+//             return res.redirect('/log-in');
+//     try{
+//         const {email,password} = req.body
+//         const  reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+//         const isValidEmail = reg.test(email)
+//         console.log(password)
+//         if(!email||!password)
+//         {
+//             return res.status(200).json({
+//                 status: 'ERR',
+//                 message: 'The input is required'
+
+        
+
+        
 
 // const loginUser = (req, res, next) => {
 //     passport.authenticate('local', (err, user, info) => {

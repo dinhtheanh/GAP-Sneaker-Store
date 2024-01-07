@@ -12,7 +12,16 @@ const passport = require('passport');
 const isAuthenticated = require('../components/account/isAuthenticated');
 
 myRoute.use('/', searchRoute);
-myRoute.use('/admin', isAuthenticated, adminRoute);
+myRoute.use('/admin', [isAuthenticated, (req, res, next) => {
+    
+        if (req.user.isAdmin) {
+            // Nếu đã đăng nhập va la admin tiếp tục xử lý
+            return next();
+        }
+    
+        res.redirect('/home');
+    
+}], adminRoute);
 myRoute.use('/cart',isAuthenticated,cartRoute);
 myRoute.use('/orderlist',isAuthenticated,orderRoute);
 myRoute.get('/countProduct', (req, res) => {

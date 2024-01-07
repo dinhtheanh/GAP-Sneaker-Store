@@ -7,4 +7,5 @@ const isAuthenticated = (req, res, next) => {
     res.redirect('/log-in');
 };
 
+
 module.exports = isAuthenticated;

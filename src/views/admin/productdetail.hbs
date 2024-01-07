@@ -1,7 +1,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Customers
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Products
             /</span>
-        Customer's Details</h4>
+        Products's Details</h4>
     <div class="col-xl">
         <div class="card mb-3">
 
@@ -31,19 +31,21 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="selectManu">Manufacturer</label>
-                        <select  class="form-select" id="selectManu">
+                        <select class="form-select" id="selectManu">
                             <option value="Nike" {{#if (equal product.manufacturer "Nike" )}} selected {{/if}}>
                                 Nike</option>
-                            <option value="Adidas" {{#if (equal product.manufacturer "Adidas" )}} selected
-                                {{/if}}>Adidas</option>
+                            <option value="Adidas" {{#if (equal product.manufacturer "Adidas" )}} selected {{/if}}>
+                                Adidas</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="selectCate">Category</label>
-                        <select  class="form-select" id="selectCate">
-                            <option value="Sport" {{#if (equal product.category "Sport" )}} selected {{/if}}>Sport</option>
-                            <option value="Fashion" {{#if (equal product.category "Fashion" )}} selected {{/if}}>Fashion</option>
+                        <select class="form-select" id="selectCate">
+                            <option value="Sport" {{#if (equal product.category "Sport" )}} selected {{/if}}>Sport
+                            </option>
+                            <option value="Fashion" {{#if (equal product.category "Fashion" )}} selected {{/if}}>Fashion
+                            </option>
                         </select>
                     </div>
 
@@ -96,13 +98,26 @@
             const newPrice = document.getElementById("price").value;
             const newCategory = document.getElementById("selectCate").value;
             const newManufacturer = document.getElementById("selectManu").value;
+
+            // Validate stock and price
+            if (isNaN(newStock) || newStock <= 0) {
+                alert("Invalid stock value. Please enter a valid number greater than 0.");
+                return;
+            }
+
+            if (isNaN(newPrice) || newPrice <= 0) {
+                alert("Invalid price value. Please enter a valid number greater than 0.");
+                return;
+            }
+
             const data = {
                 id: id,
                 name: newName,
                 stock: newStock,
                 price: newPrice,
                 category: newCategory,
-                manufacturer: newManufacturer}
+                manufacturer: newManufacturer
+            }
             console.log(data);
             const url = new URL('/admin/update-product', window.location.origin);
             fetch(url, {
@@ -111,7 +126,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-            }).then((res) => res.json()).then((res) =>{
+            }).then((res) => res.json()).then((res) => {
                 if (res.message == 'Product updated') {
                     alert("Update successfully");
                 } else {
@@ -120,12 +135,24 @@
             })
         }
 
+
+        const isValidUrl = (url) => {
+            const urlPattern = /^(https?:\/\/)?([\w.]+)\.([a-z]{2,6}\.?)(\/[\w.]*)*\/?$/i;
+            return urlPattern.test(url);
+        }
+
         const uploadImageProduct = (id) => {
             const newImg = document.getElementById("newImg").value;
             const data = {
                 id: id,
                 img: newImg
             }
+
+            if (!isValidUrl(newImg)) {
+                alert("Invalid image URL. Please enter a valid URL.");
+                return;
+            }
+
             console.log(data);
             const url = new URL('/admin/upload-product-image', window.location.origin);
             fetch(url, {
@@ -134,7 +161,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-            }).then((res) => res.json()).then((res) =>{
+            }).then((res) => res.json()).then((res) => {
                 if (res.message == 'Product image added') {
                     alert("Add successfully");
                 } else {
@@ -156,14 +183,14 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-            }).then((res) => res.json()).then((res) =>{
+            }).then((res) => res.json()).then((res) => {
                 if (res.message == 'Product image deleted') {
                     alert("Delete successfully");
                 } else {
                     alert(res.message);
                 }
             })
-            
+
         }
 
     </script>
